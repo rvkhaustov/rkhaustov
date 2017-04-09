@@ -16,4 +16,14 @@ public class Max {
   public int max(int first, int second) {
   return first > second ? first : second;
   }
+  /**
+  * Метод возвращает максимальное число.
+   * @param first - first
+   * @param second - second
+   * @param third - third
+   * @return result
+   */
+    public int max(int first, int second, int third) {
+    return max(max(first, second), third);
+}
 }

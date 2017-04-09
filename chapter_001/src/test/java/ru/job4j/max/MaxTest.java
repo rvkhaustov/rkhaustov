@@ -21,4 +21,14 @@ public class MaxTest {
     int expected =  3;
     assertThat(result, is(expected));
     }
+    /**
+    * Test Max on three variable.
+     */
+    @Test
+    public void whenMaxFiveThreeTwoThenFive() {
+        Max maxValue = new Max();
+        int result = maxValue.max(5, 3, 2);
+        int expected = 10;
+        assertThat(result, is(expected));
+    }
 }
