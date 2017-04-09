@@ -1,24 +1,24 @@
 package ru.job4j.condition;
 
 /**
- * Определить положение точки на прямой.
+ * РћРїСЂРµРґРµР»РёС‚СЊ РїРѕР»РѕР¶РµРЅРёРµ С‚РѕС‡РєРё РЅР° РїСЂСЏРјРѕР№.
  *@author rkhaustov
  *@since 04.2017
  *@version 1
  */
 public class Point {
  /**
-  * Координаты.
+  * РљРѕРѕСЂРґРёРЅР°С‚С‹.
   * @param x - x
   */
  private int x;
  /**
-  * Координаты.
+  * РљРѕРѕСЂРґРёРЅР°С‚С‹.
   * @param y - y
   */
  private int y;
   /**
-  * Конструктор.
+  * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
   * @param x - x
   * @param y - y
   */
@@ -41,10 +41,10 @@ public class Point {
  return this.y;
  }
   /**
-  * Определяет нахождения точки на функции y(x) = a * x + b.
+  * РћРїСЂРµРґРµР»СЏРµС‚ РЅР°С…РѕР¶РґРµРЅРёСЏ С‚РѕС‡РєРё РЅР° С„СѓРЅРєС†РёРё y(x) = a * x + b.
   * @param a - a
   * @param b - b
-  * @return результат
+  * @return СЂРµР·СѓР»СЊС‚Р°С‚
   */
   public boolean is(int a, int b) {
     return (this.y == a * this.x + b) ? true : false;

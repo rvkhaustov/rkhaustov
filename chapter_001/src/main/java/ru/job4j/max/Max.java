@@ -8,7 +8,7 @@ package ru.job4j.max;
  */
 public class Max {
   /**
-   * Метод возвращает максимальное число.
+   * РњРµС‚РѕРґ РІРѕР·РІСЂР°С‰Р°РµС‚ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ С‡РёСЃР»Рѕ.
    * @param first - first
    * @param second - second
    * @return result
