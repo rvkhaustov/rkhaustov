@@ -28,7 +28,7 @@ public class MaxTest {
     public void whenMaxFiveThreeTwoThenFive() {
         Max maxValue = new Max();
         int result = maxValue.max(5, 3, 2);
-        int expected = 10;
+        int expected = 5;
         assertThat(result, is(expected));
     }
 }

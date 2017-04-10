@@ -1,8 +1,8 @@
 /**
-* Package for condition task.
+* Package for Point task.
 *
 * @author Roman Khaustov (mailto:romavsb@gmail.com)
 * @version $Id$
 * @since 0.1
 */
-package ru.job4j.counter;
+package ru.job4j.loop;
