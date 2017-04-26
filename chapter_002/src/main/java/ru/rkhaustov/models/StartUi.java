@@ -115,7 +115,7 @@ public class StartUi {
     }
 
     /**
-     * Method main for start apllication.
+     * Method main for start application.
      * @param args params
      */
     public static void main(String[] args) {
