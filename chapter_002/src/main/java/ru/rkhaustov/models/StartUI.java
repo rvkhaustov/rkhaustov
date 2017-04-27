@@ -3,29 +3,30 @@ package ru.rkhaustov.models;
 import java.util.Date;
 
 /**
- * Class StartUi entry point in the program.
+ * Class StartUI entry point in the program.
  * @version 1.0
  * @since 04.2017
  */
 
 
-public class StartUi {
+public class StartUI {
     /**
      * @param input keybord
      */
     private Input input;
 
-        /**
+    /**
      * @param tracker class Tracker
      */
     private Tracker tracker;
     /**
-     * Constructor class StartUi initialization i/o and tracker.
+     * Constructor class StartUI initialization i/o and tracker.
      * @param input initialization i/o
+     * @param tracker class tracker
      */
-    public StartUi(Input input) {
+    public StartUI(Input input, Tracker tracker) {
         this.input = input;
-        this.tracker = new Tracker();
+        this.tracker = tracker;
     }
     /**
      * Enum const item menu.
@@ -149,7 +150,7 @@ public class StartUi {
                 + "; Date - " + date.toString());
     }
 
-     /**
+    /**
      * Input user data ADD.
      * @return executed array item
      */
@@ -181,6 +182,7 @@ public class StartUi {
      */
     public static void main(String[] args) {
         ConsoleInput input = new ConsoleInput();
-        new StartUi(input).init();
+        Tracker tracker = new Tracker();
+        new StartUI(input, tracker).init();
     }
 }
