@@ -15,18 +15,18 @@ public class StartUi {
      */
     private Input input;
 
+        /**
+     * @param tracker class Tracker
+     */
+    private Tracker tracker;
     /**
-     * Constructor class StartUi initialization i/o.
+     * Constructor class StartUi initialization i/o and tracker.
      * @param input initialization i/o
      */
     public StartUi(Input input) {
         this.input = input;
+        this.tracker = new Tracker();
     }
-    /**
-     * @param tracker class Tracker
-     */
-    private Tracker tracker = new Tracker();
-
     /**
      * Enum const item menu.
      */
@@ -101,10 +101,7 @@ public class StartUi {
             for (String item : menuName) {
                 System.out.println(item);
             }
-//            ItemMenu itemmenu1 = (ItemMenu) Enum.valueOf(ItemMenu.class,("item" + input.ask("Please, 11enter the task's name from 1 to 6: ")));
             askItemMenu = input.ask("Please, enter the task's name from 1 to 6: ");
-//            System.out.println(askItemMenu);
-//            System.out.println(ItemMenu.ADD.gettItem());
             if (askItemMenu.equals(ItemMenu.ADD.gettItem())) {
                 tracker.add(inpitItemAdd());
             } else if (askItemMenu.equals(ItemMenu.SHOW.gettItem())) {
@@ -119,7 +116,7 @@ public class StartUi {
                 printItem(tracker.findByName(input.ask("Please, enter Name: ")));
             }
 
-        } while (!askItemMenu.equals(ItemMenu.EXIT.gettItem())); //askItemMenu == itemMenu.item6.toString()
+        } while (!askItemMenu.equals(ItemMenu.EXIT.gettItem()));
         System.out.println("Good bay");
 
     }
