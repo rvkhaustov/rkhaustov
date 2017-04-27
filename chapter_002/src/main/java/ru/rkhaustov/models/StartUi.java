@@ -28,6 +28,61 @@ public class StartUi {
     private Tracker tracker = new Tracker();
 
     /**
+     * Enum const item menu.
+     */
+    public enum ItemMenu {
+        /**
+         * @param ADD - item add
+         */
+        ADD("0"),
+        /**
+         * @param SHOW - item show
+         */
+        SHOW("1"),
+        /**
+         * @param EDIT - item edit
+         */
+        EDIT("2"),
+        /**
+         * @param DELETE - item delete
+         */
+        DELETE("3"),
+        /**
+         * @param FINDid - item find id
+         */
+        FINDid("4"),
+        /**
+         * @param FINDname - item find name
+         */
+        FINDname("5"),
+        /**
+         * @param EXIT - exit application
+         */
+        EXIT("6");
+        /**
+         * @param item - value item
+         */
+        private String item;
+
+        /**
+         *
+         * @param item construction Initialize item from 0 to 6
+         */
+        ItemMenu(String item) {
+            this.item = item;
+        }
+
+        /**
+         * Getter item.
+         * @return get item from 0 to 6.
+         */
+        public String gettItem() {
+            return this.item;
+        }
+    }
+
+
+    /**
      * init - init main.
      */
     public void init() {
@@ -39,34 +94,38 @@ public class StartUi {
                 "4. Find item by Id",
                 "5. Find items by name",
                 "6. Exit Program"};
-        String itemMenu;
+        String askItemMenu;
+
 
         do {
             for (String item : menuName) {
                 System.out.println(item);
             }
-            itemMenu = input.ask("Please, enter the task's name from 1 to 6: ");
-            if (itemMenu.equals("0")) {
-                tracker.add(inpitItem("add"));
-            } else if (itemMenu.equals("1")) {
+//            ItemMenu itemmenu1 = (ItemMenu) Enum.valueOf(ItemMenu.class,("item" + input.ask("Please, 11enter the task's name from 1 to 6: ")));
+            askItemMenu = input.ask("Please, enter the task's name from 1 to 6: ");
+//            System.out.println(askItemMenu);
+//            System.out.println(ItemMenu.ADD.gettItem());
+            if (askItemMenu.equals(ItemMenu.ADD.gettItem())) {
+                tracker.add(inpitItemAdd());
+            } else if (askItemMenu.equals(ItemMenu.SHOW.gettItem())) {
                 printItem(tracker.getAll());
-            } else if (itemMenu.equals("2")) {
-                tracker.update(inpitItem("update"));
-            } else if (itemMenu.equals("3")) {
-                tracker.delete(inpitItem("del"));
-            } else if (itemMenu.equals("4")) {
+            } else if (askItemMenu.equals(ItemMenu.EDIT.gettItem())) {
+                tracker.update(inpitItemUpdate());
+            } else if (askItemMenu.equals(ItemMenu.DELETE.gettItem())) {
+                tracker.delete(new Item(input.ask("Please, enter Id: "), null, null, 0));
+            } else if (askItemMenu.equals(ItemMenu.FINDid.gettItem())) {
                 printItem(tracker.findById(input.ask("Please, enter Id: ")));
-            } else if (itemMenu.equals("5")) {
+            } else if (askItemMenu.equals(ItemMenu.FINDname.gettItem())) {
                 printItem(tracker.findByName(input.ask("Please, enter Name: ")));
             }
 
-        } while (!itemMenu.equals("6"));
+        } while (!askItemMenu.equals(ItemMenu.EXIT.gettItem())); //askItemMenu == itemMenu.item6.toString()
         System.out.println("Good bay");
 
     }
 
     /**
-     * Output on display.
+     * Output on display items[].
      * @param items class items array
      */
     void printItem(Item[] items) {
@@ -81,7 +140,7 @@ public class StartUi {
     }
 
     /**
-     * Output on display.
+     * Output on display item.
      * @param item class item
      */
     void printItem(Item item) {
@@ -93,25 +152,30 @@ public class StartUi {
                 + "; Date - " + date.toString());
     }
 
+     /**
+     * Input user data ADD.
+     * @return executed array item
+     */
+    Item inpitItemAdd() {
+        String name = input.ask("Please, enter name: ");
+        String desc = input.ask("Please, enter description: ");
+        Date date = new Date();
+        long created = date.getTime();
+        return new Item(name, desc, created);
+    }
     /**
-     * Input user data.
-     * @param act methods add, update, delete item.
+     * Input user data method Update.
      * @return executed array
      */
-    Item inpitItem(String act) {
-        String id = null;
-        String name = null;
-        String desc = null;
-        long created = 0;
-        if (act.equals("update") || act.equals("del")) {
-            id = input.ask("Please, enter Id: ");
-        } else if (!act.equals("del")) {
-            name = input.ask("Please, enter name: ");
-            desc = input.ask("Please, enter description: ");
-            Date date = new Date();
-            created = date.getTime();
-        }
-        return (act.equals("add")) ? new Item(name, desc, created) : new Item(id, name, desc, created);
+    Item inpitItemUpdate() {
+
+        String id = input.ask("Please, enter Id: ");
+        String  name = input.ask("Please, enter name: ");
+        String desc = input.ask("Please, enter description: ");
+        Date date = new Date();
+        long created = date.getTime();
+
+        return  new Item(id, name, desc, created);
     }
 
     /**
