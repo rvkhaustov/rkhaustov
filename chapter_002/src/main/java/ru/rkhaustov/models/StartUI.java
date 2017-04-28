@@ -106,15 +106,21 @@ public class StartUI {
             if (askItemMenu.equals(ItemMenu.ADD.gettItem())) {
                 tracker.add(inpitItemAdd());
             } else if (askItemMenu.equals(ItemMenu.SHOW.gettItem())) {
-                printItem(tracker.getAll());
+                for (String index : printItem(tracker.getAll())) {
+                    System.out.println(index);
+                }
             } else if (askItemMenu.equals(ItemMenu.EDIT.gettItem())) {
                 tracker.update(inpitItemUpdate());
             } else if (askItemMenu.equals(ItemMenu.DELETE.gettItem())) {
                 tracker.delete(new Item(input.ask("Please, enter Id: "), null, null, 0));
             } else if (askItemMenu.equals(ItemMenu.FINDid.gettItem())) {
-                printItem(tracker.findById(input.ask("Please, enter Id: ")));
+                System.out.println(
+                        printItem(tracker.findById(input.ask("Please, enter Id: ")))
+                );
             } else if (askItemMenu.equals(ItemMenu.FINDname.gettItem())) {
-                printItem(tracker.findByName(input.ask("Please, enter Name: ")));
+                for (String index : printItem(tracker.findByName(input.ask("Please, enter Name: ")))) {
+                    System.out.println(index);
+                }
             }
 
         } while (!askItemMenu.equals(ItemMenu.EXIT.gettItem()));
@@ -122,32 +128,40 @@ public class StartUI {
 
     }
 
+
     /**
      * Output on display items[].
      * @param items class items array
+     * @return items[] string
      */
-    void printItem(Item[] items) {
-        Date date = new Date();
+    String[] printItem(Item[] items) {
+        Date date;
+        String[] result = new String[items.length];
+        int index = 0;
         for (Item item : items) {
             date = new Date(item.getCreated());
-            System.out.println("Id - " + item.getId()
-                    + "; Name - " + item.getName()
-                    + "; Description -" + item.getDesc()
-                    + "; Date - " + date.toString());
+            result[index++] = ("Id: " + item.getId()
+                    + "; Name: " + item.getName()
+                    + "; Description: " + item.getDesc()
+                    + "; Date: " + date.toString());
         }
+        return result;
     }
 
     /**
      * Output on display item.
      * @param item class item
+     * @return item string
      */
-    void printItem(Item item) {
+    String  printItem(Item item) {
+        String result;
         Date date = new Date();
         date = new Date(item.getCreated());
-        System.out.println("Id - " + item.getId()
-                + "; Name - " + item.getName()
-                + "; Description -" + item.getDesc()
-                + "; Date - " + date.toString());
+        result = "Id: " + item.getId()
+                + "; Name: " + item.getName()
+                + "; Description: " + item.getDesc()
+                + "; Date: " + date.toString();
+        return result;
     }
 
     /**
