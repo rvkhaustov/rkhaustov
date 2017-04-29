@@ -17,12 +17,23 @@ public class PaintTest {
     @Test
     public void whenTriangleThenPrintTriangle() {
         Paint paint = new Paint();
+        String lineSeparator = System.getProperty("line.separator");
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         paint.draw(new Triangle());
-        String ecpected = "    *\r\n   * *\r\n  *   *\r\n *     *\r\n*********\r\n";
-        assertThat(out.toString(), is(ecpected));
+        assertThat(out.toString(), is(String.format(
+                        "    *%s" +
+                        "   * *%s" +
+                        "  *   *%s" +
+                        " *     *%s" +
+                        "*********%s",
+                lineSeparator,
+                lineSeparator,
+                lineSeparator,
+                lineSeparator,
+                lineSeparator)
+        ));
     }
     /**
      * Test Square.
@@ -30,11 +41,20 @@ public class PaintTest {
     @Test
     public void whenSquareThenPrintSquare() {
         Paint paint = new Paint();
+        String lineSeparator = System.getProperty("line.separator");
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         paint.draw(new Square());
-        String ecpected = " ******\r\n *    *\r\n *    *\r\n ******\r\n";
-        assertThat(out.toString(), is(ecpected));
+        assertThat(out.toString(), is(String.format(
+                        " ******%s" +
+                        " *    *%s" +
+                        " *    *%s" +
+                        " ******%s",
+                lineSeparator,
+                lineSeparator,
+                lineSeparator,
+                lineSeparator)
+        ));
     }
 }
