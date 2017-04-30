@@ -1,5 +1,5 @@
 package ru.rkhaustov.models;
-
+import java.util.Date;
 /**
  * Created by rvkha_000 on 24.04.2017.
  * @version 1.0
@@ -128,5 +128,14 @@ public class Item {
         this.name = name;
         this.desc = desc;
         this.created = created;
+    }
+
+    @Override
+    public String toString() {
+        return     String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s",
+                this.getId(),
+                this.getName(),
+                this.getDesc(),
+                new Date(this.getCreated()).toString());
     }
 }

@@ -163,7 +163,8 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
 //            MenuTracker menuTracker = new MenuTracker();
             for (Item item : tracker.getAll()) {
-                System.out.println(new MenuTracker(input, tracker).itemString(item));
+//                System.out.println(new MenuTracker(input, tracker).itemString(item));
+                System.out.println(item.toString());
             }
         }
     }
@@ -224,7 +225,7 @@ public class MenuTracker {
          */
         public void execute(Input input, Tracker tracker) {
             String id = input.ask("Please, enter id: ");
-            System.out.println(itemString(tracker.findById(id)));
+            System.out.println(tracker.findById(id).toString());
         }
     }
     /**
@@ -255,7 +256,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Please, enter name: ");
             for (Item item: tracker.findByName(name)) {
-                System.out.println(itemString(item));
+                System.out.println(item.toString());
             }
         }
     }
@@ -265,11 +266,11 @@ public class MenuTracker {
      * @param item reference on item.
      * @return string for print.
      */
-    String itemString(Item item) {
-        return String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s",
-                item.getId(),
-                item.getName(),
-                item.getDesc(),
-                new Date(item.getCreated()).toString());
-    }
+//    String itemString(Item item) {
+//        return String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s",
+//                item.getId(),
+//                item.getName(),
+//                item.getDesc(),
+//                new Date(item.getCreated()).toString());
+//    }
 }

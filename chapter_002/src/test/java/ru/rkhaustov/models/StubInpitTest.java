@@ -45,13 +45,13 @@ public class StubInpitTest {
         System.setOut(new PrintStream(out));
         new StartUI(input, tracker).init();
 
-        String expected = String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s%s"
-                        + "Id: %16s; Name: %10s; Description: %20s; Date: %s%5$s",
-                itemFirst.getId(), itemFirst.getName(), itemFirst.getDesc(), new Date(itemFirst.getCreated()).toString(),
-                lineSeparator,
-                itemSecond.getId(), itemSecond.getName(), itemSecond.getDesc(), new Date(itemSecond.getCreated()).toString()
-        );
+        StringBuilder sbExpected = new StringBuilder();
+        sbExpected.append(itemFirst.toString());
+        sbExpected.append(lineSeparator);
+        sbExpected.append(itemSecond.toString());
+        sbExpected.append(lineSeparator);
 
+        String expected = sbExpected.toString();
         String result = out.toString().substring((out.toString().length() - expected.length()));
         assertThat(result, is(expected));
     }
@@ -72,7 +72,6 @@ public class StubInpitTest {
         new StartUI(input, tracker).init();
 
         String result = tracker.getAll()[0].getName();
-
         assertThat(result, is(excpected));
     }
     /**
@@ -132,22 +131,21 @@ public class StubInpitTest {
 
         Item itemFirst = new Item("test1", "testDescription1", 123L);
         tracker.add(itemFirst);
-        String idFind = itemFirst.getId();
 
         Item itemSecond = new Item("test1", "testDescription2", 223L);
-
         tracker.add(itemSecond);
 
         Input input = new StubInput(new String[]{"5", "test1", "y"});
         System.setOut(new PrintStream(out));
         new StartUI(input, tracker).init();
 
-        String expected = String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s%s"
-                        + "Id: %16s; Name: %10s; Description: %20s; Date: %s%5$s",
-                itemFirst.getId(), itemFirst.getName(), itemFirst.getDesc(), new Date(itemFirst.getCreated()).toString(),
-                lineSeparator,
-                itemSecond.getId(), itemSecond.getName(), itemSecond.getDesc(), new Date(itemSecond.getCreated()).toString()
-        );
+        StringBuilder sbExpected = new StringBuilder();
+        sbExpected.append(itemFirst.toString());
+        sbExpected.append(lineSeparator);
+        sbExpected.append(itemSecond.toString());
+        sbExpected.append(lineSeparator);
+
+        String expected = sbExpected.toString();
 
         String result = out.toString().substring((out.toString().length() - expected.length()));
         assertThat(result, is(expected));
