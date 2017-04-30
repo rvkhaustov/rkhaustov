@@ -2,6 +2,8 @@ package ru.rkhaustov.models;
 
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Date;
 
 import static org.hamcrest.core.Is.is;
@@ -14,40 +16,44 @@ import static org.junit.Assert.assertThat;
  */
 public class StubInpitTest {
     /**
-     * test item 1. Add.
+     * test item 0. Add.
      */
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();     // create Tracker
-        Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //Create StubInput with a sequence of actions
+        Input input = new StubInput(new String[]{"0", "test name", "desc", "y"});   //Create StubInput with a sequence of actions
         new StartUI(input, tracker).init();     //   Create StartUI and call the method init()
         assertThat(tracker.getAll()[0].getName(), is("test name"));
     }
     /**
-     * test item 2. show.
+     * Test item 1. Show all items.
      */
     @Test
     public void whenUserShowItemThenTrackerGetAll() {
         Tracker tracker = new Tracker();     // create Tracker
+        String lineSeparator = System.getProperty("line.separator");
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        Item item = new Item("test1", "testDescription1", 123L);
-        String id;
-        String date;
-        tracker.add(item);
-        id = item.getId();
-        date = new Date(item.getCreated()).toString();
-        String excpectedFirst = "Id: " + id + "; Name: test1; Description: testDescription1; Date: " + date;
+        Item itemFirst = new Item("test1", "testDescription1", 123L);
+        tracker.add(itemFirst);
 
-        item = new Item("test2", "testDescription2", 223L);
-        tracker.add(item);
-        id = item.getId();
-        date = new Date(item.getCreated()).toString();
-        String excpectedSecond = "Id: " + id + "; Name: test2; Description: testDescription2; Date: " + date;
+        Item itemSecond = new Item("test2", "testDescription2", 223L);
+        tracker.add(itemSecond);
 
-        Input input = new StubInput(new String[]{"1", "6"});   //Create StubInput with a sequence of actions
+        Input input = new StubInput(new String[]{"1", "y"});   //Create StubInput with a sequence of actions
 
-        assertThat(new StartUI(input, tracker).printItem(tracker.getAll())[0], is(excpectedFirst));
-        assertThat(new StartUI(input, tracker).printItem(tracker.getAll())[1], is(excpectedSecond));
+        System.setOut(new PrintStream(out));
+        new StartUI(input, tracker).init();
+
+        String expected = String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s%s"
+                        + "Id: %16s; Name: %10s; Description: %20s; Date: %s%5$s",
+                itemFirst.getId(), itemFirst.getName(), itemFirst.getDesc(), new Date(itemFirst.getCreated()).toString(),
+                lineSeparator,
+                itemSecond.getId(), itemSecond.getName(), itemSecond.getDesc(), new Date(itemSecond.getCreated()).toString()
+        );
+
+        String result = out.toString().substring((out.toString().length() - expected.length()));
+        assertThat(result, is(expected));
     }
     /**
      * test item 2. Edit.
@@ -62,7 +68,7 @@ public class StubInpitTest {
         id = item.getId();
         String excpected = "Edit";
 
-        Input input = new StubInput(new String[]{"2", id, "Edit", "Update", "6"});   //Create StubInput with a sequence of actions
+        Input input = new StubInput(new String[]{"2", id, excpected, "Update", "y"});   //Create StubInput with a sequence of actions
         new StartUI(input, tracker).init();
 
         String result = tracker.getAll()[0].getName();
@@ -84,7 +90,7 @@ public class StubInpitTest {
         tracker.add(item);
 
         String excpected = "test2";
-        Input input = new StubInput(new String[]{"3", id, "6"});
+        Input input = new StubInput(new String[]{"3", id, "y"});
         new StartUI(input, tracker).init();
         String result = tracker.getAll()[0].getName();
         assertThat(result, is(excpected));
@@ -95,21 +101,25 @@ public class StubInpitTest {
     @Test
     public void whenUserFindByIdItemThenTrackerfindById() {
         Tracker tracker = new Tracker();     // create Tracker
+        String lineSeparator = System.getProperty("line.separator");
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        Item item = new Item("test1", "testDescription1", 123L);
-        String id;
-        String date;
-        tracker.add(item);
-        id = item.getId();
-        date = new Date(item.getCreated()).toString();
-        String excpected = "Id: " + id + "; Name: test1; Description: testDescription1; Date: " + date;
+        Item itemFirst = new Item("test1", "testDescription1", 123L);
+        tracker.add(itemFirst);
+        String idFind = itemFirst.getId();
 
-        item = new Item("test2", "testDescription2", 223L);
-        tracker.add(item);
+        tracker.add(new Item("test2", "testDescription2", 223L));
 
-        Input input = new StubInput(new String[]{"4", id, "6"});   //создаём StubInput с последовательностью действий
-        assertThat(new StartUI(input, tracker).printItem(tracker.findById(id)), is(excpected)); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        Input input = new StubInput(new String[]{"4", idFind, "y"});
+        System.setOut(new PrintStream(out));
+        new StartUI(input, tracker).init();
 
+        String expected = String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s%s",
+                itemFirst.getId(), itemFirst.getName(), itemFirst.getDesc(), new Date(itemFirst.getCreated()).toString(), lineSeparator
+        );
+
+        String result = out.toString().substring((out.toString().length() - expected.length()));
+        assertThat(result, is(expected));
     }
     /**
      * test item 5. Find item by Name.
@@ -117,21 +127,30 @@ public class StubInpitTest {
     @Test
     public void whenUserFindByNameItemThenTrackerfindByName() {
         Tracker tracker = new Tracker();     // create Tracker
+        String lineSeparator = System.getProperty("line.separator");
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        Item item = new Item("test1", "testDescription1", 123L);
-        String id;
-        String date;
-        tracker.add(item);
-        id = item.getId();
-        date = new Date(item.getCreated()).toString();
-        String excpected = "Id: " + id + "; Name: test1; Description: testDescription1; Date: " + date;
+        Item itemFirst = new Item("test1", "testDescription1", 123L);
+        tracker.add(itemFirst);
+        String idFind = itemFirst.getId();
 
-        item = new Item("test2", "testDescription2", 223L);
-        tracker.add(item);
+        Item itemSecond = new Item("test1", "testDescription2", 223L);
 
-        Input input = new StubInput(new String[]{"5", "test1", "6"});   //создаём StubInput с последовательностью действий
-        assertThat(new StartUI(input, tracker).printItem(tracker.findByName("test1"))[0], is(excpected)); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        tracker.add(itemSecond);
 
+        Input input = new StubInput(new String[]{"5", "test1", "y"});
+        System.setOut(new PrintStream(out));
+        new StartUI(input, tracker).init();
+
+        String expected = String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s%s"
+                        + "Id: %16s; Name: %10s; Description: %20s; Date: %s%5$s",
+                itemFirst.getId(), itemFirst.getName(), itemFirst.getDesc(), new Date(itemFirst.getCreated()).toString(),
+                lineSeparator,
+                itemSecond.getId(), itemSecond.getName(), itemSecond.getDesc(), new Date(itemSecond.getCreated()).toString()
+        );
+
+        String result = out.toString().substring((out.toString().length() - expected.length()));
+        assertThat(result, is(expected));
     }
 
 

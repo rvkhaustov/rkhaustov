@@ -23,11 +23,11 @@ public class PaintTest {
         System.setOut(new PrintStream(out));
         paint.draw(new Triangle());
         assertThat(out.toString(), is(String.format(
-                        "    *%s" +
-                        "   * *%s" +
-                        "  *   *%s" +
-                        " *     *%s" +
-                        "*********%s",
+                        "    *%s"
+                       + "   * *%s"
+                       + "  *   *%s"
+                       + " *     *%s"
+                       + "*********%s",
                 lineSeparator,
                 lineSeparator,
                 lineSeparator,
@@ -47,10 +47,10 @@ public class PaintTest {
         System.setOut(new PrintStream(out));
         paint.draw(new Square());
         assertThat(out.toString(), is(String.format(
-                        " ******%s" +
-                        " *    *%s" +
-                        " *    *%s" +
-                        " ******%s",
+                        " ******%s"
+                      + " *    *%s"
+                      + " *    *%s"
+                      + " ******%s",
                 lineSeparator,
                 lineSeparator,
                 lineSeparator,
