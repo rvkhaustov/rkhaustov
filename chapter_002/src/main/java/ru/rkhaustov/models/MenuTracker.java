@@ -103,6 +103,20 @@ public class MenuTracker {
     }
 
     /**
+     * fillRange.
+     * @param range Possible menu items.
+     * @return select menu items.
+     */
+    public int[] fillRange(int[] range) {
+        range = new int[this.actions.length];
+        int index = 0;
+        for (UserAction action : this.actions) {
+            range[index++] = action.key();
+        }
+        return range;
+    }
+
+    /**
      * Inner class - 0. Add the new item.
      */
     private class AddItem implements UserAction {

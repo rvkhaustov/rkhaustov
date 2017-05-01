@@ -20,10 +20,15 @@ public class StartUI {
      */
     private Tracker tracker;
     /**
+     * Possible menu items.
+     */
+    private int[] ranges;
+    /**
      * Constructor class StartUI initialization i/o and tracker.
      * @param input initialization i/o
      * @param tracker class tracker
      */
+
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
@@ -90,10 +95,10 @@ public class StartUI {
 
         MenuTracker menuTracker = new MenuTracker(this.input, tracker);
         menuTracker.fillAction();
+        ranges = menuTracker.fillRange(ranges);
         do {
             menuTracker.show();
-            int key = Integer.valueOf(input.ask("Select: "));
-            menuTracker.select(key);
+            menuTracker.select(input.ask("Select: ", ranges));
         } while (!"y".equals(this.input.ask("Exit? y")));
     }
 
@@ -215,7 +220,7 @@ public class StartUI {
      * @param args params
      */
     public static void main(String[] args) {
-        ConsoleInput input = new ConsoleInput();
+        ConsoleInput input = new ValidateInput();
         Tracker tracker = new Tracker();
         new StartUI(input, tracker).init();
     }

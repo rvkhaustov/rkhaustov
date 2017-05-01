@@ -12,4 +12,12 @@ public interface Input {
      * @return Response of the user
      */
     String ask(String question);
+
+    /**
+     *
+     * @param question - text question.
+     * @param range - Possible menu items.
+     * @return - select menu items.
+     */
+    int ask(String question, int[] range);
 }
