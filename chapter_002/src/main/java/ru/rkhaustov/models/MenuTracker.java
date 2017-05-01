@@ -5,9 +5,8 @@ import java.util.Date;
 /**
  * EditItem - External inner class. Edit the item.
  */
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
     /**
-     *
      * @return Number item.
      */
     public int key() {
@@ -15,15 +14,13 @@ class EditItem implements UserAction {
     }
 
     /**
-     *
-     * @return item menu.
+     * Construction string menu.
      */
-    public String info() {
-        return String.format("%s. %s", this.key(), "Edit the item");
+    EditItem() {
+        super("Edit the item");
     }
 
     /**
-     *
      * @param input - select item.
      * @param tracker reference on tracker.
      */
@@ -119,7 +116,7 @@ public class MenuTracker {
     /**
      * Inner class - 0. Add the new item.
      */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
         /**
          *
          * @return number item menu 0. Add the new item
@@ -129,15 +126,13 @@ public class MenuTracker {
         }
 
         /**
-         *
-         * @return string menu.
+         * Construction string menu.
          */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add the new item");
+        AddItem() {
+            super("Add the new item");
         }
 
         /**
-         *
          * @param input - select item.
          * @param tracker reference on tracker.
          */
@@ -152,9 +147,8 @@ public class MenuTracker {
     /**
      * Inner class - Show all items.
      */
-    private static class ShowItems implements UserAction {
+    private static class ShowItems extends BaseAction {
         /**
-         *
          * @return number item menu.
          */
         public int key() {
@@ -162,15 +156,13 @@ public class MenuTracker {
         }
 
         /**
-         *
-         * @return string menu.
+         *  Construction string menu.
          */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items");
+        ShowItems() {
+            super("Show all items");
         }
 
         /**
-         *
          * @param input - select item.
          * @param tracker reference on tracker.
          */
@@ -185,9 +177,8 @@ public class MenuTracker {
     /**
      * Inner class - Delete the item.
      */
-    class DeleteItem implements UserAction {
+    class DeleteItem extends BaseAction {
         /**
-         *
          * @return number item menu.
          */
         public int key() {
@@ -195,15 +186,13 @@ public class MenuTracker {
         }
 
         /**
-         *
-         * @return string menu.
+         * Construction string menu.
          */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete the item");
+        DeleteItem() {
+            super("Delete the item");
         }
 
         /**
-         *
          * @param input - select item.
          * @param tracker reference on tracker.
          */
@@ -215,9 +204,8 @@ public class MenuTracker {
     /**
      * Inner class - Find item by Id.
      */
-    class FindId implements UserAction {
+    class FindId extends BaseAction {
         /**
-         *
          * @return number item menu.
          */
         public int key() {
@@ -225,15 +213,13 @@ public class MenuTracker {
         }
 
         /**
-         *
-         * @return string menu.
+         * Construction string menu.
          */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by Id");
+        FindId() {
+            super("Find item by Id");
         }
 
         /**
-         *
          * @param input - select item.
          * @param tracker reference on tracker.
          */
@@ -245,9 +231,8 @@ public class MenuTracker {
     /**
      * Inner class - Find items by name.
      */
-    class  FindName implements UserAction {
+    class  FindName extends BaseAction {
         /**
-         *
          * @return number item menu.
          */
         public int key() {
@@ -255,15 +240,13 @@ public class MenuTracker {
         }
 
         /**
-         *
-         * @return string menu.
+         * Construction string menu.
          */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find items by name");
+        FindName() {
+            super("Find items by name");
         }
 
         /**
-         *
          * @param input - select item.
          * @param tracker reference on tracker.
          */
@@ -275,16 +258,4 @@ public class MenuTracker {
         }
     }
 
-    /**
-     * itemString - preparing the string.
-     * @param item reference on item.
-     * @return string for print.
-     */
-//    String itemString(Item item) {
-//        return String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s",
-//                item.getId(),
-//                item.getName(),
-//                item.getDesc(),
-//                new Date(item.getCreated()).toString());
-//    }
 }
