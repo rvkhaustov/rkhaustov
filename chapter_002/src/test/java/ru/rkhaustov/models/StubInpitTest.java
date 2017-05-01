@@ -151,7 +151,8 @@ public class StubInpitTest {
         assertThat(result, is(expected));
     }
     /**
-     * test exception.
+     * Test exception.
+     * @throws MenuOutException   exception select menu.
      */
     @Test (expected = MenuOutException.class)
     public void testException() throws MenuOutException {
