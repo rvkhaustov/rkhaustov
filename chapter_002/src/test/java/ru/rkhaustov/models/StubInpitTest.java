@@ -150,6 +150,17 @@ public class StubInpitTest {
         String result = out.toString().substring((out.toString().length() - expected.length()));
         assertThat(result, is(expected));
     }
+    /**
+     * test exception.
+     */
+    @Test (expected = MenuOutException.class)
+    public void testException() throws MenuOutException {
+        Tracker tracker = new Tracker();
+        Input input = new StubInput(new String[]{"7", "y"});
+        new StartUI(input, tracker).init();
+
+    }
+
 
 
 }

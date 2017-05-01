@@ -30,8 +30,21 @@ public class StubInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, int[] range) throws MenuOutException {
 //        throw new UnsupportedOperationException("Unsupported operation");
-        return Integer.valueOf(answers[position++]);
+        int key = Integer.valueOf(answers[position++]);
+        boolean exist = false;
+        for (int value : range) {
+            if (value == key) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("out of menu range");
+        }
+      //  return Integer.valueOf(answers[position++]);
     }
 }
