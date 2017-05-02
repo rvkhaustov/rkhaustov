@@ -11,13 +11,18 @@ public abstract class BaseAction implements UserAction {
      * @param name - name ite menu.
      */
     private String name;
-
+    /**
+     * @param key number item.
+     */
+    private int key;
     /**
      * Construction.
+     * @param key value ite menu.
      * @param name name ite menu.
      */
-    public BaseAction(String name) {
+    public BaseAction(int key, String name) {
         this.name = name;
+        this.key = key;
     }
 
     /**
@@ -32,7 +37,11 @@ public abstract class BaseAction implements UserAction {
                 this.name);
     }
 
-    //abstract void execute(Input input, Tracker tracker);
+    @Override
+    public int key() {
+        return this.key;
+    }
+//abstract void execute(Input input, Tracker tracker);
 
 
 }

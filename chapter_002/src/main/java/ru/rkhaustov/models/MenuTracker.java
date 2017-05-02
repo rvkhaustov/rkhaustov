@@ -6,18 +6,12 @@ import java.util.Date;
  * EditItem - External inner class. Edit the item.
  */
 class EditItem extends BaseAction {
-    /**
-     * @return Number item.
-     */
-    public int key() {
-        return 2;
-    }
 
     /**
      * Construction string menu.
      */
     EditItem() {
-        super("Edit the item");
+        super(2, "Edit the item");
     }
 
     /**
@@ -118,18 +112,10 @@ public class MenuTracker {
      */
     private class AddItem extends BaseAction {
         /**
-         *
-         * @return number item menu 0. Add the new item
-         */
-        public int key() {
-            return 0;
-        }
-
-        /**
          * Construction string menu.
          */
         AddItem() {
-            super("Add the new item");
+            super(0, "Add the new item");
         }
 
         /**
@@ -149,17 +135,10 @@ public class MenuTracker {
      */
     private static class ShowItems extends BaseAction {
         /**
-         * @return number item menu.
-         */
-        public int key() {
-            return 1;
-        }
-
-        /**
          *  Construction string menu.
          */
         ShowItems() {
-            super("Show all items");
+            super(1, "Show all items");
         }
 
         /**
@@ -179,17 +158,10 @@ public class MenuTracker {
      */
     class DeleteItem extends BaseAction {
         /**
-         * @return number item menu.
-         */
-        public int key() {
-            return 3;
-        }
-
-        /**
          * Construction string menu.
          */
         DeleteItem() {
-            super("Delete the item");
+            super(3, "Delete the item");
         }
 
         /**
@@ -206,17 +178,10 @@ public class MenuTracker {
      */
     class FindId extends BaseAction {
         /**
-         * @return number item menu.
-         */
-        public int key() {
-            return 4;
-        }
-
-        /**
          * Construction string menu.
          */
         FindId() {
-            super("Find item by Id");
+            super(4, "Find item by Id");
         }
 
         /**
@@ -233,17 +198,10 @@ public class MenuTracker {
      */
     class  FindName extends BaseAction {
         /**
-         * @return number item menu.
-         */
-        public int key() {
-            return 5;
-        }
-
-        /**
          * Construction string menu.
          */
         FindName() {
-            super("Find items by name");
+            super(5, "Find items by name");
         }
 
         /**
