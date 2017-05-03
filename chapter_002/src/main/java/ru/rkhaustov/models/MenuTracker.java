@@ -10,7 +10,7 @@ class EditItem extends BaseAction {
     /**
      * Construction string menu.
      */
-    EditItem() {
+      EditItem() {
         super(2, "Edit the item");
     }
 
@@ -114,7 +114,7 @@ public class MenuTracker {
         /**
          * Construction string menu.
          */
-        AddItem() {
+        private AddItem() {
             super(0, "Add the new item");
         }
 
@@ -137,7 +137,7 @@ public class MenuTracker {
         /**
          *  Construction string menu.
          */
-        ShowItems() {
+        private ShowItems() {
             super(1, "Show all items");
         }
 
@@ -156,11 +156,11 @@ public class MenuTracker {
     /**
      * Inner class - Delete the item.
      */
-    class DeleteItem extends BaseAction {
+    private class DeleteItem extends BaseAction {
         /**
          * Construction string menu.
          */
-        DeleteItem() {
+        private DeleteItem() {
             super(3, "Delete the item");
         }
 
@@ -176,11 +176,11 @@ public class MenuTracker {
     /**
      * Inner class - Find item by Id.
      */
-    class FindId extends BaseAction {
+    private class FindId extends BaseAction {
         /**
          * Construction string menu.
          */
-        FindId() {
+        private FindId() {
             super(4, "Find item by Id");
         }
 
@@ -196,11 +196,11 @@ public class MenuTracker {
     /**
      * Inner class - Find items by name.
      */
-    class  FindName extends BaseAction {
+    private class  FindName extends BaseAction {
         /**
          * Construction string menu.
          */
-        FindName() {
+        private FindName() {
             super(5, "Find items by name");
         }
 
