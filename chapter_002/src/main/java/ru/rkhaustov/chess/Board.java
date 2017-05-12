@@ -51,11 +51,11 @@ public class Board  {
             throw new FigureNotFoundException("Figure not Found");
         }
 
-        outterLoop: for (int index = 0;  index < lengthSource; index++) {
+       for (int index = 0;  (correctly && index < lengthSource); index++) {
             for (int indexAllCell = 0; indexAllCell < allCell.length; indexAllCell++) {
                 if (figures[index] != null && figures[index].equals(allCell[indexAllCell])) {
                     correctly = false;
-                    break outterLoop;
+                    break;
                 }
             }
         }

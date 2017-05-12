@@ -24,104 +24,16 @@ public class Elephant extends Figure {
         Cell[] cellImpossibleMove = new Cell[1];
         Cell position = this.getCell();
 
-        char horizontal;
-        int vertical;
-        boolean checkFlagImpossible = true;
-
-        //1. move up vertical
-        vertical =  position.getVertical() + 2;
-
-        //1.1 right horizontal
-        horizontal = position.getHorizontal();
-        horizontal++;
-        Cell checkImpossible = new Cell(horizontal, vertical);
-
-        if (checkImpossible.equals(dist)) {
-            checkFlagImpossible = false;
-
-        }
-
-        //1.2 left horizontal
-        horizontal = position.getHorizontal();
-        horizontal--;
-        checkImpossible.setHorizontal(horizontal);
-        if (checkFlagImpossible && checkImpossible.equals(dist)) {
-            checkFlagImpossible = false;
-        }
-
-        //2. move down vertical
-        vertical = position.getVertical() - 2;
-        checkImpossible.setVertical(vertical);
-
-        //2.1 right horizontal
-        horizontal = position.getHorizontal();
-        horizontal++;
-        checkImpossible.setHorizontal(horizontal);
-        if (checkFlagImpossible && checkImpossible.equals(dist)) {
-            checkFlagImpossible = false;
-        }
-
-        //2.2 left horizontal
-        horizontal = position.getHorizontal();
-        horizontal--;
-        checkImpossible.setHorizontal(horizontal);
-        if (checkFlagImpossible && checkImpossible.equals(dist)) {
-            checkFlagImpossible = false;
-        }
-
-        //3. move left horizontal
-        horizontal = position.getHorizontal();
-        horizontal--;
-        horizontal--;
-        checkImpossible.setHorizontal(horizontal);
-
-        //3.1 up vertical
-        vertical = position.getVertical() + 1;
-        checkImpossible.setVertical(vertical);
-        checkImpossible.setVertical(vertical);
-        if (checkFlagImpossible && checkImpossible.equals(dist)) {
-            checkFlagImpossible = false;
-        }
-
-        //3.2 down vertical
-        vertical = position.getVertical() - 1;
-        checkImpossible.setVertical(vertical);
-        checkImpossible.setVertical(vertical);
-        if (checkFlagImpossible && checkImpossible.equals(dist)) {
-            checkFlagImpossible = false;
-        }
-
-        //4. move right horizontal
-        horizontal = position.getHorizontal();
-        horizontal++;
-        horizontal++;
-        checkImpossible.setHorizontal(horizontal);
-
-        //4.1 up vertical
-        vertical = position.getVertical() + 1;
-        checkImpossible.setVertical(vertical);
-        checkImpossible.setVertical(vertical);
-        if (checkFlagImpossible && checkImpossible.equals(dist)) {
-            checkFlagImpossible = false;
-        }
-
-        //4.2 down vertical
-        vertical = position.getVertical() - 1;
-        checkImpossible.setVertical(vertical);
-        checkImpossible.setVertical(vertical);
-        if (checkFlagImpossible && checkImpossible.equals(dist)) {
-            checkFlagImpossible = false;
-        }
 
 
-        System.out.println(checkFlagImpossible);
-        if (checkFlagImpossible) {
+
+        if (Math.abs(position.getVertical() - dist.getVertical()) == 2
+            && Math.abs(position.getHorizontal() - dist.getHorizontal()) == 1) {
+            cellImpossibleMove[0] = new Cell();
+            cellImpossibleMove[0].clone(dist);
+        } else {
             throw new ImpossibleMoveException("Impossible Move");
         }
-        cellImpossibleMove[0] = new Cell();
-        cellImpossibleMove[0].clone(dist);
-
-        System.out.println(cellImpossibleMove[0].getHorizontal() + " " + cellImpossibleMove[0].getVertical());
 
         return cellImpossibleMove;
     }
