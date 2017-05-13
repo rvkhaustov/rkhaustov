@@ -21,20 +21,44 @@ public class Elephant extends Figure {
      */
     @Override
     public Cell[] way(Cell dist) throws ImpossibleMoveException  {
-        Cell[] cellImpossibleMove = new Cell[1];
+        Cell[] cellImpossibleMove = new Cell[7];
         Cell position = this.getCell();
 
+        char sourceX = position.getHorizontal();
+        int sourceY = position.getVertical();
 
+        char distX = dist.getHorizontal();
+        int distY = dist.getVertical();
 
+        int lagY = Math.abs(distY - sourceY);
 
-        if (Math.abs(position.getVertical() - dist.getVertical()) == 2
-            && Math.abs(position.getHorizontal() - dist.getHorizontal()) == 1) {
-            cellImpossibleMove[0] = new Cell();
-            cellImpossibleMove[0].clone(dist);
-        } else {
+        if (Math.abs(sourceX - distX) != Math.abs(sourceY - distY)) {
             throw new ImpossibleMoveException("Impossible Move");
+        }
+
+        if (sourceY < distY) { // up
+            if (sourceX < distX) { // left
+                for (int index = 0; index < lagY; index++) {
+                    cellImpossibleMove[index] = new Cell(++sourceX, ++sourceY);
+                }
+            } else { // right
+                for (int index = 0; index < lagY; index++) {
+                    cellImpossibleMove[index] = new Cell(--sourceX, ++sourceY);
+                }
+            }
+        } else { // down
+            if (sourceX < distX) { // left
+                for (int index = 0; index < lagY; index++) {
+                    cellImpossibleMove[index] = new Cell(++sourceX, --sourceY);
+                }
+            } else { // right
+                for (int index = 0; index < lagY; index++) {
+                    cellImpossibleMove[index] = new Cell(--sourceX, --sourceY);
+                }
+            }
         }
 
         return cellImpossibleMove;
     }
 }
+
