@@ -31,31 +31,19 @@ public class Elephant extends Figure {
         int distY = dist.getVertical();
 
         int lagY = Math.abs(distY - sourceY);
+        int stepX, stepY;
 
         if (Math.abs(sourceX - distX) != Math.abs(sourceY - distY)) {
             throw new ImpossibleMoveException("Impossible Move");
         }
 
-        if (sourceY < distY) { // up
-            if (sourceX < distX) { // left
-                for (int index = 0; index < lagY; index++) {
-                    cellImpossibleMove[index] = new Cell(++sourceX, ++sourceY);
-                }
-            } else { // right
-                for (int index = 0; index < lagY; index++) {
-                    cellImpossibleMove[index] = new Cell(--sourceX, ++sourceY);
-                }
-            }
-        } else { // down
-            if (sourceX < distX) { // left
-                for (int index = 0; index < lagY; index++) {
-                    cellImpossibleMove[index] = new Cell(++sourceX, --sourceY);
-                }
-            } else { // right
-                for (int index = 0; index < lagY; index++) {
-                    cellImpossibleMove[index] = new Cell(--sourceX, --sourceY);
-                }
-            }
+        stepX = distX > sourceX ? 1 : distX < sourceX ? -1 : 0;
+        stepY = distY > sourceY ? 1 : distY < sourceY ? -1 : 0;
+
+        for (int index = 0; index < lagY; index++) {
+            sourceX += stepX;
+            sourceY += stepY;
+            cellImpossibleMove[index] = new Cell(sourceX, sourceY);
         }
 
         return cellImpossibleMove;
