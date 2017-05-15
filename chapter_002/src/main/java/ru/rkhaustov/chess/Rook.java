@@ -1,16 +1,14 @@
 package ru.rkhaustov.chess;
 
 /**
- * @author rvkhaustov
- * @version 1.0
- * @since 05.2017
+ * Created by rvkha_000 on 15.05.2017.
  */
-public class Elephant extends Figure {
+public class Rook extends Figure {
     /**
      * @param horizontal figure.
      * @param vertical figure.
      */
-    public Elephant(char horizontal, int vertical) {
+    public Rook(char horizontal, int vertical) {
         super(horizontal, vertical);
     }
 
@@ -29,13 +27,13 @@ public class Elephant extends Figure {
         char distX = dist.getHorizontal();
         int distY = dist.getVertical();
 
-        if (Math.abs(sourceX - distX) != Math.abs(sourceY - distY)) {
+        if ((sourceX != distX && Math.abs(sourceY - distY) > 0)
+                || (sourceY != distY && Math.abs(sourceX - distX) > 0)) {
             throw new ImpossibleMoveException("Impossible Move");
         }
-
         this.setIndexImpossibleMove(0);
 
         return moveVertHorDiag(this.getCell(), dist);
+
     }
 }
-

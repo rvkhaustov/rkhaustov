@@ -12,6 +12,16 @@ public abstract  class Figure {
     private final Cell position = new Cell();
 
     /**
+     * cellImpossibleMove.
+     */
+    private Cell[] cellImpossibleMove = new Cell[64];
+
+    /**
+     * indexImpossibleMove.
+     */
+    private int indexImpossibleMove;
+
+    /**
      * @return get Cell.
      */
     public Cell getCell() {
@@ -64,5 +74,44 @@ public abstract  class Figure {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    /**
+     * @param source source
+     * @param dist dist
+     * @return Cell[]
+     */
+    public Cell[] moveVertHorDiag(Cell source, Cell dist) {
+
+        Cell position = this.getCell();
+
+        char sourceX = position.getHorizontal();
+        int sourceY = position.getVertical();
+
+        char distX = dist.getHorizontal();
+        int distY = dist.getVertical();
+
+        int lag = Math.abs(distY - sourceY) == 0 ? Math.abs(distX - sourceX) : Math.abs(distY - sourceY);
+        int stepX, stepY;
+
+
+        stepX = distX > sourceX ? 1 : distX < sourceX ? -1 : 0;
+        stepY = distY > sourceY ? 1 : distY < sourceY ? -1 : 0;
+
+        for (int index = 0; index < lag; index++) {
+            sourceX += stepX;
+            sourceY += stepY;
+            cellImpossibleMove[indexImpossibleMove++] = new Cell(sourceX, sourceY);
+        }
+
+        return cellImpossibleMove;
+    }
+
+
+    /**
+     * @param indexImpossibleMove set indexImpossibleMove.
+     */
+    public void setIndexImpossibleMove(int indexImpossibleMove) {
+        this.indexImpossibleMove = indexImpossibleMove;
     }
 }
