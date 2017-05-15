@@ -24,8 +24,11 @@ public class Horse extends Figure {
         Cell[] cellImpossibleMove = new Cell[1];
         Cell position = this.getCell();
 
-        if (Math.abs(position.getVertical() - dist.getVertical()) == 2
-            && Math.abs(position.getHorizontal() - dist.getHorizontal()) == 1) {
+        if ((Math.abs(position.getVertical() - dist.getVertical()) == 2
+                && Math.abs(position.getHorizontal() - dist.getHorizontal()) == 1)
+                || (Math.abs(position.getVertical() - dist.getVertical()) == 1
+                && Math.abs(position.getHorizontal() - dist.getHorizontal()) == 2)
+                ) {
             cellImpossibleMove[0] = new Cell();
             cellImpossibleMove[0].clone(dist);
         } else {

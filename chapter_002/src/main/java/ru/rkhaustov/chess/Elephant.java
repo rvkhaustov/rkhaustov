@@ -1,5 +1,7 @@
 package ru.rkhaustov.chess;
 
+import java.util.Arrays;
+
 /**
  * @author rvkhaustov
  * @version 1.0
@@ -35,7 +37,8 @@ public class Elephant extends Figure {
 
         this.setIndexImpossibleMove(0);
 
-        return moveVertHorDiag(this.getCell(), dist);
+        return Arrays.copyOf(moveVertHorDiag(this.getCell(), dist), this.getIndexImpossibleMove());
+
     }
 }
 

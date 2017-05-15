@@ -14,7 +14,7 @@ public abstract  class Figure {
     /**
      * cellImpossibleMove.
      */
-    private Cell[] cellImpossibleMove = new Cell[64];
+    private Cell[] cellImpossibleMove = new Cell[8];
 
     /**
      * indexImpossibleMove.
@@ -113,5 +113,12 @@ public abstract  class Figure {
      */
     public void setIndexImpossibleMove(int indexImpossibleMove) {
         this.indexImpossibleMove = indexImpossibleMove;
+    }
+    /**
+     * get indexImpossibleMove.
+     * @return indexImpossibleMove
+     */
+    public int getIndexImpossibleMove() {
+        return this.indexImpossibleMove;
     }
 }

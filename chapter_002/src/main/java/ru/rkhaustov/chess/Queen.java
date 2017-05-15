@@ -1,5 +1,7 @@
 package ru.rkhaustov.chess;
 
+import java.util.Arrays;
+
 /**
  * Created by rvkha_000 on 15.05.2017.
  */
@@ -40,6 +42,7 @@ public class Queen extends Figure {
 
         this.setIndexImpossibleMove(0);
 
-        return moveVertHorDiag(this.getCell(), dist);
+        return Arrays.copyOf(moveVertHorDiag(this.getCell(), dist), this.getIndexImpossibleMove());
+
     }
 }
