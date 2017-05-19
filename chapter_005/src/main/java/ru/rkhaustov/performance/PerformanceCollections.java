@@ -1,11 +1,27 @@
 package ru.rkhaustov.performance;
 
-import java.util.*;
+//import java.util.*;
+
+//import java.util.*;
+
+
+import java.util.TreeSet;
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Created by rvkha_000 on 16.05.2017.
  */
 public class PerformanceCollections {
+    /**
+     * @param collection collection
+     * @param line add text
+     * @param amount count
+     * @return time
+     */
     public long add(Collection<String> collection, String line, int amount) {
         long startTime = System.currentTimeMillis();
         long endTime = 0;
@@ -14,22 +30,28 @@ public class PerformanceCollections {
 //        List<String> collection1 = collection;
 
         for (int index = 0; index < amount; index++) {
-            str = line + (int)(1000 * index * rand.nextDouble());
+            str = line + (int) (1000 * index * rand.nextDouble());
 //            System.out.println(str);
             collection.add(str);
         }
         endTime = System.currentTimeMillis();
         return endTime - startTime;
     }
+
+    /**
+     * @param collection collection
+     * @param amount count
+     * @return time
+     */
     public long delete(Collection<String> collection, int amount) {
         long startTime = System.currentTimeMillis();
         long endTime = 0;
         int index = 0;
         Iterator<String> iterator = collection.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             iterator.next();
             iterator.remove();
-            if(++index >= amount) {
+            if (++index >= amount) {
                 break;
             }
         }
@@ -37,6 +59,9 @@ public class PerformanceCollections {
         return endTime - startTime;
     }
 
+    /**
+     * @param args argument
+     */
     public static void main(String[] args) {
         Random rand = new Random();
         PerformanceCollections performanceCollections = new PerformanceCollections();
@@ -91,12 +116,12 @@ public class PerformanceCollections {
         long timeLinkedList = 0;
         long timeTreeSet = 0;
 
-        for ( count = 1; count < 80; count+=20) {
+        for (count = 1; count < 80; count += 20) {
             timeArrayList = 0;
             timeLinkedList = 0;
             timeTreeSet = 0;
 
-            for (int index = 0; index < 50 * count; index ++) {
+            for (int index = 0; index < 50 * count; index++) {
                 line = randomString[(int) (17 * rand.nextDouble())];
                 timeArrayList += performanceCollections.add(listArray, line, 1000);
                 timeLinkedList += performanceCollections.add(listLinked, line, 1000);
@@ -112,9 +137,9 @@ public class PerformanceCollections {
             timeLinkedList = 0;
             timeTreeSet = 0;
 
-            timeArrayList += performanceCollections.delete(listArray, count *1000);
+            timeArrayList += performanceCollections.delete(listArray, count * 1000);
             timeLinkedList += performanceCollections.delete(listLinked, count * 1000);
-            timeTreeSet += performanceCollections.delete(listTreeSet,count * 1000);
+            timeTreeSet += performanceCollections.delete(listTreeSet, count * 1000);
 
             System.out.println(String.format("Count delete:%s", count * 1000));
             System.out.println(String.format("Time LinkedList: %s, size:%s", timeLinkedList, listLinked.size()));
