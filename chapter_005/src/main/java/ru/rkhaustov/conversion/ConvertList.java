@@ -30,8 +30,7 @@ public class ConvertList {
      */
     public int[][] toArray(List<Integer> list, int rows) {
 
-        int size = (rows == 0) ? 0 :
-                list.size() / rows + ((list.size() % rows == 0) ? 0 : 1);
+        int size = (rows == 0) ? 0 : list.size() / rows + ((list.size() % rows == 0) ? 0 : 1);
 
         int[][] arrayInt = new int[size][rows];
         int value = 0;
