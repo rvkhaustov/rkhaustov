@@ -86,28 +86,7 @@ public class PerformanceCollections {
                 "ArrayList",
         };
 
-   /*
-        ArrayList<String> list = new ArrayList<String>();
-//        LinkedList<String> list = new LinkedList<String>();
-//        TreeSet<String> list = new TreeSet<String>();
-        long time = 0;
-         for (int index = 0; index < 100 * count; index++) {
-            line = randomString[(int) (17 * rand.nextDouble())];
-            time += performanceCollections.add(list, line, 1000);
-        }
-        System.out.println(String.format("Count add:%s", 100 * count * 1000));
-        System.out.println(String.format("Time %s: %s, size:%s", list.getClass(), time, list.size()));
-        System.out.println("++++");
 
-        time = 0;
-
-        time += performanceCollections.delete(list, count *1000);
-        System.out.println(String.format("Count delete:%s", count * 1000));
-        System.out.println(String.format("Time %s: %s, size:%s", list.getClass(), time, list.size()));
-
-       */
-
-///*
         ArrayList<String> listArray = new ArrayList<String>();
         LinkedList<String> listLinked = new LinkedList<String>();
         TreeSet<String> listTreeSet = new TreeSet<String>();
@@ -153,7 +132,7 @@ public class PerformanceCollections {
             listTreeSet.clear();
 
             listArray.trimToSize();
-//*/
+
         }
 
     }

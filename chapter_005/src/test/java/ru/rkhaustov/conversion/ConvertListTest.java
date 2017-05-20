@@ -53,5 +53,22 @@ public class ConvertListTest {
         assertThat(result, is(expectedList));
     }
 
+    /**
+     * Test convert.
+     */
+    @Test
+    public void whenConvertSetArrayIntThenGetListInteger() {
+        List<int[]> list = new ArrayList<int[]>();
+        list.add(new int[]{1, 2});
+        list.add(new int[]{3, 4, 5, 6});
+        ConvertList convertList = new ConvertList();
+        List<Integer> result = convertList.convert(list);
+
+        List<Integer> expectedList = new ArrayList<Integer>();
+        for (int index = 1; index < 7; index++) {
+            expectedList.add(index);
+        }
+        assertThat(result, is(expectedList));
+    }
 
 }
