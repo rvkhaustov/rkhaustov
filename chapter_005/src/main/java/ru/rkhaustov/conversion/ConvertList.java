@@ -29,7 +29,10 @@ public class ConvertList {
      * @return array int[][].
      */
     public int[][] toArray(List<Integer> list, int rows) {
-        int size = (rows == 0) ? 0 : list.size() / rows + 1;
+
+        int size = (rows == 0) ? 0 :
+                list.size() / rows + ((list.size() % rows == 0) ? 0 : 1);
+
         int[][] arrayInt = new int[size][rows];
         int value = 0;
         Iterator<Integer> iterator = list.iterator();
