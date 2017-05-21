@@ -1,6 +1,8 @@
 package ru.rkhaustov.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * EditItem - External inner class. Edit the item.
@@ -44,7 +46,8 @@ public class MenuTracker {
     /**
      * @param actions array user action.
      */
-    private UserAction[] actions = new UserAction[6];
+//    private UserAction[] actions = new UserAction[6];
+    private List<UserAction> actions = new ArrayList<UserAction>();
 
     /**
      * Constructor class MenuTracker initialization.
@@ -61,12 +64,18 @@ public class MenuTracker {
      * fillAction - fill action item.
      */
     public void fillAction() {
-        this.actions[0] = this.new AddItem();
-        this.actions[1] = new MenuTracker.ShowItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = this.new DeleteItem();
-        this.actions[4] = this.new FindId();
-        this.actions[5] = this.new FindName();
+        this.actions.add(new AddItem());
+        this.actions.add(new MenuTracker.ShowItems());
+        this.actions.add(new EditItem());
+        this.actions.add(this.new DeleteItem());
+        this.actions.add(this.new FindId());
+        this.actions.add(this.new FindName());
+//        this.actions[0] = this.new AddItem();
+//        this.actions[1] = new MenuTracker.ShowItems();
+//        this.actions[2] = new EditItem();
+//        this.actions[3] = this.new DeleteItem();
+//        this.actions[4] = this.new FindId();
+//        this.actions[5] = this.new FindName();
     }
 //    public static void test(){ // An example of a static inner class
 //        MenuTracker tr = new MenuTracker(this.input, this.tracker);
@@ -79,7 +88,8 @@ public class MenuTracker {
      * @param key - item menu.
      */
     public  void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+      //  this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     /**
@@ -95,16 +105,15 @@ public class MenuTracker {
 
     /**
      * fillRange.
-     * @param range Possible menu items.
      * @return select menu items.
      */
-    public int[] fillRange(int[] range) {
-        range = new int[this.actions.length];
-        int index = 0;
+    public List<Integer> fillRange() {
+        List<Integer> ranges = new ArrayList<Integer>();
+
         for (UserAction action : this.actions) {
-            range[index++] = action.key();
+            ranges.add(action.key());
         }
-        return range;
+        return ranges;
     }
 
     /**

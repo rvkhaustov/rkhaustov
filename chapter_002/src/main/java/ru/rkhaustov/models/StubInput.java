@@ -1,5 +1,7 @@
 package ru.rkhaustov.models;
 
+import java.util.List;
+
 /**
  * StubInput - substitution of user input.
  * @author rvkhaustov
@@ -30,7 +32,7 @@ public class StubInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range) throws MenuOutException {
+    public int ask(String question, List<Integer> range) throws MenuOutException {
 //        throw new UnsupportedOperationException("Unsupported operation");
         int key = Integer.valueOf(answers[position++]);
         boolean exist = false;

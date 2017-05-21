@@ -1,5 +1,7 @@
 package ru.rkhaustov.models;
 
+import java.util.List;
+
 /**
  * Created by rvkha_000 on 25.04.2017.
  * @version 1.0
@@ -12,7 +14,7 @@ public class ValidateInput extends ConsoleInput {
      * @param range - Possible menu items.
      * @return - select menu items.
      */
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         boolean invalid = true;
         int value = -1;
         do {

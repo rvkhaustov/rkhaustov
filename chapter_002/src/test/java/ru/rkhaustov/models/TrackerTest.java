@@ -1,6 +1,10 @@
 package ru.rkhaustov.models;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 /**
@@ -17,7 +21,8 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 123L);
         tracker.add(item);
-        assertThat(tracker.getAll()[0], is(item));
+
+        assertThat(tracker.getAll().get(0), is(item));
     }
     /**
      * Test update.
@@ -34,7 +39,7 @@ public class TrackerTest {
         tracker.add(itemF);
         itemUpdate.setId(id);
         tracker.update(itemUpdate);
-        assertThat(tracker.getAll()[0], is(itemUpdate));
+        assertThat(tracker.getAll().get(0), is(itemUpdate));
     }
     /**
      * Test update an application.
@@ -52,7 +57,7 @@ public class TrackerTest {
         tracker.add(itemT);
 
         tracker.delete(itemF);
-        assertThat(tracker.getAll()[1], is(itemS));
+        assertThat(tracker.getAll().get(1), is(itemS));
     }
     /**
      * Test findAll an application.
@@ -60,6 +65,7 @@ public class TrackerTest {
     @Test
     public void whenFindAllNewItemThenTrackerHasSameItem() {
         Tracker tracker = new Tracker();
+        List<Item> expected = new ArrayList<Item>();
         Item item = new Item("test0", "testDescription1", 123L);
         Item itemF = new Item("test1", "testDescription2", 223L);
         Item itemS = new Item("Test2", "testDescriptionUpdate", 333);
@@ -69,8 +75,12 @@ public class TrackerTest {
         tracker.add(itemS);
         tracker.add(itemT);
 
+        expected.add(item);
+        expected.add(itemS);
+        expected.add(itemT);
+
         tracker.delete(itemF);
-        assertThat(tracker.getAll(), is(tracker.findAll()));
+        assertThat(tracker.findAll(), is(expected));
     }
 
     /**
@@ -79,6 +89,7 @@ public class TrackerTest {
     @Test
     public void whenFindBaNameNewItemThenTrackerHasSameItem() {
         Tracker tracker = new Tracker();
+        List<Item> expected = new ArrayList<Item>();
         Item item = new Item("test0", "testDescription1", 123L);
         Item itemF = new Item("test", "testDescription2", 223L);
         Item itemS = new Item("Test2", "testDescription3", 333);
@@ -87,8 +98,10 @@ public class TrackerTest {
         tracker.add(itemF);
         tracker.add(itemS);
         tracker.add(itemT);
-        assertThat(tracker.findByName("test")[0], is(itemF));
-        assertThat(tracker.findByName("test")[1], is(itemT));
+
+        expected.add(itemF);
+        expected.add(itemT);
+        assertThat(tracker.findByName("test"), is(expected));
     }
     /**
      * Test FindById.

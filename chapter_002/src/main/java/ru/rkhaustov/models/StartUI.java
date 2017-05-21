@@ -1,6 +1,7 @@
 package ru.rkhaustov.models;
 
 
+import java.util.List;
 
 /**
  * Class StartUI entry point in the program.
@@ -19,10 +20,10 @@ public class StartUI {
      * @param tracker class Tracker
      */
     private Tracker tracker;
-    /**
-     * Possible menu items.
-     */
-    private int[] ranges;
+//    /**
+//     * Possible menu items.
+//     */
+//    private List ranges;
     /**
      * Constructor class StartUI initialization i/o and tracker.
      * @param input initialization i/o
@@ -95,7 +96,7 @@ public class StartUI {
 
         MenuTracker menuTracker = new MenuTracker(this.input, tracker);
         menuTracker.fillAction();
-        ranges = menuTracker.fillRange(ranges);
+        List<Integer> ranges = menuTracker.fillRange();
         do {
             menuTracker.show();
             menuTracker.select(input.ask("Select: ", ranges));

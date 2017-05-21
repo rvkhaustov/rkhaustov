@@ -23,7 +23,7 @@ public class StubInpitTest {
         Tracker tracker = new Tracker();     // create Tracker
         Input input = new StubInput(new String[]{"0", "test name", "desc", "y"});   //Create StubInput with a sequence of actions
         new StartUI(input, tracker).init();     //   Create StartUI and call the method init()
-        assertThat(tracker.getAll()[0].getName(), is("test name"));
+        assertThat(tracker.getAll().get(0).getName(), is("test name"));
     }
     /**
      * Test item 1. Show all items.
@@ -71,7 +71,7 @@ public class StubInpitTest {
         Input input = new StubInput(new String[]{"2", id, excpected, "Update", "y"});   //Create StubInput with a sequence of actions
         new StartUI(input, tracker).init();
 
-        String result = tracker.getAll()[0].getName();
+        String result = tracker.getAll().get(0).getName();
         assertThat(result, is(excpected));
     }
     /**
@@ -91,7 +91,7 @@ public class StubInpitTest {
         String excpected = "test2";
         Input input = new StubInput(new String[]{"3", id, "y"});
         new StartUI(input, tracker).init();
-        String result = tracker.getAll()[0].getName();
+        String result = tracker.getAll().get(0).getName();
         assertThat(result, is(excpected));
     }
     /**

@@ -1,5 +1,6 @@
 package ru.rkhaustov.models;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -24,7 +25,7 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range) throws MenuOutException {
+    public int ask(String question, List<Integer> range) throws MenuOutException {
         int key = Integer.valueOf(this.ask(question));
         boolean exist = false;
         for (int value : range) {

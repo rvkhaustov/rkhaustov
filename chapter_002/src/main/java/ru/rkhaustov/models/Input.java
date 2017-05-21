@@ -1,5 +1,7 @@
 package ru.rkhaustov.models;
 
+import java.util.List;
+
 /**
  * Created by rvkha_000 on 25.04.2017.
  * @version 1.0
@@ -19,5 +21,5 @@ public interface Input {
      * @param range - Possible menu items.
      * @return - select menu items.
      */
-    int ask(String question, int[] range);
+    int ask(String question, List<Integer> range);
 }
