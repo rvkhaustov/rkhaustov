@@ -51,13 +51,18 @@ public class ConvertList {
      */
     public List<Integer> convert(List<int[]> list) {
         List<Integer> listInteger = new ArrayList<>();
-        for (int size = 0; size < list.size(); size++) {
-            for (int index : list.get(size)) {
-                listInteger.add(index);
+
+//        for (int indexFist = 0; indexFist < list.size(); indexFist++) {
+//            for (int indexSecond : list.get(indexFist)) {
+//                listInteger.add(indexSecond);
+//            }
+//        }
+        for (int[] indexFist : list) {
+            for (int indexSecond : indexFist) {
+                listInteger.add(indexSecond);
             }
         }
         return listInteger;
     }
-
 }
 
