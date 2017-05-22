@@ -12,7 +12,7 @@ class EditItem extends BaseAction {
     /**
      * Construction string menu.
      */
-      EditItem() {
+    EditItem() {
         super(2, "Edit the item");
     }
 
@@ -46,7 +46,6 @@ public class MenuTracker {
     /**
      * @param actions array user action.
      */
-//    private UserAction[] actions = new UserAction[6];
     private List<UserAction> actions = new ArrayList<UserAction>();
 
     /**
@@ -70,25 +69,13 @@ public class MenuTracker {
         this.actions.add(this.new DeleteItem());
         this.actions.add(this.new FindId());
         this.actions.add(this.new FindName());
-//        this.actions[0] = this.new AddItem();
-//        this.actions[1] = new MenuTracker.ShowItems();
-//        this.actions[2] = new EditItem();
-//        this.actions[3] = this.new DeleteItem();
-//        this.actions[4] = this.new FindId();
-//        this.actions[5] = this.new FindName();
     }
-//    public static void test(){ // An example of a static inner class
-//        MenuTracker tr = new MenuTracker(this.input, this.tracker);
-//        AddItem addItem = tr.new AddItem();
-//        this.actions[1] = new ShowItems();
-//    }
 
     /**
      * Select action item.
      * @param key - item menu.
      */
     public  void select(int key) {
-      //  this.actions[key].execute(this.input, this.tracker);
         this.actions.get(key).execute(this.input, this.tracker);
     }
 
@@ -155,9 +142,7 @@ public class MenuTracker {
          * @param tracker reference on tracker.
          */
         public void execute(Input input, Tracker tracker) {
-//            MenuTracker menuTracker = new MenuTracker();
             for (Item item : tracker.getAll()) {
-//                System.out.println(new MenuTracker(input, tracker).itemString(item));
                 System.out.println(item.toString());
             }
         }

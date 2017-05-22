@@ -33,7 +33,6 @@ public class StubInput implements Input {
 
     @Override
     public int ask(String question, List<Integer> range) throws MenuOutException {
-//        throw new UnsupportedOperationException("Unsupported operation");
         int key = Integer.valueOf(answers[position++]);
         boolean exist = false;
         for (int value : range) {
@@ -47,6 +46,5 @@ public class StubInput implements Input {
         } else {
             throw new MenuOutException("out of menu range");
         }
-      //  return Integer.valueOf(answers[position++]);
     }
 }

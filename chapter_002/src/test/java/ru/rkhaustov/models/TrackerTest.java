@@ -60,10 +60,10 @@ public class TrackerTest {
         assertThat(tracker.getAll().get(1), is(itemS));
     }
     /**
-     * Test findAll an application.
+     * Test getAll an application.
      */
     @Test
-    public void whenFindAllNewItemThenTrackerHasSameItem() {
+    public void whenGetAllNewItemThenTrackerHasSameItem() {
         Tracker tracker = new Tracker();
         List<Item> expected = new ArrayList<Item>();
         Item item = new Item("test0", "testDescription1", 123L);
@@ -80,7 +80,7 @@ public class TrackerTest {
         expected.add(itemT);
 
         tracker.delete(itemF);
-        assertThat(tracker.findAll(), is(expected));
+        assertThat(tracker.getAll(), is(expected));
     }
 
     /**

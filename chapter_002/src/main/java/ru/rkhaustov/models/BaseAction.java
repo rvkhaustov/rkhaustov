@@ -41,7 +41,4 @@ public abstract class BaseAction implements UserAction {
     public int key() {
         return this.key;
     }
-//abstract void execute(Input input, Tracker tracker);
-
-
 }

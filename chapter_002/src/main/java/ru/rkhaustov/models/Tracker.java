@@ -3,7 +3,6 @@ package ru.rkhaustov.models;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-//import java.util.Arrays;
 
 
 /**
@@ -11,19 +10,10 @@ import java.util.Random;
  * @version 1.0
  */
 public class Tracker {
-//    /**
-//     * @param countI count items
-//     */
-//    private int countI = 10;
     /**
      * @param item - class item
      */
     private List<Item> items = new ArrayList<Item>();
-//    private Item[] items = new Item[countI];
-//    /**
-//     * @param position
-//     */
-//    private int position = 0;
     /**
      * @param RN random value
      */
@@ -54,12 +44,7 @@ public class Tracker {
      * @return item
      */
     public List<Item> getAll() {
-//        Item[] result = new Item[this.items.size()];
-        List<Item> result = new ArrayList<Item>();
-        for (int index = 0; index != this.items.size(); index++) {
-            result.add(this.items.get(index));
-        }
-        return result;
+        return this.items;
     }
 
     /**
@@ -83,23 +68,10 @@ public class Tracker {
         String searchID = item.getId();
         for (int index = 0; index != this.items.size(); index++) {
             if (this.items.get(index) != null && this.items.get(index).getId().equals(searchID)) {
-//                System.arraycopy(this.items, index + 1, this.items, index,  this.position - index);
-//                this.position--;
                 this.items.remove(index);
                 break;
             }
         }
-    }
-    /**
-     * findAll.
-     * @return item
-     */
-    public List<Item> findAll() {
-        List<Item> result = new ArrayList<Item>();
-        for (int index = 0; index != this.items.size(); index++) {
-            result.add(this.items.get(index));
-        }
-        return result;
     }
 
     /**
@@ -123,10 +95,10 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item result = null;
-        int countName = 0;
         for (Item item : this.items) {
             if (item != null && item.getId().equals(id)) {
                 result = item;
+                break;
             }
         }
         return result;

@@ -25,7 +25,6 @@ public class ValidateInput extends ConsoleInput {
             } catch (NumberFormatException nfe) {
                 System.out.println("Please enter validate again.");
             } catch (MenuOutException moe) {
-//                moe.printStackTrace();
                 System.out.println("Please select key from menus.");
             }
         } while (invalid);
