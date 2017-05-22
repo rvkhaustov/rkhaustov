@@ -33,5 +33,35 @@ public class SortUserTest {
                 new User("Oleg", 50)));
         assertThat(new SortUser().sort(list), is(listExpected));
     }
+    /**
+     * Test sortHash.
+     */
+    @Test
+    public void whenSortHashSetListThenSortHash() {
+        List<User> list = new ArrayList<User>();
+        list.addAll(Arrays.asList(new User("Igor", 40),
+                new User("Oleg", 50),
+                new User("Miha", 30)));
+        List<User> listExpected = new ArrayList<User>();
+        listExpected.addAll(Arrays.asList(new User("Igor", 40),
+                new User("Miha", 30),
+                new User("Oleg", 50)));
+        assertThat(new SortUser().sortHash(list), is(listExpected));
+    }
+  /**
+     * Test sortLength.
+     */
+    @Test
+    public void whenSortLengthSetListThenSortLengthName() {
+        List<User> list = new ArrayList<User>();
+        list.addAll(Arrays.asList(new User("Igor", 40),
+                new User("Ollegg", 50),
+                new User("Mih", 30)));
+        List<User> listExpected = new ArrayList<User>();
+        listExpected.addAll(Arrays.asList(new User("Mih", 30),
+                new User("Igor", 40),
+                new User("Ollegg", 50)));
+        assertThat(new SortUser().sortLength(list), is(listExpected));
+    }
 
 }
