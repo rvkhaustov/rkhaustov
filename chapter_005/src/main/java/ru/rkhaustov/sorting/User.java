@@ -54,7 +54,6 @@ public class User implements Comparable<User> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         User user = (User) o;
 
         if (age != user.age) {

@@ -2,8 +2,6 @@ package ru.rkhaustov.conversion;
 
 import java.util.HashMap;
 import java.util.List;
-//import java.util.List;
-//import java.util.HashMap;
 
 /**
  * Created by rvkha_000 on 21.05.2017.

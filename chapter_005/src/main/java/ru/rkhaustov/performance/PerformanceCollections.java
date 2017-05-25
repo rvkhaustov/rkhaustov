@@ -1,8 +1,5 @@
 package ru.rkhaustov.performance;
 
-//import java.util.*;
-
-//import java.util.*;
 
 
 import java.util.TreeSet;
@@ -27,11 +24,9 @@ public class PerformanceCollections {
         long endTime = 0;
         String str;
         Random rand = new Random();
-//        List<String> collection1 = collection;
 
         for (int index = 0; index < amount; index++) {
             str = line + (int) (1000 * index * rand.nextDouble());
-//            System.out.println(str);
             collection.add(str);
         }
         endTime = System.currentTimeMillis();
