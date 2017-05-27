@@ -42,7 +42,6 @@ public class ActionTest {
 
         user = new User("Dima", "7654321");
         action.addUser(user);
-
         action.deleteUser(new User("Igor", "1234567"));
 
         expected.put(user, null);
@@ -101,7 +100,6 @@ public class ActionTest {
 
         account = new Account("2222222222");
         action.addAccountToUser(user, account);
-
         accountsExpected.add(account);
 
         expected.put(user, new ArrayList<>(accountsExpected));
@@ -154,6 +152,35 @@ public class ActionTest {
                 40);
         assertThat(action.getUserAccount(), is(expected));
     }
+    /**
+     * Test getUserAccounts.
+     */
+    @Test
+    public void whenGetUserAccountsThenListAccount() {
+        Action action = new Action();
+        Set<Account> accountsExpected = new HashSet<>();
 
+        User user = new User("Igor", "1234567");
+        System.out.println(action.getUserAccounts(null));
+        action.addUser(user);
+
+        Account account = new Account("1111111111");
+        action.addAccountToUser(user, account);
+        accountsExpected.add(account);
+
+        account = new Account("3333333333");
+        action.addAccountToUser(user, account);
+        accountsExpected.add(account);
+
+        account = new Account("2222222222");
+        action.addAccountToUser(user, account);
+        accountsExpected.add(account);
+
+
+
+        List<Account> expected = new ArrayList<>(accountsExpected);
+
+        assertThat(action.getUserAccounts(user), is(expected));
+    }
 
 }

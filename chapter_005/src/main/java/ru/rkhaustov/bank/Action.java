@@ -1,12 +1,12 @@
 package ru.rkhaustov.bank;
 
-//import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Arrays;
 
 
 /**
@@ -54,9 +54,7 @@ public class Action {
             accounts.add(account);
             this.userAccount.put(user, new ArrayList<>(accounts));
         } else {
-            List<Account> list = new ArrayList<>();
-            list.add(account);
-            this.userAccount.put(user, list);
+            this.userAccount.put(user, Arrays.asList(account));
         }
 
     }
@@ -66,10 +64,9 @@ public class Action {
      * @param account Account
      */
     public void deleteAccountFromUser(User user, Account account) {
-        if (userAccount.get(user) != null) {
-            List<Account> accounts = new ArrayList<>(userAccount.get(user));
+        if (user != null && this.userAccount.containsKey(user)) {
+            List<Account> accounts = userAccount.get(user);
             accounts.remove(account);
-            this.userAccount.put(user, new ArrayList<>(accounts));
         }
     }
 
@@ -78,11 +75,7 @@ public class Action {
      * @return List Account
      */
     public List<Account> getUserAccounts(User user) {
-        if (userAccount.get(user) != null) {
-            List<Account> accounts = new ArrayList<>(userAccount.get(user));
-            return accounts;
-        }
-        return null;
+            return userAccount.get(user);
     }
 
     /**
