@@ -47,12 +47,9 @@ public class TwoArray implements Iterable {
 
         @Override
         public boolean hasNext() {
-            if (arrayTwo[indexFirst].length == indexSecond) {
-                indexFirst++;
-                indexSecond = 0;
-            }
-            return indexFirst < arrayTwo.length
-                   && arrayTwo[indexFirst].length > indexSecond;
+            return (arrayTwo[indexFirst].length == indexSecond)
+                    ? indexFirst + 1 < arrayTwo.length && arrayTwo[indexFirst].length > 0
+                    : indexFirst < arrayTwo.length && arrayTwo[indexFirst].length > indexSecond;
         }
 
 
