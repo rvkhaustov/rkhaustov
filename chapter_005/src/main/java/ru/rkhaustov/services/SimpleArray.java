@@ -65,4 +65,11 @@ public class SimpleArray<E> {
         object = objects;
         position--;
     }
+
+    /**
+     * @return size SimpleArray.
+     */
+    public int size() {
+        return position;
+    }
 }
