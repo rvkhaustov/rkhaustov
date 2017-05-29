@@ -14,10 +14,7 @@ public class EvenNumbersTest {
      */
     @Test
     public void whenNextThenPointerForward() {
-        EvenNumbers evenNumbers = new EvenNumbers(new int[][] {
-                {1, 2},
-                {3, 4}
-        });
+        EvenNumbers evenNumbers = new EvenNumbers(new int[]{1, 2, 3, 4});
 
         int result = (Integer) evenNumbers.iterator().next();
         assertThat(result, is(2));
@@ -30,10 +27,7 @@ public class EvenNumbersTest {
      */
     @Test
     public void whenHasNextCheckNextThenReturnFalse() {
-        EvenNumbers evenNumbers = new EvenNumbers(new int[][] {
-                {1, 2},
-                {3, 4, 5, 7}
-        });
+        EvenNumbers evenNumbers = new EvenNumbers(new int[]{1, 2, 3, 4, 5, 7});
 
         evenNumbers.iterator().next();
         evenNumbers.iterator().next();
