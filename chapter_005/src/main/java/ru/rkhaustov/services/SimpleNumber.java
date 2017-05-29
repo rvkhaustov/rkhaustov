@@ -79,7 +79,7 @@ public class SimpleNumber implements Iterable {
                     }
                 }
             }
-            return simpleNumber ? index - 1: -1;
+            return simpleNumber ? index - 1 : -1;
         }
     }
 }

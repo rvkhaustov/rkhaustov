@@ -55,6 +55,9 @@ public class EvenNumbers implements Iterable {
             return array[position++];
         }
 
+        /**
+         * @return -1 not even number or index even number
+         */
         int even() {
             for (int index = position; index < array.length; index++) {
                 if (array[index] % 2 == 0) {
