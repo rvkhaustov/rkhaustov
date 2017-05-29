@@ -14,10 +14,7 @@ public class SimpleNumberTest {
      */
     @Test
     public void whenNextThenPointerForward() {
-        SimpleNumber simpleNumber = new SimpleNumber(new int[][] {
-                {1, 2},
-                {3, 4, 5, 6, 977, 1000}
-        });
+        SimpleNumber simpleNumber = new SimpleNumber(new int[]{1, 2, 3, 4, 5, 6, 977, 1000});
 
         int result = (Integer) simpleNumber.iterator().next();
         assertThat(result, is(2));
@@ -36,10 +33,7 @@ public class SimpleNumberTest {
      */
     @Test
     public void whenHasNextCheckNextThenReturnFalse() {
-        SimpleNumber simpleNumber = new SimpleNumber(new int[][] {
-                {1, 2},
-                {3, 4, 5, 8}
-        });
+        SimpleNumber simpleNumber = new SimpleNumber(new int[]{1, 2, 3, 4, 5, 8});
 
         simpleNumber.iterator().next();
         simpleNumber.iterator().next();
