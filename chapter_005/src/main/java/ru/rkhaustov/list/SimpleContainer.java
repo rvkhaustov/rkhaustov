@@ -2,7 +2,7 @@ package ru.rkhaustov.list;
 
 /**
  * Created by rvkha_000 on 30.05.2017.
- * @param <E> type onject.
+ * @param <E> type object.
  */
 
 public interface SimpleContainer<E> extends Iterable<E> {
