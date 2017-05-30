@@ -85,7 +85,7 @@ public class DynamicList<E> implements SimpleContainer<E> {
          */
         @Override
         public boolean hasNext() {
-            return indexIterator < objects.length ? true : false;
+            return indexIterator < currentIndex ? true : false;
         }
 
         /**
