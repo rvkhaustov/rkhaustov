@@ -5,24 +5,4 @@ package ru.rkhaustov.store;
  */
 public class Role extends Base {
 
-//    /**
-//     * id.
-//     */
-//    private String id;
-//
-//    /**
-//     * @return get id.
-//     */
-//    @Override
-//    String getId() {
-//        return this.id;
-//    }
-//
-//    /**
-//     * @param id set id.
-//     */
-//    @Override
-//    void setId(String id) {
-//        this.id = id;
-//    }
 }
