@@ -16,7 +16,7 @@ public class DynamicListTest {
      */
     @Test
     public void  whenAddStringThenGetString() {
-        DynamicList<String> dynamicList = new DynamicList<>(0);
+        SimpleContainer<String> dynamicList = new DynamicList<>(0);
 
         dynamicList.add("test");
         String result = dynamicList.get(0);
@@ -28,7 +28,7 @@ public class DynamicListTest {
      */
     @Test
     public void whenNextThenPointerForward() {
-        DynamicList<Integer> dynamicList = new DynamicList<>(new Integer[] {4, 3, 2, 1});
+        SimpleContainer<Integer> dynamicList = new DynamicList<>(new Integer[] {4, 3, 2, 1});
         Iterator<Integer> iterator = dynamicList.iterator();
 
         int result = iterator.next();
@@ -48,7 +48,7 @@ public class DynamicListTest {
      */
     @Test
     public void whenHasNextCheckNextThenReturnFalse() {
-        DynamicList<Float> dynamicList = new DynamicList<>(new Float[] {4f, 3f});
+        SimpleContainer<Float> dynamicList = new DynamicList<>(new Float[] {4f, 3f});
         Iterator<Float> iterator = dynamicList.iterator();
 
         iterator.next();
