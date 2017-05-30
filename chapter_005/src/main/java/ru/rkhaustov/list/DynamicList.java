@@ -54,7 +54,7 @@ public class DynamicList<E> implements SimpleContainer<E> {
      */
     @Override
     public E get(int index) {
-        return index < objects.length ? (E) objects[index] : null;
+        return index > 0 && index < objects.length ? (E) objects[index] : null;
     }
 
     /**
