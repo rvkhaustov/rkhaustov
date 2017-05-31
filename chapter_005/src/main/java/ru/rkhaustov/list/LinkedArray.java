@@ -58,6 +58,34 @@ public class LinkedArray<E> implements SimpleContainer<E> {
         }
     }
 
+    /**
+     * Method delete first element.
+     */
+    public void removeFirst() {
+        if (size > 0) {
+            Node<E> secondObject = this.first.next;
+            secondObject.prev = null;
+            this.first = secondObject;
+            this.size--;
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+    /**
+     * Method delete last element.
+     */
+    public void removeLast() {
+        if (size > 0) {
+            Node<E> prevObjectLast = this.last.prev;
+            prevObjectLast.next = null;
+            this.last = prevObjectLast;
+            this.size--;
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+
 
     /**
      * Returns an iterator over elements of type {@code T}.
@@ -132,7 +160,7 @@ public class LinkedArray<E> implements SimpleContainer<E> {
         @Override
         public E next() {
             if (!hasNext()) {
-              throw new NoSuchElementException();
+                throw new NoSuchElementException();
             }
             if (indexIterator++ != 0) {
                 nodeIterator = nodeIterator.next;

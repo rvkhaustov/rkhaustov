@@ -23,7 +23,36 @@ public class LinkedArrayTest {
         assertThat(result, is("test"));
     }
     /**
-     * test method next() <Integer>.
+     * test method removeFirst <String>.
+     */
+    @Test
+    public void  whenRemoveFirstStringThenDelFirstObject() {
+        SimpleContainer<String> list = new LinkedArray<>();
+
+        list.add("first");
+        list.add("second");
+
+        String result = list.get(0);
+
+        assertThat(result, is("first"));
+    }
+    /**
+     * test method removeLast <String>.
+     */
+    @Test
+    public void  whenRemoveLastStringThenDelLastObject() {
+        SimpleContainer<String> list = new LinkedArray<>();
+
+        list.add("first");
+        list.add("second");
+        list.add("third");
+
+        String result = list.get(1);
+
+        assertThat(result, is("second"));
+    }
+    /**
+     * test method next() Iterator <Integer>.
      */
     @Test
     public void whenNextThenPointerForward() {
@@ -49,7 +78,7 @@ public class LinkedArrayTest {
         assertThat(result, is(1));
     }
     /**
-     * Test hasNext() <Float>.
+     * Test hasNext() Iterator <Float>.
      */
     @Test
     public void whenHasNextCheckNextThenReturnFalse() {
