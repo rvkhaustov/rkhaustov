@@ -16,7 +16,7 @@ public class SimpleMapTest {
      */
     @Test
     public void whenInsertThenGet() {
-        SimpleMap<String, String> simpleMap = new SimpleMap<>();
+        SimpleMap<String, String> simpleMap = new SimpleMap<>(0); // size 0 for resize()
 
         simpleMap.insert(null, "1");
         simpleMap.insert(null, "2");
@@ -24,11 +24,10 @@ public class SimpleMapTest {
         simpleMap.insert("sgsgdg", "500");
 
         assertThat(simpleMap.insert("second", "second"), is(true));
-        //        assertThat(simpleMap.delete("sgsgdg"),
 
         assertThat(simpleMap.get(null), is("2"));
-        assertThat(simpleMap.get("100"), is("102"));
 
+        assertThat(simpleMap.get("100"), is("102"));
     }
     /**
      * Method Delete.

@@ -1,6 +1,5 @@
 package ru.rkhaustov.map;
 
-//import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -11,16 +10,13 @@ import java.util.NoSuchElementException;
  */
 
 public class SimpleMap<T, V> implements Iterable<V> {
-    /**
-     * key.
-     */
-    private Object[] objectT;
-    /**
-     * value.
-     */
-    private Object[] objectV;
+
 
     /**
+     * data - catalog.
+     */
+    private Pair<T, V>[] data;
+      /**
      * currentIndex.
      */
     private  int currentIndex = 0;
@@ -33,16 +29,67 @@ public class SimpleMap<T, V> implements Iterable<V> {
      * @param size size array.
      */
     public SimpleMap(int size) {
-        this.objectT = new Object[size];
-        this.objectV = new Object[size];
+        this.data = new Pair[size];
+        this.size = size == 0 ? 1 : size;
     }
 
     /**
      * construction.
      */
     public SimpleMap() {
-        this.objectT = new Object[this.size];
-        this.objectV = new Object[this.size];
+        this.data = new Pair[this.size];
+    }
+
+    /**
+     * @param <T> T
+     * @param <V> V
+     */
+    public class Pair<T, V> {
+        /**
+         * key.
+         */
+        private T objectT;
+        /**
+         * value.
+         */
+        private V objectV;
+
+        /**
+         * @return T
+         */
+        public T getObjectT() {
+            return objectT;
+        }
+
+        /**
+         * @param objectT T
+         */
+        public void setObjectT(T objectT) {
+            this.objectT = objectT;
+        }
+
+        /**
+         * @return V
+         */
+        public V getObjectV() {
+            return objectV;
+        }
+
+        /**
+         * @param objectV V
+         */
+        public void setObjectV(V objectV) {
+            this.objectV = objectV;
+        }
+
+        /**
+         * @param objectT T
+         * @param objectV V
+         */
+        public Pair(T objectT, V objectV) {
+            this.objectT = objectT;
+            this.objectV = objectV;
+        }
     }
 
     /**
@@ -51,24 +98,27 @@ public class SimpleMap<T, V> implements Iterable<V> {
      * @return true insert value, false Collision.
      */
     boolean insert(T key, V value) {
+
+        resize();
+
         if (key == null) {
-            if (objectV[0] == null) {
+            if (this.data[0] == null) {
+//            if (this.data[0].getObjectV() == null) {
+                this.data[0] = new Pair<>(key, value);
                 currentIndex++;
             }
-            objectV[0] = value;
+            this.data[0].setObjectV(value);
             return true;
         }
-        if (currentIndex > (int) (size * 0.75)) {
-            resize();
-        }
-        int index = indexFor(key.hashCode(), size);
-        if (objectT[index] == null) {
-            objectT[index] = key;
-            objectV[index] = value;
+
+        int index = indexFor(key, size);
+        if (this.data[index] == null) {
+            this.data[index] = new Pair<>(key, value);
             currentIndex++;
             return true;
-        } else if (index == indexFor(objectT[index].hashCode(), size) && objectT[index].equals(key)) {
-            objectV[index] = value;
+        } else if (index == indexFor(this.data[index].getObjectT(), size)
+                && this.data[index].getObjectT().equals(key)) {
+            this.data[index].setObjectV(value);
             currentIndex++;
             return true;
         }
@@ -80,8 +130,7 @@ public class SimpleMap<T, V> implements Iterable<V> {
      * @return value.
      */
     V get(T key) {
-
-        return (V) objectV[indexFor(key, size)];
+        return  this.data[indexFor(key, size)] == null ? null : this.data[indexFor(key, size)].getObjectV();
     }
 
     /**
@@ -90,9 +139,8 @@ public class SimpleMap<T, V> implements Iterable<V> {
      */
     boolean delete(T key) {
         int indexFor = indexFor(key, size);
-        if (objectV[indexFor] != null) {
-            objectT[indexFor] = null;
-            objectV[indexFor] = null;
+        if (this.data[indexFor].getObjectV() != null) {
+            this.data[indexFor] = null;
             this.currentIndex--;
             return true;
         }
@@ -103,24 +151,25 @@ public class SimpleMap<T, V> implements Iterable<V> {
      * Resize array.
      */
     void resize() {
-        size *= 2;
-        Object[] objectsT = new Object[size];
-        Object[] objectsV = new Object[size];
-        int indexF = 0;
+        if (currentIndex >= (int) (size * 0.75) || currentIndex == 0) {
+            size *= 2;
+            Pair<T, V>[] newPair = new Pair[this.size];
+            int indexF = 0;
+            for (int index = 0; index < this.data.length; index++) {
+                if (this.data[index] != null) {
+                    indexF = indexFor(this.data[index].getObjectT(), size);
+                    if (newPair[indexF] == null) {
+                        newPair[indexF] = new Pair<>(data[index].getObjectT(), data[index].getObjectV());
 
-        for (int index = 0; index < objectT.length; index++) {
-            if (objectV[index] != null) {
-                indexF = indexFor(objectT[index], size);
-                objectsT[indexF] = objectT[index];
-                objectsV[indexF] = objectV[index];
+                    }
+                }
             }
+            this.data = newPair;
         }
-        this.objectT = objectsT;
-        this.objectV = objectsV;
     }
 
     /**
-     * @param object oject.
+     * @param object object.
      * @param length size array.
      * @return index.
      */
@@ -163,7 +212,7 @@ public class SimpleMap<T, V> implements Iterable<V> {
          */
         public int nextObject() {
             for (int index = indexIterator; index < size; index++) {
-                if (objectV[index] != null || objectT[index] != null) {
+                if (data[index] != null) {
                     return index;
                 }
             }
@@ -182,19 +231,8 @@ public class SimpleMap<T, V> implements Iterable<V> {
             if (indexIterator == -1) {
                 throw new NoSuchElementException();
             }
-            return (V) objectV[indexIterator++];
+            return  data[indexIterator++].getObjectV();
 
         }
     }
-
-
-//    /**
-//     * @return string.
-//     */
-//    @Override
-//    public String toString() {
-//        return "SimpleMap{" +
-//                "objectV=" + Arrays.toString(objectV) +
-//                '}';
-//    }
 }
