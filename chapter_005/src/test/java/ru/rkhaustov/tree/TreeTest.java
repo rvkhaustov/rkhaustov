@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -17,15 +18,22 @@ public class TreeTest {
     @Test
     public  void whenAddThenCorrectSave() {
         Tree<String> tree = new Tree<>();
-        tree.add("first", "1");
-        tree.add("first", "2");
-        tree.add("second", "second 1");
-        tree.add("third", "3");
-        tree.add("forth", "4");
-        tree.add("five", "5");
+        tree.add("P1", "P2");
+        tree.add("P2", "P4");
+        tree.add("P2", "P5");
+        tree.add("P5", "P7");
+        tree.add("P2", "P6");
+        tree.add("P1", "P3");
+        tree.add("P3", "P8");
 
-        assertThat(tree.getDataTree()[0].getValue(), is("first"));
-        assertThat(tree.getDataTree()[0].getChildren().get(1).getValue(), is("2"));
+        String result = tree.getDataTree().getValue();
+        assertThat(result, is("P1"));
+        result = tree.getDataTree().getChildren().get(0).getValue();
+        assertThat(result, is("P2"));
+        result = tree.getDataTree().getChildren().get(1).getValue();
+        assertThat(result, is("P3"));
+        result = tree.getDataTree().getChildren().get(0).getChildren().get(0).getValue();
+        assertThat(result, is("P4"));
     }
     /**
      * Method next Iterator.
@@ -33,29 +41,34 @@ public class TreeTest {
     @Test
     public  void whenNextIteratorThanTrue() {
         Tree<String> tree = new Tree<>();
-        tree.add("first", "1");
-        tree.add("first", "2");
-        tree.add("second", "second 1");
-        tree.add("third", "3");
-        tree.add("forth", "4");
-        tree.add("five", "5");
+        tree.add("P1", "P2");
+        tree.add("P2", "P4");
+        tree.add("P2", "P5");
+        tree.add("P5", "P7");
+        tree.add("P2", "P6");
+        tree.add("P1", "P3");
+        tree.add("P3", "P8");
         Iterator<String> iterator = tree.iterator();
 
-        assertThat(iterator.next(), is("first"));
-        assertThat(iterator.next(), is("1"));
-        assertThat(iterator.next(), is("2"));
-        assertThat(iterator.next(), is("second"));
-        assertThat(iterator.next(), is("second 1"));
+        assertThat(iterator.next(), is("P1"));
+        assertThat(iterator.next(), is("P2"));
+        assertThat(iterator.next(), is("P4"));
+        assertThat(iterator.next(), is("P5"));
+        assertThat(iterator.next(), is("P7"));
+        assertThat(iterator.next(), is("P6"));
+        assertThat(iterator.next(), is("P3"));
+        assertThat(iterator.next(), is("P8"));
+
     }
     /**
      * Method hasNext Iterator.
      */
- @Test
+    @Test
     public  void whenHasNextTnenFalse() {
         Tree<String> tree = new Tree<>();
-        tree.add("first", "1");
-        tree.add("first", "2");
-        tree.add("second", "second 1");
+        tree.add("P1", "P2");
+        tree.add("P2", "P4");
+        tree.add("P2", "P5");
 
         Iterator<String> iterator = tree.iterator();
 
@@ -63,9 +76,11 @@ public class TreeTest {
         iterator.next();
         iterator.next();
         iterator.next();
-        iterator.next();
+
 
         boolean result = iterator.hasNext();
+        assertThat(result, is(false));
     }
+
 
 }
