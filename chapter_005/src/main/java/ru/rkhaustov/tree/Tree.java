@@ -12,25 +12,22 @@ import java.util.NoSuchElementException;
 
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
       /**
-     * dataTree.
+     * nodeTree.
      */
-    private Node<E> dataTree;
+    private Node<E> nodeTree;
 
     /**
-     * @return dataTree.
+     * @return nodeTree.
      */
-    public Node<E> getDataTree() {
-        return dataTree;
+    public Node<E> getNodeTree() {
+        return nodeTree;
     }
 
     /**
      * indexParent.
      */
     private  int indexParent = 0;
-    /**
-     * size.
-     */
-    private int size = 3;
+
 
     /**
      * @param <E> E extends Comparable<E>.
@@ -38,7 +35,6 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     class Node<E> {
         /**
          * children.
-         //         * @param <E> E extends Comparable<E>.
          */
         private List<Node<E>> children;
         /**
@@ -67,22 +63,8 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             this.value = value;
             this.children = new ArrayList<>();
         }
-//        Node(Node node,E value) {
-//            this.value = value;
-//            this.children = new ArrayList<>();
-//        }
-//        public Node() {
-//        }
-
-
     }
 
-    /**
-     * Construction.
-     */
-    public Tree() {
-//        this.dataTree = new Node[size];
-    }
 
     /**
      * Добавить элемент child в parent.
@@ -94,17 +76,17 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      */
     @Override
     public boolean add(E parent, E child) {
-        if (dataTree == null) {
-            dataTree = new Node<>(parent);
-            dataTree.children.add(new Node<>(child));
+        if (nodeTree == null) {
+            nodeTree = new Node<>(parent);
+            nodeTree.children.add(new Node<>(child));
             indexParent++;
             return true;
-        } else if (dataTree.getValue() == parent) {
-            dataTree.children.add(new Node<>(child));
+        } else if (nodeTree.getValue() == parent) {
+            nodeTree.children.add(new Node<>(child));
             indexParent++;
             return true;
         } else {
-            addValue(dataTree, parent, child);
+            addValue(nodeTree, parent, child);
         }
 
 
@@ -157,28 +139,18 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      */
     public class TreeIterator implements Iterator<E> {
         /**
-         * parentIterator.
+         * indexIterator.
          */
-        private int parentIterator = 0;
+        private int indexIterator = 0;
         /**
-         * childIterator.
+         * hasIterator.
          */
-        private int childIterator = 0;
-
-
+        private int nextIterator = 0;
         /**
-         * list.
+         * nodeIterator.
          */
-        private List<E> list = new ArrayList<E>();
+        private Node<E> nodeIterator = nodeTree;
 
-
-        /**
-         * Construction.
-         */
-        public TreeIterator() {
-            list.add(dataTree.getValue());
-            fillList(dataTree);
-        }
 
         /**
          * Returns {@code true} if the iteration has more elements.
@@ -189,10 +161,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
          */
         @Override
         public boolean hasNext() {
-//            return (parentIterator + (childIterator >= dataTree[parentIterator].children.size() ? 1 : 0)
-//                    >= indexParent && childIterator >= dataTree[parentIterator].children.size())
-//                    ? false : true;
-            return parentIterator > indexParent ? false : true; // del
+            return indexIterator > indexParent ? false : true;
         }
 
 
@@ -207,18 +176,29 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            return list.get(parentIterator++);
+            if (indexIterator == 0) {
+                indexIterator++;
+                return nodeTree.getValue();
+            }
+            nextIterator = 0;
+            getValueIterator(nodeTree);
+            indexIterator++;
+            return nodeIterator.getValue();
         }
+
 
         /**
          * @param node node.
          */
-        public void  fillList(Node<E> node) {
+        public void getValueIterator(Node<E> node) {
 
             for (int indexList = 0; indexList < node.children.size(); indexList++) {
-                    list.add(node.children.get(indexList).getValue());
+                if (++nextIterator == indexIterator) {
+                    nodeIterator = node.children.get(indexList);
+                    break;
+                }
                     if (node.children.get(indexList).children.size() != 0) {
-                        fillList(node.children.get(indexList));
+                        getValueIterator(node.children.get(indexList));
                 }
             }
 

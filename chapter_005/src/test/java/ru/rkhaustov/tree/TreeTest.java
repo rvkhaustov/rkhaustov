@@ -26,13 +26,13 @@ public class TreeTest {
         tree.add("P1", "P3");
         tree.add("P3", "P8");
 
-        String result = tree.getDataTree().getValue();
+        String result = tree.getNodeTree().getValue();
         assertThat(result, is("P1"));
-        result = tree.getDataTree().getChildren().get(0).getValue();
+        result = tree.getNodeTree().getChildren().get(0).getValue();
         assertThat(result, is("P2"));
-        result = tree.getDataTree().getChildren().get(1).getValue();
+        result = tree.getNodeTree().getChildren().get(1).getValue();
         assertThat(result, is("P3"));
-        result = tree.getDataTree().getChildren().get(0).getChildren().get(0).getValue();
+        result = tree.getNodeTree().getChildren().get(0).getChildren().get(0).getValue();
         assertThat(result, is("P4"));
     }
     /**
