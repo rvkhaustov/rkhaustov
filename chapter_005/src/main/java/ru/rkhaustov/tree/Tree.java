@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  */
 
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
-      /**
+    /**
      * nodeTree.
      */
     private Node<E> nodeTree;
@@ -27,6 +27,10 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      * indexParent.
      */
     private  int indexParent = 0;
+    /**
+     * nodeBinary.
+     */
+    private boolean nodeBinary;
 
 
     /**
@@ -98,22 +102,22 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      * @param parent parent
      * @param child child
      */
-   public void  addValue(Node<E> node, E parent, E child) {
-       E nodeValue;
+    public void  addValue(Node<E> node, E parent, E child) {
+        E nodeValue;
 
-           for (int indexList = 0; indexList < node.children.size(); indexList++) {
-               nodeValue = node.children.get(indexList).getValue();
-               if (compare(nodeValue, parent) == 0) {
-                   node = node.children.get(indexList);
-                   node.children.add(new Node<>(child));
-                   indexParent++;
-                   break;
-               } else if (node.children.get(indexList).children.size() != 0) {
-                   addValue(node.children.get(indexList), parent, child);
-               }
-           }
+        for (int indexList = 0; indexList < node.children.size(); indexList++) {
+            nodeValue = node.children.get(indexList).getValue();
+            if (compare(nodeValue, parent) == 0) {
+                node = node.children.get(indexList);
+                node.children.add(new Node<>(child));
+                indexParent++;
+                break;
+            } else if (node.children.get(indexList).children.size() != 0) {
+                addValue(node.children.get(indexList), parent, child);
+            }
+        }
 
-   }
+    }
 
     /**
      * @param o1 o1
@@ -124,7 +128,36 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return o1.compareTo(o2);
     }
 
-      /**
+    /**
+     * @return true if tree binary, false if tree not binary
+     *
+     */
+    public boolean isBinary() {
+        nodeBinary = true;
+        checkBinary(nodeTree);
+     return nodeBinary;
+    }
+
+    /**
+     * @param node node.
+     */
+        public void checkBinary(Node<E> node) {
+
+            for (int indexList = 0; indexList < node.children.size(); indexList++) {
+                if (node.children.size() > 2) {
+                   nodeBinary = false;
+                    break;
+                }
+                if (node.children.get(indexList).children.size() != 0) {
+                    checkBinary(node.children.get(indexList));
+                }
+            }
+
+        }
+
+
+
+    /**
      * Returns an iterator over elements of type {@code T}.
      *
      * @return an Iterator.
@@ -197,8 +230,8 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                     nodeIterator = node.children.get(indexList);
                     break;
                 }
-                    if (node.children.get(indexList).children.size() != 0) {
-                        getValueIterator(node.children.get(indexList));
+                if (node.children.get(indexList).children.size() != 0) {
+                    getValueIterator(node.children.get(indexList));
                 }
             }
 
