@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
  */
 public class TreeTest {
     /**
-     * Method add.
+     * Method add(E parent, E hild).
      */
     @Test
     public  void whenAddThenCorrectSave() {
@@ -114,6 +114,54 @@ public class TreeTest {
 
         boolean result = tree.isBinary();
         assertThat(result, is(false));
+
+    }
+
+    /**
+     * Method add(E e).
+     */
+    @Test
+    public  void whenAddEThenSortSave() {
+        Tree<String> tree = new Tree<>();
+        tree.add("9");  //           9
+        tree.add("2");  //         /    \
+        tree.add("4");  //      2
+        tree.add("7");  //       \
+        tree.add("6");  //        4
+        tree.add("8");  //       / \
+        tree.add("3");  //      3   7
+        tree.add("5");  //         / \
+//                                6   8
+//                              /
+//                             5
+
+        System.out.println();
+
+        String result = tree.getNodeTree().getValue();
+        assertThat(result, is("9"));
+
+        result = tree.getNodeTree().getChildren().get(0).getValue();
+        assertThat(result, is("2"));
+
+        tree.setNodeTree(tree.getNodeTree().getChildren().get(0));
+        result = tree.getNodeTree().getChildren().get(1).getValue(); // .getChildren().get(0).getValue();
+        assertThat(result, is("4"));
+
+        tree.setNodeTree(tree.getNodeTree().getChildren().get(1));
+        result = tree.getNodeTree().getChildren().get(0).getValue(); // .getChildren().get(0).getValue();
+        assertThat(result, is("3"));
+        result = tree.getNodeTree().getChildren().get(1).getValue(); // .getChildren().get(0).getValue();
+        assertThat(result, is("7"));
+
+        tree.setNodeTree(tree.getNodeTree().getChildren().get(1));
+        result = tree.getNodeTree().getChildren().get(0).getValue(); // .getChildren().get(0).getValue();
+        assertThat(result, is("6"));
+        result = tree.getNodeTree().getChildren().get(1).getValue(); // .getChildren().get(0).getValue();
+        assertThat(result, is("8"));
+
+        tree.setNodeTree(tree.getNodeTree().getChildren().get(0));
+        result = tree.getNodeTree().getChildren().get(0).getValue(); // .getChildren().get(0).getValue();
+        assertThat(result, is("5"));
 
     }
 
