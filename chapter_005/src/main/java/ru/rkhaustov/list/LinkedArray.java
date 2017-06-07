@@ -43,19 +43,55 @@ public class LinkedArray<E> implements SimpleContainer<E> {
      */
     @Override
     public E get(int index) {
+        return getNode(index).object;
+    }
+
+    /**
+     * @param index index
+     * @return node Object
+     */
+    public Node<E> getNode(int index) {
         if (index < (size >> 1)) {
             Node<E> node = first;
             for (int atFirst = 0; atFirst < index; atFirst++) {
                 node = node.next;
             }
-            return node.object;
+            return node;
         } else {
             Node<E> node = last;
             for (int fromEnd = size - 1; fromEnd > index; fromEnd--) {
                 node = node.prev;
             }
-            return node.object;
+            return node;
         }
+    }
+
+    /**
+     * @param index index position number.
+     * @param e  E
+     */
+    public void add(int index, E e) {
+        if (index == size) {
+            add(e);
+        } else {
+            final Node<E> succ = getNode(index);
+            final Node<E> pred = succ.prev;
+            final Node<E> newNode = new Node<>(pred, e, succ);
+            succ.prev = newNode;
+            if (pred == null) {
+                first = newNode;
+            } else {
+                pred.next = newNode;
+            }
+            size++;
+        }
+    }
+
+    /**
+     * @return size array.
+     */
+    public int size() {
+        return size;
     }
 
     /**
@@ -125,7 +161,10 @@ public class LinkedArray<E> implements SimpleContainer<E> {
             this.next = next;
             this.prev = prev;
         }
+
+
     }
+
     /**
      * implements Iterator methods.
      */
