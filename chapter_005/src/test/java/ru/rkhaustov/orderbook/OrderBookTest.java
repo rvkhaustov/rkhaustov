@@ -15,8 +15,7 @@ public class OrderBookTest {
      */
     @Test
     public void whenReadXmlThenLoadBidAsk() {
-        final String Path = "C:\\other\\Projects\\Java\\job4j\\rkhaustov\\chapter_005\\src\\main\\java\\ru\\rkhaustov\\orderbook\\";
-        final String fileName = Path + "orders.xml";
+         final String fileName = "orders.xml";
         OrderBook orderBook = new OrderBook();
 
         long startTime = System.currentTimeMillis();
