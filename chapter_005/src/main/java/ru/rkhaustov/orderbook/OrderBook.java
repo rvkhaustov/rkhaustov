@@ -43,17 +43,17 @@ public class OrderBook {
                 xmlreed.next();
                 if (xmlreed.isStartElement()) {
                     if (xmlreed.getLocalName() == "AddOrder") {
-                        String value0 = xmlreed.getAttributeValue(0);
+                        String value0 = xmlreed.getAttributeValue(null, "book");
                         if (!orderBook.containsKey(value0)) {
                             orderBook.put(value0, new HashMap<>(700000, 1));
                         }
-                        orderBook.get(value0).put(Integer.valueOf(xmlreed.getAttributeValue(4)), new Order(Float.parseFloat(xmlreed.getAttributeValue(2)),
-                                (xmlreed.getAttributeValue(1).equals("BUY")
-                                        ? Integer.parseInt(xmlreed.getAttributeValue(3))
-                                        : (-1 * Integer.parseInt(xmlreed.getAttributeValue(3)))
+                        orderBook.get(value0).put(Integer.valueOf(xmlreed.getAttributeValue(null, "orderId")), new Order(Float.parseFloat(xmlreed.getAttributeValue(null, "price")),
+                                (xmlreed.getAttributeValue(null, "operation").equals("BUY")
+                                        ? Integer.parseInt(xmlreed.getAttributeValue(null, "volume"))
+                                        : (-1 * Integer.parseInt(xmlreed.getAttributeValue(null, "volume")))
                                 )));
                     } else if (xmlreed.getLocalName() == "DeleteOrder") {
-                        orderBook.get(xmlreed.getAttributeValue(0)).remove(Integer.valueOf(xmlreed.getAttributeValue(1)));
+                        orderBook.get(xmlreed.getAttributeValue(null, "book")).remove(Integer.valueOf(xmlreed.getAttributeValue(null, "orderId")));
                     }
                 }
             }
