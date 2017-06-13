@@ -4,17 +4,28 @@ package ru.rkhaustov.threads;
  * Created by rvkha_000 on 13.06.2017.
  */
 public class CountInText {
-
+    /**
+     *
+     */
+ private boolean stopThreads;
     /**
      * text.
      */
     private String text;
 
     /**
+     * @param stopThreads stopThreads
+     */
+    public void setStopThreads(boolean stopThreads) {
+        this.stopThreads = stopThreads;
+    }
+
+    /**
      * @param text text
      */
     public CountInText(String text) {
         this.text = text;
+        stopThreads = true;
     }
 
     /**
@@ -22,7 +33,7 @@ public class CountInText {
      */
     public int countSpace() {
         int countSpace = 0;
-        for (int index = 0; index < text.length(); index++) {
+        for (int index = 0; (stopThreads && index < text.length()); index++) {
             if (Thread.currentThread().isInterrupted()) {
                 return -1;
             }
@@ -58,7 +69,7 @@ public class CountInText {
             if (Thread.currentThread().isInterrupted()) {
                 return -1;
             }
-        } while (true);
+        } while (stopThreads);
         return ++countWord;
     }
   }

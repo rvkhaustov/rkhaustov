@@ -97,7 +97,7 @@ public class CountInTextTest {
         firstThread.start();
         while (firstThread.isAlive()) {
             try {
-               firstThread.join(1000);
+                firstThread.join(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -108,7 +108,7 @@ public class CountInTextTest {
         System.out.println("Count Space finish");
 
         System.out.println("Count Word  start");
-        Thread secondThread =new Thread(new Runnable() {
+        Thread secondThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 System.out.println(String.format("Count word: %s", new CountInText(text).countWord()));
@@ -117,7 +117,7 @@ public class CountInTextTest {
         secondThread.start();
         while (secondThread.isAlive()) {
             try {
-               firstThread.join(1000);
+                firstThread.join(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -126,5 +126,41 @@ public class CountInTextTest {
             }
         }
         System.out.println("Count Word finish");
+    }
+
+    /**
+     * print Asynch Operations program thread stop.
+     */
+    @Test
+    public void printAsynchOperationsThenProgramThreadStop() {
+        String separator = System.getProperty("line.separator");
+        String text = "Mares eat oats" + separator
+                + "Does eat oats" + separator
+                + "Little lambs eat ivy" + separator
+                + "A kid will eat ivy too";
+
+        System.out.println("Count Space start");
+        CountInText countInText = new CountInText(text);
+        long startTime = System.currentTimeMillis();
+        Thread firstThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (countInText) {
+                    System.out.println(String.format("Count space: %s", countInText.countSpace()));
+                }
+            }
+        });
+        firstThread.start();
+        while (firstThread.isAlive()) {
+            try {
+                firstThread.join(6);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (System.currentTimeMillis() - startTime > 6 && firstThread.isAlive()) {
+                countInText.setStopThreads(false);
+            }
+        }
+        System.out.println("Count Space finish");
     }
 }
