@@ -76,7 +76,7 @@ public class CountInTextTest {
      * print Asynch Operations Waiting for output.
      */
     @Test
-    public void printAsynchOperations1() {
+    public void printAsynchOperationsThenWaitingForOutput() {
         String separator = System.getProperty("line.separator");
         String text = "Mares eat oats" + separator
                 + "Does eat oats" + separator
