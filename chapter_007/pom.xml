@@ -4,7 +4,6 @@
     <version>2.0</version>
     <packaging>jar</packaging>
 
-
     <parent>
         <groupId>ru.job4j</groupId>
         <artifactId>junior</artifactId>
