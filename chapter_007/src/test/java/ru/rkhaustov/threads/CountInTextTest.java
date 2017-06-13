@@ -21,6 +21,7 @@ public class CountInTextTest {
                 + "Little lambs eat ivy" + separator
                 + "A kid will eat ivy too";
         CountInText countInText = new CountInText(text);
+
         assertThat(countInText.countWord(), is(16));
 
     }
