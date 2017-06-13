@@ -23,6 +23,9 @@ public class CountInText {
     public int countSpace() {
         int countSpace = 0;
         for (int index = 0; index < text.length(); index++) {
+            if (Thread.currentThread().isInterrupted()) {
+                return -1;
+            }
             if (text.charAt(index) == ' ') {
                 countSpace++;
             }
@@ -51,6 +54,9 @@ public class CountInText {
             } else {
                 fromIndex = endLine + separator.length();
                 countWord++;
+            }
+            if (Thread.currentThread().isInterrupted()) {
+                return -1;
             }
         } while (true);
         return ++countWord;

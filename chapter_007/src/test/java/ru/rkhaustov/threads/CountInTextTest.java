@@ -72,4 +72,59 @@ public class CountInTextTest {
             e.printStackTrace();
         }
     }
+    /**
+     * print Asynch Operations Waiting for output.
+     */
+    @Test
+    public void printAsynchOperations1() {
+        String separator = System.getProperty("line.separator");
+        String text = "Mares eat oats" + separator
+                + "Does eat oats" + separator
+                + "Little lambs eat ivy" + separator
+                + "A kid will eat ivy too";
+
+        System.out.println("Count Space start");
+        CountInText countInText = new CountInText(text);
+        long startTime = System.currentTimeMillis();
+        Thread firstThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (countInText) {
+                    System.out.println(String.format("Count space: %s", countInText.countSpace()));
+                }
+            }
+        });
+        firstThread.start();
+        while (firstThread.isAlive()) {
+            try {
+               firstThread.join(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (System.currentTimeMillis() - startTime > 1000 && firstThread.isAlive()) {
+                firstThread.interrupt();
+            }
+        }
+        System.out.println("Count Space finish");
+
+        System.out.println("Count Word  start");
+        Thread secondThread =new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(String.format("Count word: %s", new CountInText(text).countWord()));
+            }
+        });
+        secondThread.start();
+        while (secondThread.isAlive()) {
+            try {
+               firstThread.join(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (System.currentTimeMillis() - startTime > 1000 && firstThread.isAlive()) {
+                secondThread.interrupt();
+            }
+        }
+        System.out.println("Count Word finish");
+    }
 }
