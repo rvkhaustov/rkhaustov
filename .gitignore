@@ -14,5 +14,7 @@ target
 out
 .idea
 *.iml
-order.xml
-orderShirt.xml
+orders.xml
+ordersShirt.xml
+jcstress.*
+results/

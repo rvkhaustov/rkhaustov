@@ -37,4 +37,11 @@ public class Variable {
     public  int add(Integer integer) {
         return  ++integer;
     }
+
+    /**
+     * @return variable
+     */
+    public int add() {
+    return ++this.variable;
+    }
 }
