@@ -10,21 +10,26 @@ import org.openjdk.jcstress.annotations.Actor;
 import org.openjdk.jcstress.infra.results.IntResult2;
 
 /*
- [FAILED] ru.rkhaustov.jmm.LibraryJcstressTest.addVariable
-    (fork: #1, iteration #1, JVM args: [-server])
-  Observed state   Occurrences              Expectation  Interpretation
-            1, 1       726а659                FORBIDDEN  Both actors came up with the same value: atomicity failure.
-            1, 2       611а357               ACCEPTABLE  actor1 incremented, then actor2.
-            2, 1     1а175а081   ACCEPTABLE_INTERESTING  actor2 incremented, then actor1.
-            2, 2           183                FORBIDDEN  Case violating atomicity.
+   [FAILED] ru.rkhaustov.jmm.LibraryJcstressTest.AddVariable
+    (JVM args: [-client])
+  Observed state   Occurrences   Expectation  Interpretation
+            0, 0        10а521     FORBIDDEN  Both actors Did not enter the method.
+            0, 1         1а048     FORBIDDEN  actor1 incremented, actor2 no incremented
+            1, 0         1а031     FORBIDDEN  actor2 incremented, actor1 no incremented
+            1, 1             0     FORBIDDEN  Both actors came up with the same value: atomicity failure.
+            1, 2             0    ACCEPTABLE  actor1 incremented, then actor2.
+            2, 1             0    ACCEPTABLE  actor2 incremented, then actor1.
 
-  [FAILED] ru.rkhaustov.jmm.LibraryJcstressTest.addVariable
-    (fork: #1, iteration #4, JVM args: [-Xint])
-  Observed state   Occurrences              Expectation  Interpretation
-            1, 1        79а816                FORBIDDEN  Both actors came up with the same value: atomicity failure.
-            1, 2        97а852               ACCEPTABLE  actor1 incremented, then actor2.
-            2, 1       201а294   ACCEPTABLE_INTERESTING  actor2 incremented, then actor1.
-            2, 2            68                FORBIDDEN  Case violating atomicity.
+  [FAILED] ru.rkhaustov.jmm.LibraryJcstressTest.AddVariable
+    (JVM args: [-XX:TieredStopAtLevel=1])
+  Observed state   Occurrences   Expectation  Interpretation
+            0, 0         9а509     FORBIDDEN  Both actors Did not enter the method.
+            0, 1           627     FORBIDDEN  actor1 incremented, actor2 no incremented
+            1, 0           604     FORBIDDEN  actor2 incremented, actor1 no incremented
+            1, 1             0     FORBIDDEN  Both actors came up with the same value: atomicity failure.
+            1, 2             0    ACCEPTABLE  actor1 incremented, then actor2.
+            2, 1             0    ACCEPTABLE  actor2 incremented, then actor1.
+
 */
 
 /**
@@ -42,26 +47,35 @@ public class LibraryJcstressTest {
         private Variable variable = new Variable(0);
 
         /**
-         * @return variable.
+         * Thread First.
          */
-        public Variable getVariable() {
-            return variable;
-        }
-
+        private Thread threadFirst =  new Thread(new Runnable() {
+            @Override
+            public void run() {
+                variable.add();
+            }
+        });
         /**
-         * @param variable variable.
+         * Thread Second.
          */
-        public void setVariable(Variable variable) {
-            this.variable = variable;
-        }
+        private Thread threadSecond =  new Thread(new Runnable() {
+            @Override
+            public void run() {
+                variable.add();
+            }
+        });
+
     }
     /**
      * SJCStressTest.
      */
     @JCStressTest
+    @Outcome(id = "0, 0", expect = Expect.FORBIDDEN, desc = "Both actors Did not enter the method.")
     @Outcome(id = "1, 1", expect = Expect.FORBIDDEN, desc = "Both actors came up with the same value: atomicity failure.")
+    @Outcome(id = "0, 1", expect = Expect.FORBIDDEN, desc = "actor1 incremented, actor2 no incremented")
+    @Outcome(id = "1, 0", expect = Expect.FORBIDDEN, desc = "actor2 incremented, actor1 no incremented")
     @Outcome(id = "1, 2", expect = Expect.ACCEPTABLE, desc = "actor1 incremented, then actor2.")
-    @Outcome(id = "2, 1", expect = Expect.ACCEPTABLE_INTERESTING, desc = "actor2 incremented, then actor1.")
+    @Outcome(id = "2, 1", expect = Expect.ACCEPTABLE, desc = "actor2 incremented, then actor1.")
     @Outcome(expect = Expect.FORBIDDEN, desc = "Case violating atomicity.")
 
     /**
@@ -76,7 +90,7 @@ public class LibraryJcstressTest {
        @Actor
         public void actor1(StateVariable stateVariable, IntResult2 result2) {
 
-            stateVariable.variable.add();
+            stateVariable.threadFirst.start();
             result2.r1 = stateVariable.variable.getVariable();
         }
         /**
@@ -86,7 +100,7 @@ public class LibraryJcstressTest {
          */
         @Actor
         public void actor2(StateVariable stateVariable, IntResult2 r) {
-            stateVariable.variable.add();
+            stateVariable.threadSecond.start();
             r.r2 = stateVariable.variable.getVariable();
         }
     }

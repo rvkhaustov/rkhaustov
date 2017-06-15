@@ -42,6 +42,8 @@ public class Variable {
      * @return variable
      */
     public int add() {
-    return ++this.variable;
+        return ++this.variable;
     }
+
+
 }
