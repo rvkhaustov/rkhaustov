@@ -11,24 +11,27 @@ import org.openjdk.jcstress.infra.results.IntResult2;
 
 /*
    [FAILED] ru.rkhaustov.jmm.LibraryJcstressTest.AddVariable
-    (JVM args: [-client])
+    (fork: #1, iteration #1, JVM args: [-Xint])
   Observed state   Occurrences   Expectation  Interpretation
-            0, 0        10а521     FORBIDDEN  Both actors Did not enter the method.
-            0, 1         1а048     FORBIDDEN  actor1 incremented, actor2 no incremented
-            1, 0         1а031     FORBIDDEN  actor2 incremented, actor1 no incremented
-            1, 1             0     FORBIDDEN  Both actors came up with the same value: atomicity failure.
-            1, 2             0    ACCEPTABLE  actor1 incremented, then actor2.
-            2, 1             0    ACCEPTABLE  actor2 incremented, then actor1.
+            0, 0             0     FORBIDDEN  Both actors Did not enter the method.
+            0, 1             0     FORBIDDEN  actor1 incremented, actor2 no incremented
+            1, 0             0     FORBIDDEN  actor2 incremented, actor1 no incremented
+            1, 1       165а966     FORBIDDEN  Both actors came up with the same value: atomicity failure.
+            1, 2        57а541    ACCEPTABLE  actor1 incremented, then actor2.
+            2, 1        78а712    ACCEPTABLE  actor2 incremented, then actor1.
+            2, 2            71     FORBIDDEN  Case violating atomicity.
 
   [FAILED] ru.rkhaustov.jmm.LibraryJcstressTest.AddVariable
-    (JVM args: [-XX:TieredStopAtLevel=1])
+    (fork: #1, iteration #2, JVM args: [-server])
   Observed state   Occurrences   Expectation  Interpretation
-            0, 0         9а509     FORBIDDEN  Both actors Did not enter the method.
-            0, 1           627     FORBIDDEN  actor1 incremented, actor2 no incremented
-            1, 0           604     FORBIDDEN  actor2 incremented, actor1 no incremented
-            1, 1             0     FORBIDDEN  Both actors came up with the same value: atomicity failure.
-            1, 2             0    ACCEPTABLE  actor1 incremented, then actor2.
-            2, 1             0    ACCEPTABLE  actor2 incremented, then actor1.
+            0, 0             0     FORBIDDEN  Both actors Did not enter the method.
+            0, 1             0     FORBIDDEN  actor1 incremented, actor2 no incremented
+            1, 0             0     FORBIDDEN  actor2 incremented, actor1 no incremented
+            1, 1       785а155     FORBIDDEN  Both actors came up with the same value: atomicity failure.
+            1, 2     1а042а060    ACCEPTABLE  actor1 incremented, then actor2.
+            2, 1     1а426а677    ACCEPTABLE  actor2 incremented, then actor1.
+            2, 2            48     FORBIDDEN  Case violating atomicity.
+
 
 */
 
@@ -47,23 +50,18 @@ public class LibraryJcstressTest {
         private Variable variable = new Variable(0);
 
         /**
-         * Thread First.
+         * @return variable.
          */
-        private Thread threadFirst =  new Thread(new Runnable() {
-            @Override
-            public void run() {
-                variable.add();
-            }
-        });
+        public Variable getVariable() {
+            return variable;
+        }
+
         /**
-         * Thread Second.
+         * @param variable variable.
          */
-        private Thread threadSecond =  new Thread(new Runnable() {
-            @Override
-            public void run() {
-                variable.add();
-            }
-        });
+        public void setVariable(Variable variable) {
+            this.variable = variable;
+        }
 
     }
     /**
@@ -87,10 +85,10 @@ public class LibraryJcstressTest {
          * @param stateVariable stateVariable.
          * @param result2 result2.
          */
-       @Actor
+        @Actor
         public void actor1(StateVariable stateVariable, IntResult2 result2) {
 
-            stateVariable.threadFirst.start();
+            stateVariable.variable.add();
             result2.r1 = stateVariable.variable.getVariable();
         }
         /**
@@ -100,7 +98,7 @@ public class LibraryJcstressTest {
          */
         @Actor
         public void actor2(StateVariable stateVariable, IntResult2 r) {
-            stateVariable.threadSecond.start();
+            stateVariable.variable.add();
             r.r2 = stateVariable.variable.getVariable();
         }
     }
