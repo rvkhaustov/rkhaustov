@@ -67,9 +67,8 @@ public class IncrementTestJcstress {
 //            result2.r1 = stateVariable.counter.incrementFirstMethod();
 //            result2.r1 = stateVariable.counter.incrementSecondMethod();
 //            result2.r1 = stateVariable.counter.incrementThirdMethod();
-            synchronized (stateVariable.counter) {
-                result2.r1 = stateVariable.counter.incrementForthMethod();
-            }
+            result2.r1 = stateVariable.counter.incrementForthMethod();
+
         }
         /**
          * Actor 2.
@@ -81,9 +80,7 @@ public class IncrementTestJcstress {
 //            result2.r2 = stateVariable.counter.incrementFirstMethod();
 //            result2.r2 = stateVariable.counter.incrementSecondMethod();
 //            result2.r2 = stateVariable.counter.incrementThirdMethod();
-            synchronized (stateVariable.counter) {
-                result2.r2 = stateVariable.counter.incrementForthMethod();
-            }
+            result2.r2 = stateVariable.counter.incrementForthMethod();
         }
     }
 }

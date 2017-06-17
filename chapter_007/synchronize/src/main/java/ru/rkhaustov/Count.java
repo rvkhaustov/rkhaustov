@@ -17,6 +17,10 @@ public class Count {
          * static long count.
          */
         private  static long countStatic = 0L;
+        /**
+         * lock.
+         */
+        private Object lock = new Object();
 
         /**
          * @return
@@ -52,32 +56,8 @@ public class Count {
          * @return count.
          */
         public long incrementForthMethod() {
-            return ++this.count;
-        }
-    }
-    /**
-     * Forth Method.
-     */
-    public static final class CounterThreadForthMethod extends Thread {
-        /**
-         * counter.
-         */
-        private Counter counter;
-
-        /**
-         * Constructor.
-         * @param counter counter
-         */
-        public CounterThreadForthMethod(Counter counter) {
-            this.counter = counter;
-        }
-        /**
-         * Run method.
-         */
-        @Override
-        public void run() {
-            synchronized (this.counter) {
-                counter.incrementForthMethod();
+            synchronized (this.lock) {
+                return ++this.count;
             }
         }
     }
