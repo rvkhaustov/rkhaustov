@@ -71,7 +71,6 @@ public class Count {
         public CounterThreadForthMethod(Counter counter) {
             this.counter = counter;
         }
-
         /**
          * Run method.
          */

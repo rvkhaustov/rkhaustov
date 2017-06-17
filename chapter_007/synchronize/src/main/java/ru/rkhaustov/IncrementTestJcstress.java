@@ -64,12 +64,12 @@ public class IncrementTestJcstress {
          */
         @Actor
         public void actor1(StateVariable stateVariable, LongResult2 result2)  {
-            result2.r1 = stateVariable.counter.incrementFirstMethod();
+//            result2.r1 = stateVariable.counter.incrementFirstMethod();
 //            result2.r1 = stateVariable.counter.incrementSecondMethod();
 //            result2.r1 = stateVariable.counter.incrementThirdMethod();
-//            synchronized (stateVariable.counter) {
-//                result2.r1 = stateVariable.counter.incrementForthMethod();
-//            }
+            synchronized (stateVariable.counter) {
+                result2.r1 = stateVariable.counter.incrementForthMethod();
+            }
         }
         /**
          * Actor 2.
@@ -78,12 +78,12 @@ public class IncrementTestJcstress {
          */
         @Actor
         public void actor2(StateVariable stateVariable, LongResult2 result2) {
-            result2.r2 = stateVariable.counter.incrementFirstMethod();
+//            result2.r2 = stateVariable.counter.incrementFirstMethod();
 //            result2.r2 = stateVariable.counter.incrementSecondMethod();
 //            result2.r2 = stateVariable.counter.incrementThirdMethod();
-//            synchronized (stateVariable.counter) {
-//                result2.r2 = stateVariable.counter.incrementForthMethod();
-//            }
+            synchronized (stateVariable.counter) {
+                result2.r2 = stateVariable.counter.incrementForthMethod();
+            }
         }
     }
 }
