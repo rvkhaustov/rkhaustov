@@ -43,7 +43,7 @@ public class LinkedArray<E> implements SimpleContainer<E> {
      */
     @Override
     public E get(int index) {
-        return getNode(index).object;
+        return (index >= 0 && index < size) ? getNode(index).object : null;
     }
 
     /**
