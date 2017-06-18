@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 
 /**
@@ -16,7 +17,12 @@ public class Action {
     /**
      * userAccount.
      */
-    private Map<User, List<Account>> userAccount = new ConcurrentHashMap<>();
+    private  Map<User, List<Account>> userAccount = new HashMap<>();
+
+    /**
+     * lock.
+     */
+    private Object lock = new Object();
     /**
      * @return userAccount
      */
@@ -37,7 +43,6 @@ public class Action {
             userAccount.put(user, list);
         }
     }
-
     /**
      * @param user User
      */
@@ -80,6 +85,34 @@ public class Action {
     }
 
     /**
+     * @param user user
+     * @param account account
+     * @return amount account
+     */
+    public float getAccountAmount(final User user, final Account account) {
+            for (Account accounts : userAccount.get(user)) {
+                    if (accounts.getRequisites().equals(account.getRequisites())) {
+                        return accounts.getAmount();
+                    }
+                }
+            return -1;
+    }
+
+    /**
+     * @param user user
+     * @param account account
+     * @param value amount
+     */
+    public void setAccountAmount(User user, Account account, float value) {
+            for (Account accounts : userAccount.get(user)) {
+                if (accounts.getRequisites().equals(account.getRequisites())) {
+                    accounts.setAmount(value);
+                }
+            }
+    }
+
+
+    /**
      * @param srcUser srcUser
      * @param srcAccount srcAccount
      * @param dstUser dstUser
@@ -87,28 +120,16 @@ public class Action {
      * @param amount amount
      * @return false / true
      */
-    public synchronized boolean transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, float amount) {
-        List<Account> srcList = new ArrayList<>(this.getUserAccounts(srcUser));
-        List<Account> dstList = new ArrayList<>(this.getUserAccounts(dstUser));
-        boolean correct = false;
-
-        if (srcList != null && dstList != null
-                && srcList.contains(srcAccount)
-                && dstList.contains(dstAccount)) {
-            for (Account account : srcList) {
-                if (account.getRequisites().equals(srcAccount.getRequisites()) && account.getValue() >= amount) {
-                    account.setValue(account.getValue() - amount);
-                }
-                for (Account accountDst : dstList) {
-                    if (accountDst.getRequisites().equals(dstAccount.getRequisites())) {
-                        accountDst.setValue(accountDst.getValue() + amount);
-                    }
-                }
-                correct = true;
-                break;
+    public float[] transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, float amount) {
+        synchronized (lock) {
+            float amountSrc = getAccountAmount(srcUser, srcAccount) - amount;
+            float amountDst = getAccountAmount(dstUser, dstAccount);
+            if (amountSrc >= 0 && amountDst >= 0) {
+                setAccountAmount(srcUser, srcAccount, amountSrc);
+                setAccountAmount(dstUser, dstAccount, amountDst + amount);
+                return new float[]{amountSrc, amountDst + amount};
             }
+            return new float[]{-1, -1};
         }
-//        }
-        return correct;
     }
 }

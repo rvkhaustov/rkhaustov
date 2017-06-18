@@ -5,10 +5,9 @@ package ru.rkhaustov.userstoreg;
  */
     public class Account {
         /**
-         * value.
+         * amount.
          */
-        private float value = 0;
-
+        private float amount = 0f;
         /**
          * requisites.
          */
@@ -17,8 +16,8 @@ package ru.rkhaustov.userstoreg;
         /**
          * @param value set value
          */
-        public void setValue(float value) {
-            this.value = value;
+        public void setAmount(float value) {
+            this.amount = value;
         }
 
         /**
@@ -31,8 +30,8 @@ package ru.rkhaustov.userstoreg;
         /**
          * @return getvalue
          */
-        public float getValue() {
-            return value;
+        public float getAmount() {
+            return this.amount;
         }
 
         /**
@@ -44,10 +43,10 @@ package ru.rkhaustov.userstoreg;
 
         /**
          * @param requisites requisites
-         * @param value value
+         * @param amount amount
          */
-        public Account(String requisites, float value) {
-            this.value = value;
+        public Account(String requisites, float amount) {
+            this.amount = amount;
             this.requisites = requisites;
         }
 
@@ -63,7 +62,7 @@ package ru.rkhaustov.userstoreg;
          */
         @Override
         public String toString() {
-            return String.format("requisites=%s, value=%s", requisites, value);
+            return String.format("requisites=%s, value=%s", requisites, amount);
         }
 
         /**
