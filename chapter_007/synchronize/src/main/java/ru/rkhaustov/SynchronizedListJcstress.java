@@ -11,7 +11,7 @@ import org.openjdk.jcstress.annotations.Description;
 import org.openjdk.jcstress.infra.results.IntResult2;
 import org.openjdk.jcstress.infra.results.IntResult1;
 import ru.rkhaustov.list.DynamicListSynch;
-import ru.rkhaustov.list.LinkedArraySynch;
+//import ru.rkhaustov.list.LinkedArraySynch;
 import ru.rkhaustov.list.SynchronizedList;
 
 /*

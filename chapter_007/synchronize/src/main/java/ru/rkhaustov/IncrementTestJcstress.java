@@ -48,8 +48,8 @@ public class IncrementTestJcstress {
      * SJCStressTest.
      */
     @JCStressTest
-    @Outcome(id = "1, 2", expect = Expect.ACCEPTABLE, desc = "actor1 incremented, then actor2.")
-    @Outcome(id = "2, 1", expect = Expect.ACCEPTABLE, desc = "actor2 incremented, then actor1.")
+  //  @Outcome(id = "1, 2", expect = Expect.ACCEPTABLE, desc = "actor1 incremented, then actor2.")
+  //  @Outcome(id = "2, 1", expect = Expect.ACCEPTABLE, desc = "actor2 incremented, then actor1.")
     @Outcome(expect = Expect.FORBIDDEN, desc = "Case violating atomicity.")
 
     /**
