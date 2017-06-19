@@ -15,7 +15,7 @@ import java.util.Collections;
  */
 public class Action {
     /**
-     * userAccount.
+     * Account.
      */
     private  Map<User, List<Account>> userAccount = new HashMap<>();
 
@@ -105,8 +105,10 @@ public class Action {
      */
     public void setAccountAmount(User user, Account account, float value) {
             for (Account accounts : userAccount.get(user)) {
-                if (accounts.getRequisites().equals(account.getRequisites())) {
-                    accounts.setAmount(value);
+                synchronized (accounts) {
+                    if (accounts.getRequisites().equals(account.getRequisites())) {
+                        accounts.setAmount(value);
+                    }
                 }
             }
     }
@@ -121,7 +123,8 @@ public class Action {
      * @return false / true
      */
     public float[] transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, float amount) {
-        synchronized (lock) {
+        synchronized (userAccount) {
+//        synchronized (lock) {
             float amountSrc = getAccountAmount(srcUser, srcAccount) - amount;
             float amountDst = getAccountAmount(dstUser, dstAccount);
             if (amountSrc >= 0 && amountDst >= 0) {

@@ -7,7 +7,7 @@ package ru.rkhaustov.userstoreg;
         /**
          * amount.
          */
-        private float amount = 0f;
+        private Float amount = 0f;
         /**
          * requisites.
          */
@@ -17,7 +17,9 @@ package ru.rkhaustov.userstoreg;
          * @param value set value
          */
         public void setAmount(float value) {
-            this.amount = value;
+            synchronized (amount) {
+                this.amount = value;
+            }
         }
 
         /**
@@ -31,7 +33,9 @@ package ru.rkhaustov.userstoreg;
          * @return getvalue
          */
         public float getAmount() {
-            return this.amount;
+            synchronized (amount) {
+                return this.amount;
+            }
         }
 
         /**
