@@ -123,7 +123,7 @@ public class Action {
      * @return false / true
      */
     public float[] transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, float amount) {
-        synchronized (userAccount) {
+        synchronized (this) {
 //        synchronized (lock) {
             float amountSrc = getAccountAmount(srcUser, srcAccount) - amount;
             float amountDst = getAccountAmount(dstUser, dstAccount);
