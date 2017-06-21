@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Arrays;
-import java.util.Collections;
+
 
 
 
@@ -33,11 +33,7 @@ public class Action {
      * @param user User
      */
     public void addUser(User user) {
-        List<Account> list = userAccount.get(user);
-        if (list == null) {
-            list = Collections.synchronizedList(new ArrayList<>());
-            userAccount.put(user, list);
-        }
+        userAccount.putIfAbsent(user, new ArrayList<>());
     }
     /**
      * @param user User
@@ -86,12 +82,12 @@ public class Action {
      * @return amount account
      */
     public float getAccountAmount(final User user, final Account account) {
-            for (Account accounts : userAccount.get(user)) {
-                    if (accounts.getRequisites().equals(account.getRequisites())) {
-                        return accounts.getAmount();
-                    }
-                }
-            return -1;
+        for (Account accounts : userAccount.get(user)) {
+            if (accounts.getRequisites().equals(account.getRequisites())) {
+                return accounts.getAmount();
+            }
+        }
+        return -1;
     }
 
     /**
@@ -100,11 +96,11 @@ public class Action {
      * @param value amount
      */
     public void setAccountAmount(User user, Account account, float value) {
-            for (Account accounts : userAccount.get(user)) {
-                    if (accounts.getRequisites().equals(account.getRequisites())) {
-                        accounts.setAmount(value);
-                    }
+        for (Account accounts : userAccount.get(user)) {
+            if (accounts.getRequisites().equals(account.getRequisites())) {
+                accounts.setAmount(value);
             }
+        }
     }
 
 
@@ -127,5 +123,5 @@ public class Action {
             }
             return new float[]{-1, -1};
         }
-   }
+    }
 }
