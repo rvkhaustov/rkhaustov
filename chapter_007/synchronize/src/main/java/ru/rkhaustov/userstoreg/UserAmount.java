@@ -5,16 +5,24 @@ package ru.rkhaustov.userstoreg;
  */
 public class UserAmount {
 
-    private volatile Float amount;
+    /**
+     * amount.
+     */
+    private Float amount;
 
+    /**
+     * @param amount amount
+     */
     public UserAmount(Float amount) {
         this.amount = amount;
     }
 
-    public float changeAmount(float value) {
-        synchronized (amount) {
-            amount +=value;
+    /**
+     * @param value value
+     * @return amount
+     */
+    public synchronized float changeAmount(float value) {
+            amount += value;
             return amount;
-        }
     }
 }

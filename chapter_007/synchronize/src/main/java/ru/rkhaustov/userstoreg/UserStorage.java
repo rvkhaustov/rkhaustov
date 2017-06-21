@@ -15,7 +15,7 @@ public class UserStorage {
     private List<UserAmount> userStorege = new ArrayList<>();
 
     /**
-     * @param userAmount
+     * @param userAmount userAmount
      */
     public void  add(UserAmount userAmount) {
         userStorege.add(userAmount);
@@ -25,7 +25,7 @@ public class UserStorage {
     /**
      * @param index index
      */
-    public void remove (int index) {
+    public void remove(int index) {
         userStorege.remove(index);
     }
 

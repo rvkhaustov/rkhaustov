@@ -20,10 +20,6 @@ public class Action {
     private  Map<User, List<Account>> userAccount = new HashMap<>();
 
     /**
-     * lock.
-     */
-    private Object lock = new Object();
-    /**
      * @return userAccount
      */
     public Map<User, List<Account>> getUserAccount() {
@@ -105,11 +101,9 @@ public class Action {
      */
     public void setAccountAmount(User user, Account account, float value) {
             for (Account accounts : userAccount.get(user)) {
-                synchronized (accounts) {
                     if (accounts.getRequisites().equals(account.getRequisites())) {
                         accounts.setAmount(value);
                     }
-                }
             }
     }
 
@@ -123,8 +117,7 @@ public class Action {
      * @return false / true
      */
     public float[] transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, float amount) {
-        synchronized (this) {
-//        synchronized (lock) {
+        synchronized (userAccount) {
             float amountSrc = getAccountAmount(srcUser, srcAccount) - amount;
             float amountDst = getAccountAmount(dstUser, dstAccount);
             if (amountSrc >= 0 && amountDst >= 0) {
@@ -134,5 +127,5 @@ public class Action {
             }
             return new float[]{-1, -1};
         }
-    }
+   }
 }

@@ -1,7 +1,11 @@
 package ru.rkhaustov;
 
-import org.openjdk.jcstress.annotations.*;
-import org.openjdk.jcstress.infra.results.FloatResult3;
+import org.openjdk.jcstress.annotations.Actor;
+import org.openjdk.jcstress.annotations.JCStressTest;
+import org.openjdk.jcstress.annotations.Outcome;
+import org.openjdk.jcstress.annotations.Expect;
+import org.openjdk.jcstress.annotations.State;
+import org.openjdk.jcstress.annotations.Description;
 import org.openjdk.jcstress.infra.results.FloatResult4;
 import ru.rkhaustov.userstoreg.UserAmount;
 import ru.rkhaustov.userstoreg.UserStorage;
@@ -40,7 +44,7 @@ public class UserStorageJcstress {
             userStorage = new UserStorage();
 
             userStorage.add(new UserAmount(100f));
-            userStorage.add(new UserAmount( 200f));
+            userStorage.add(new UserAmount(200f));
         }
     }
 
@@ -60,7 +64,7 @@ public class UserStorageJcstress {
         @Actor
         public void firstTransferMoney(StateAction stateAction, FloatResult4 result4)  {
             final float[] result;
-            result = stateAction.userStorage.transferMoney(0, 1,40);
+            result = stateAction.userStorage.transferMoney(0, 1, 40);
             result4.r1 = result[0];
             result4.r2 = result[1];
         }
@@ -72,7 +76,7 @@ public class UserStorageJcstress {
         @Actor
         public void secondTransferMoney(StateAction stateAction, FloatResult4 result4) {
             final float[] result;
-            result = stateAction.userStorage.transferMoney(1, 0,30);
+            result = stateAction.userStorage.transferMoney(1, 0, 30);
             result4.r3 = result[1];
             result4.r4 = result[0];
         }
