@@ -18,7 +18,9 @@ public class UserStorage {
      * @param userAmount userAmount
      */
     public void  add(UserAmount userAmount) {
-        userStorege.add(userAmount);
+        synchronized (userStorege) {
+            userStorege.add(userAmount);
+        }
     }
 
 
