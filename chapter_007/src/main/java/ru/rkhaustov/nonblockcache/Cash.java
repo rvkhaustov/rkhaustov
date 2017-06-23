@@ -34,16 +34,18 @@ public class Cash {
      * @return text if error OptimisticException
      */
     public String update(String key, String text) {
-        Model current = cash.get(key);
-        int version = current.getVersion();
-        Model next = new Model(text, version + 1);
-         if(cash.get(key).getVersion() == version) {
-             cash.put(key, next);
-             return text;
-         } else {
-             return "OptimisticException";
-             //throw new OptimisticException("Race");
-         }
+        synchronized (cash.get(key).getVersion()) {
+            Model current = cash.get(key);
+            int version = current.getVersion();
+            Model next = new Model(text, version + 1);
+            if (cash.get(key).getVersion() == version) {
+                cash.put(key, next);
+                return text;
+            } else {
+                return "OptimisticException";
+                //throw new OptimisticException("Race");
+            }
+        }
     }
 
     /**

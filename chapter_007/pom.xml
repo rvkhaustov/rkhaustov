@@ -2,16 +2,16 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>chapter_007</artifactId>
     <version>2.0</version>
-    <!--<packaging>jar</packaging>-->
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
+    <!--<packaging>pom</packaging>-->
 
     <parent>
         <groupId>ru.job4j</groupId>
         <artifactId>junior</artifactId>
         <version>2.0</version>
     </parent>
-    <modules>
-        <module>synchronize</module>
-    </modules>
+    <!--<modules>-->
+        <!--<module>synchronize</module>-->
+    <!--</modules>-->
 
 </project>

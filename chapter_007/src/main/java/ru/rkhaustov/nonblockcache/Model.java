@@ -5,7 +5,7 @@ package ru.rkhaustov.nonblockcache;
  */
 public class Model {
     private String text;
-    private int version;
+    private Integer version;
 
     public Model(String text, int version) {
         this.text = text;
@@ -20,7 +20,7 @@ public class Model {
         this.text = text;
     }
 
-    public int getVersion() {
+    public Integer getVersion() {
         return version;
     }
 
