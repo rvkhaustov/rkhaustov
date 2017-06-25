@@ -11,7 +11,7 @@ public class Cash {
     /**
      * cash.
      */
-    private Map<String,Model>  cash = new ConcurrentHashMap<>();
+    private Map<String, Model>  cash = new ConcurrentHashMap<>();
 
     /**
      * @param key key
@@ -34,18 +34,14 @@ public class Cash {
      * @return text if error OptimisticException
      */
     public String update(String key, String text) {
-        synchronized (cash.get(key).getVersion()) {
-            Model current = cash.get(key);
-            int version = current.getVersion();
-            Model next = new Model(text, version + 1);
-            if (cash.get(key).getVersion() == version) {
-                cash.put(key, next);
-                return text;
-            } else {
-                return "OptimisticException";
-                //throw new OptimisticException("Race");
-            }
+        Model t = cash.computeIfPresent(key, (k, v) -> new Model(text, v.getVersion() + 1));
+
+        if (t.getText().equals(text)) {
+            return t.getText();
+        } else {
+            return "OptimisticException";
         }
+
     }
 
     /**
@@ -62,6 +58,6 @@ public class Cash {
                 cash.put(key, next);
                 return text;
             }
-            }
         }
+    }
 }
