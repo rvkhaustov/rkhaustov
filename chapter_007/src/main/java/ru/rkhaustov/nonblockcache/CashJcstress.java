@@ -61,41 +61,7 @@ public class CashJcstress {
             result2.r2 = cashState.cash.update("task_1", "222");
         }
     }
-/*
-     [OK] ru.rkhaustov.nonblockcache.CashJcstress.nonBlockingCacheUpdateAndGetTest
-      [OK] ru.rkhaustov.nonblockcache.CashJcstress.nonBlockingCacheUpdateAndGetTest
-      [OK] ru.rkhaustov.nonblockcache.CashJcstress.nonBlockingCacheUpdateAndGetTest
-      [OK] ru.rkhaustov.nonblockcache.CashJcstress.nonBlockingCacheUpdateAndGetTest
 
- */
-
-    /**
-     * Test Non-blocking cache updateAndGetTest.
-     */
-    @JCStressTest
-    @Description("Test Non-blocking cache - updateAndGetTest")
-    @Outcome(id = "111, 222", expect = Expect.ACCEPTABLE, desc = "Non-blocking cache")
-    @Outcome(id = "111, OptimisticException", expect = Expect.ACCEPTABLE_SPEC, desc = "Race")
-    @Outcome(id = "OptimisticException, 222", expect = Expect.ACCEPTABLE_SPEC, desc = "Race")
-    @Outcome(expect = Expect.FORBIDDEN, desc = "Error")
-    public static class  nonBlockingCacheUpdateAndGetTest {
-        /**
-         * @param cashState cashState
-         * @param result2 result4
-         */
-        @Actor
-        public void firstUpdate(CashState cashState, StringResult2 result2)  {
-            result2.r1 = cashState.cash.updateAndGet("task_1", "111");
-        }
-        /**
-         * @param cashState cashState
-         * @param result2 result4
-         */
-        @Actor
-        public void secondUpdate(CashState cashState, StringResult2 result2) {
-            result2.r2 = cashState.cash.updateAndGet("task_1", "222");
-        }
-    }
 }
 
 
