@@ -34,14 +34,15 @@ public class Cash {
      * @return text if error OptimisticException
      */
     public String update(String key, String text) {
-        if (cash.computeIfPresent(key,
-                (k, v) -> new Model(text, v.getVersion() + 1))
-                .getText().equals(text)) {
-            return text;
-        } else {
-            return "OptimisticException";
-        }
 
+        cash.computeIfPresent(key,
+                (k, v) -> {
+                    if (cash.get(k).getVersion() == v.getVersion()) {
+                        return new Model(text, v.getVersion() + 1);
+                    } else {
+                        throw new OptimisticException("Error");
+                    }
+                });
+        return text;
     }
-
 }
