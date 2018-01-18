@@ -15,19 +15,18 @@ public class PlayersTest {
      */
     @Test
     public void whenRandomTo3ThenOutput0or1or3() {
-        boolean result;
+        boolean result = true;
         boolean expected = true;
 
-        result = Players.random(3) < 3 ? true : false;
-        assertThat(result, is(expected));
+        for (int index = 0; index < 10000; index++) {
+            int i = Players.random(1, 2);
 
-        result = Players.random(3) < 3 ? true : false;
-        assertThat(result, is(expected));
+            if (i < 0 && i > 2) {
+                result = false;
+                break;
+            }
+        }
 
-        result = Players.random(3) < 3 ? true : false;
-        assertThat(result, is(expected));
-
-        result = Players.random(3) < 3 ? true : false;
         assertThat(result, is(expected));
 
     }

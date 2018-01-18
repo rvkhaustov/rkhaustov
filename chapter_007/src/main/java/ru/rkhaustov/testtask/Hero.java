@@ -12,10 +12,36 @@ public class Hero implements Players {
      */
     private final ReentrantLock[][] lockBoard;
 
+
     /**
-     * cell.
+     * max x.
      */
-    private Cell cell;
+    private static int maxX;
+
+    /**
+     * max y.
+     */
+    private static int maxY;
+
+    /**
+     * now x.
+     */
+    private int xNow;
+
+    /**
+     * now y.
+     */
+    private int yNow;
+
+    /**
+     * prev x.
+     */
+    private int xPrev;
+
+    /**
+     * prev y.
+     */
+    private int yPrev;
 
     /**
      * exitThreads.
@@ -28,13 +54,6 @@ public class Hero implements Players {
     private final String name;
 
     /**
-     * @return exitThreads
-     */
-    public boolean getExitThreads() {
-        return exitThreads;
-    }
-
-    /**
      * Behavior of the hero.
      */
 
@@ -43,16 +62,20 @@ public class Hero implements Players {
         this.exitThreads = exitThreads;
     }
 
-     /**
+    /**
      * @param lockBoard lockBoard
-     * @param cell cell
-     * @param name name
+     * @param x         x
+     * @param y         y
+     * @param name      name
      */
-    public Hero(ReentrantLock[][] lockBoard, Cell cell, String name) {
+    public Hero(ReentrantLock[][] lockBoard, int x, int y, String name) {
+
         this.lockBoard = lockBoard;
-        this.cell = cell;
+        this.xNow = x;
+        this.yNow = y;
         this.exitThreads = false;
         this.name = name;
+
     }
 
     /**
@@ -64,14 +87,20 @@ public class Hero implements Players {
         boolean flag = false;
 
         while (!exitThreads) {
-            System.out.println(String.format("%s новая клетка %s", this.name, this.cell));
-            flag = lockCells(this.lockBoard[cell.getX()][cell.getY()], this.name);
+            System.out.println(String.format("%s new cell x = %s y = %s. Time %s", this.name, this.xNow, this.yNow, System.currentTimeMillis()));
+            flag = lockCells(this.lockBoard[this.xNow][this.yNow], this.name);
             if (!flag) {
-                System.out.println(String.format("%s не может заблокировать клетка %s заблокирована", this.name, this.cell));
+
+                System.out.println(String.format("The hero %s can not lock the cell x = %s y = %s, it is locked. Time %s", this.name, this.xNow, this.yNow, System.currentTimeMillis()));
+                this.xNow = this.xPrev;
+                this.yNow = this.yPrev;
+
             }
+
             newCell();
+
         }
-        System.out.println(String.format("%s exitThreads = %s", this.name, this.exitThreads));
+        System.out.println(String.format("%s exitThreads = %s. Time - %s", this.name, this.exitThreads, System.currentTimeMillis()));
         return flag;
     }
 
@@ -79,24 +108,37 @@ public class Hero implements Players {
      * newCell.
      */
     public void newCell() {
-        this.cell.putCell(Players.random(cell.getMaxX()), Players.random(cell.getMaxY()));
+
+        this.xPrev = this.xNow;
+        this.yPrev = this.yNow;
+
+        this.xNow = Players.random(this.xNow, maxX);
+        this.yNow = Players.random(this.yNow, maxY);
+
+        if (this.xPrev == this.xNow && this.yPrev == this.yNow) {
+            newCell();
+        }
+
     }
 
     /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>run</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>run</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
+     * Run thread.
      */
     @Override
     public void run() {
 
         fieldMovement();
+
+    }
+
+    /**
+     * @param x - max x
+     * @param y - max y
+     */
+    public static void setMaxXY(int x, int y) {
+
+        maxX = x;
+        maxY = y;
 
     }
 }

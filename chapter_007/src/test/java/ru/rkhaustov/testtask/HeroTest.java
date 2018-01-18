@@ -2,6 +2,7 @@ package ru.rkhaustov.testtask;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
@@ -16,11 +17,11 @@ public class HeroTest {
     /**
      * X.
      */
-    static final int X = 10;
+    private static final int X = 10;
     /**
      * Y.
      */
-    static final int Y = 20;
+    private static final int Y = 20;
     /**
      * lockBoard.
      */
@@ -31,11 +32,42 @@ public class HeroTest {
     private boolean stopThread;
 
     /**
+     * x.
+     */
+    private int x;
+
+    /**
+     * y.
+     */
+    private int y;
+
+    /**
+     * result.
+     */
+    private boolean result;
+
+    /**
+     * playerFirst.
+     */
+    private Players playerFirst;
+
+    /**
      * befor.
      */
     @Before
-    public void befor() {
+    public void before() {
+
+        Hero.setMaxXY(X, Y);
+
+        this.x = 2;
+        this.y = 2;
+
+        this.result = true;
+
+        this.playerFirst = new Hero(lockBoard, this.x, this.y, "playerFirst");
+
         stopThread = false;
+
         for (int x = 0; x < X; x++) {
             for (int y = 0; y < Y; y++) {
                 lockBoard[x][y] = new ReentrantLock();
@@ -49,10 +81,6 @@ public class HeroTest {
     @Test
     public void whenLockCellsBlockCellThenFalse() {
 
-        Cell cellFirst = new Cell(2, 2, 10, 10);
-        boolean result = true;
-        Players playerFirst = new Hero(lockBoard, cellFirst, "playerFirst");
-
         Thread threadPlayerFirst = new Thread((new Runnable() {
             @Override
             public void run() {
@@ -68,19 +96,23 @@ public class HeroTest {
             try {
 
                 Thread.sleep(100);
-                System.out.println(String.format("Main поток пытается заблокировать %s", cellFirst));
-                result = lockBoard[2][2].tryLock();
 
-                System.out.println(String.format("%s заблокировано %s", cellFirst, !result ? "Да" : "Нет"));
+                System.out.println(String.format("Main thread trylock, cell x = %s y = %s. Time - %s", this.x, this.y, System.currentTimeMillis()));
+                this.result = lockBoard[2][2].tryLock();
+                System.out.println(String.format("Main thread, cell x = %s y = %s lock - %s. Time - %s", this.x, this.y, !this.result ? "Yes" : "No", System.currentTimeMillis()));
+
                 stopThread = true;
                 playerFirst.setExitThreads(stopThread);
                 threadPlayerFirst.interrupt();
+
             } catch (InterruptedException e) {
+
                 e.printStackTrace();
+
             }
         }
 
-        assertFalse(result);
+        assertFalse(this.result);
 
     }
 
@@ -90,10 +122,6 @@ public class HeroTest {
     @Test
     public void whenLockCellsNoBlockCellThenTrue() {
 
-        Cell cellFirst = new Cell(2, 2, 10, 10);
-        boolean result = true;
-        Players playerFirst = new Hero(lockBoard, cellFirst, "playerFirst");
-
         Thread threadPlayerFirst = new Thread((new Runnable() {
             @Override
             public void run() {
@@ -109,10 +137,10 @@ public class HeroTest {
             try {
 
                 Thread.sleep(100);
-                System.out.println(String.format("Main поток пытается заблокировать %s", cellFirst));
+                System.out.println(String.format("Main thread trylock cell x = %s y = %s", x, y));
                 result = lockBoard[2][3].tryLock();
 
-                System.out.println(String.format("%s заблокировано %s", cellFirst, !result ? "Да" : "Нет"));
+                System.out.println(String.format("Cell x = %s y = %s lock - %s", x, y, !result ? "Yes" : "No"));
                 stopThread = true;
                 playerFirst.setExitThreads(stopThread);
                 threadPlayerFirst.interrupt();
@@ -131,18 +159,20 @@ public class HeroTest {
     @Test
     public void whenEmulationOfTheGame() {
 
-        Cell cellFirst = new Cell(2, 2, 3, 3);
-        Cell cellSecond = new Cell(3, 3, 3, 3);
+        int xSecond = 1;
+        int ySecond = 2;
+        Hero.setMaxXY(2, 2);
+
         final int threadCount = 2;
         final ExecutorService service = Executors.newFixedThreadPool(threadCount);
-        final Players playerFirst = new Hero(this.lockBoard, cellFirst, "playerFirst");
-        final Players playerSecond = new Hero(this.lockBoard, cellSecond, "playerSecond");
 
-        service.execute(playerFirst);
+        final Players playerSecond = new Hero(this.lockBoard, xSecond, ySecond, "playerSecond");
+
+        service.execute(this.playerFirst);
         service.execute(playerSecond);
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(30000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

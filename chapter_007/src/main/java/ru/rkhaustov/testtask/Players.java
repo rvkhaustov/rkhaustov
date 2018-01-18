@@ -1,5 +1,7 @@
 package ru.rkhaustov.testtask;
 
+//import com.sun.org.apache.xpath.internal.operations.String;
+
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
@@ -13,7 +15,7 @@ public interface Players extends Runnable {
     /**
      * Behavior of the hero.
      *
-     * @return  true - block ok, false - lock no.
+     * @return true - block ok, false - lock no.
      */
     boolean fieldMovement();
 
@@ -30,18 +32,20 @@ public interface Players extends Runnable {
     default boolean lockCells(ReentrantLock lockBoard, String name) {
 
         try {
-            System.out.println(name + " trylock.");
+
+            System.out.println(String.format("%s trylock. Time - %s", name, System.currentTimeMillis()));
+
             boolean flag = lockBoard.tryLock(500, TimeUnit.MILLISECONDS);
             if (flag) {
                 try {
 
-                    System.out.println(name + " lock. ");
+                    System.out.println(String.format("%s lock. Time - %s ", name, System.currentTimeMillis()));
                     Thread.sleep(1000);
 
                 } finally {
 
-                    System.out.println(name + " unlock.");
                     lockBoard.unlock();
+                    System.out.println(String.format("%s unlock. Time - %s", name, System.currentTimeMillis()));
 
                     return true;
                 }
@@ -56,11 +60,26 @@ public interface Players extends Runnable {
     }
 
     /**
-     * @param upperBound max namber
+     * @param item now namber
+     * @param upperBound max number
      * @return random namber
      */
-    static int random(int upperBound) {
-        return ThreadLocalRandom.current().nextInt(upperBound);
+    static int random(int item, int upperBound) {
+        int random = ThreadLocalRandom.current().nextInt(3000);
+        if (random < 1000) {
+
+            return --item <= 0 ? 0 : item;
+
+        } else if (random < 2000) {
+
+            return item;
+
+        } else {
+
+            return ++item > upperBound ? upperBound : item;
+
+        }
+
     }
 
 }
