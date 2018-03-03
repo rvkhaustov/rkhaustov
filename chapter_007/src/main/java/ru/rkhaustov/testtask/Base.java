@@ -80,14 +80,14 @@ public abstract class Base implements Players {
     /**
      * @return xMax
      */
-    public static int getxMax() {
+    public int getxMax() {
         return xMax;
     }
 
     /**
      * @return yMax
      */
-    public static int getyMax() {
+    public int getyMax() {
         return yMax;
     }
 
@@ -181,7 +181,7 @@ public abstract class Base implements Players {
      * @param x - max x
      * @param y - max y
      */
-    public static void setMaxXY(int x, int y) {
+    public void setMaxXY(int x, int y) {
         xMax = x;
         yMax = y;
     }
@@ -191,7 +191,7 @@ public abstract class Base implements Players {
      * @param upperBound max number
      * @return random number
      */
-    static int random(int item, int upperBound) {
+    public int random(int item, int upperBound) {
         int random = ThreadLocalRandom.current().nextInt(3000);
         if (random < 1000) {
             return --item <= 0 ? 0 : item;
@@ -210,7 +210,7 @@ public abstract class Base implements Players {
      * @return true - block ok, false - lock no.
      * @throws InterruptedException InterruptedException
      */
-    public static boolean lockCells(final ReentrantLock lockBoard, String name, long tryLockTime, long threadSleep) throws InterruptedException {
+    public boolean lockCells(final ReentrantLock lockBoard, String name, long tryLockTime, long threadSleep) throws InterruptedException {
         System.out.println(String.format("%s trylock. Time - %s", name, System.currentTimeMillis()));
 
         if (lockBoard.tryLock(tryLockTime, TimeUnit.MILLISECONDS)) {

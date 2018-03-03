@@ -31,7 +31,7 @@ public class BaseTest extends TestBase {
         boolean expected = true;
 
         for (int index = 0; index < 10000; index++) {
-            int i = Base.random(1, 2);
+            int i = players.get(0).random(1, 2);
 
             if (i < 0 && i > 2) {
                 result = false;
@@ -51,8 +51,9 @@ public class BaseTest extends TestBase {
         Thread firstThread = new Thread(new Runnable() {
             @Override
             public void run() {
+             //   Monster monster = new Monster(lockBoard, 2,2,"first");
                 try {
-                    Base.lockCells(lockBoard[2][2], "First thread", 100, 10000);
+               players.get(0).lockCells(lockBoard[2][2], "First thread", 100, 10000);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
@@ -62,7 +63,7 @@ public class BaseTest extends TestBase {
             @Override
             public void run() {
                 try {
-                    result = Base.lockCells(lockBoard[2][2], "Second thread", 100, 100);
+                    result = players.get(0).lockCells(lockBoard[2][2], "Second thread", 100, 100);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
@@ -96,7 +97,7 @@ public class BaseTest extends TestBase {
             @Override
             public void run() {
                 try {
-                    Base.lockCells(lockBoard[2][2], "First thread", 100, 1000);
+                    players.get(0).lockCells(lockBoard[2][2], "First thread", 100, 1000);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
@@ -106,7 +107,7 @@ public class BaseTest extends TestBase {
             @Override
             public void run() {
                 try {
-                    result = Base.lockCells(lockBoard[2][2], "Second thread", 2000, 100);
+                    result = players.get(0).lockCells(lockBoard[2][2], "Second thread", 2000, 100);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }

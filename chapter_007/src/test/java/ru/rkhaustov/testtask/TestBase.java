@@ -10,11 +10,11 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public abstract class TestBase {
     /**
-     * X.
+     * X - max.
      */
     static final int X = 2;
     /**
-     * Y.
+     * Y - max.
      */
     static final int Y = 2;
 
@@ -71,8 +71,6 @@ public abstract class TestBase {
      */
     public void before() {
 
-        Base.setMaxXY(X, Y);
-
         this.x = 2;
         this.y = 2;
 
@@ -94,13 +92,15 @@ public abstract class TestBase {
         blocks.add(new Block(1, 1));
         blocks.add(new Block(1, 2));
         blocks.stream().forEach(block -> lockBoard[block.getX()][block.getY()].lock());
-
-        for (int item = 0; item < countMonster; item++) {
+        int item = 0;
+        for (; item < countMonster; item++) {
             this.players.add(new Monster(lockBoard,
                     ThreadLocalRandom.current().nextInt(this.X),
                     ThreadLocalRandom.current().nextInt(this.Y), "monster:" + item));
+            this.players.get(item).setMaxXY(X,Y);
         }
         this.players.add(new Bomberman(lockBoard, 0, 0, "bomberman:0"));
         lockBoard[0][0].lock();
+        this.players.get(item).setMaxXY(X,Y);
     }
 }
