@@ -1,0 +1,45 @@
+<project>
+ <modelVersion>4.0.0</modelVersion>
+
+ <artifactId>chapter_011</artifactId>
+ <version>2.0</version>
+ <packaging>jar</packaging>
+
+ <parent>
+  <groupId>ru.rvkhaustov</groupId>
+  <artifactId>exercises</artifactId>
+  <version>2.0</version>
+ </parent>
+ <dependencies>
+  <!--<dependency>-->
+   <!--<groupId>chapter_005</groupId>-->
+   <!--<artifactId>chapter_005</artifactId>-->
+   <!--<version>2.0</version>-->
+  <!--</dependency>-->
+  <dependency>
+   <groupId>ru.rvkhaustov</groupId>
+   <artifactId>chapter_005</artifactId>
+   <version>2.0</version>
+  </dependency>
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-core</artifactId>
+   <version>4.3.11.RELEASE</version>
+  </dependency>
+  <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context</artifactId>
+   <version>4.3.11.RELEASE</version>
+  </dependency>
+  <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-beans</artifactId>
+   <version>4.3.11.RELEASE</version>
+  </dependency>
+
+
+ </dependencies>
+
+</project>
