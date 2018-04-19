@@ -1,11 +1,14 @@
 package ru.rkhaustov.tracker;
 
 import org.junit.Test;
+import ru.rkhaustov.tracker.dao.TrackerDao;
+import ru.rkhaustov.tracker.dao.impl.TrackerDaoListImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 /**
  * Created by rvkha_000 on 24.04.2017.
@@ -18,7 +21,7 @@ public class TrackerTest {
      */
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        TrackerDao tracker = new TrackerDaoListImpl();
         Item item = new Item("test1", "testDescription", 123L);
         tracker.add(item);
 
@@ -29,7 +32,7 @@ public class TrackerTest {
      */
     @Test
     public void whenUpdateNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        TrackerDao tracker = new TrackerDaoListImpl();
         Item item = new Item("test1", "testDescription1", 123L);
         Item itemF = new Item("test2", "testDescription2", 223L);
         Item itemUpdate = new Item("TestUpdate", "testDescriptionUpdate", 333);
@@ -46,7 +49,7 @@ public class TrackerTest {
      */
     @Test
     public void whenDeleteNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        TrackerDao tracker = new TrackerDaoListImpl();
         Item item = new Item("test0", "testDescription1", 123L);
         Item itemF = new Item("test1", "testDescription2", 223L);
         Item itemS = new Item("Test2", "testDescriptionUpdate", 333);
@@ -64,7 +67,7 @@ public class TrackerTest {
      */
     @Test
     public void whenGetAllNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        TrackerDao tracker = new TrackerDaoListImpl();
         List<Item> expected = new ArrayList<Item>();
         Item item = new Item("test0", "testDescription1", 123L);
         Item itemF = new Item("test1", "testDescription2", 223L);
@@ -88,7 +91,7 @@ public class TrackerTest {
      */
     @Test
     public void whenFindBaNameNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        TrackerDao tracker = new TrackerDaoListImpl();
         List<Item> expected = new ArrayList<Item>();
         Item item = new Item("test0", "testDescription1", 123L);
         Item itemF = new Item("test", "testDescription2", 223L);
@@ -108,7 +111,7 @@ public class TrackerTest {
      */
     @Test
     public void whenFindByIdNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        TrackerDao tracker = new TrackerDaoListImpl();
         Item item = new Item("test0", "testDescription1", 123L);
         Item itemF = new Item("test1", "testDescription2", 223L);
         Item itemS = new Item("test2", "testDescriptionUpdate", 333L);
@@ -120,7 +123,7 @@ public class TrackerTest {
         id = itemF.getId();
         assertThat(tracker.findById(id), is(itemF));
         id = "1";
-        assertThat(tracker.findById(id), is(itemNull));
+        assertNull(tracker.findById(id).getId());
 
     }
 }

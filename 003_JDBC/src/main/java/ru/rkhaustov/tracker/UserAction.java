@@ -1,5 +1,7 @@
 package ru.rkhaustov.tracker;
 
+import ru.rkhaustov.tracker.dao.TrackerDao;
+
 /**
  * StubInput - substitution of user input.
  * @author rvkhaustov
@@ -18,7 +20,7 @@ public interface UserAction {
      * @param input - select item.
      * @param tracker reference on tracker.
      */
-    void execute(Input input, Tracker tracker);
+    void execute(Input input, TrackerDao tracker);
 
     /**
      *

@@ -1,10 +1,14 @@
 package ru.rkhaustov.tracker;
 
 
+import ru.rkhaustov.tracker.dao.TrackerDao;
+import ru.rkhaustov.tracker.dao.impl.TrackerDaoPlainJdbcImpl;
+
 import java.util.List;
 
 /**
  * Class StartUI entry point in the program.
+ *
  * @version 1.0
  * @since 04.2017
  */
@@ -17,17 +21,23 @@ public class StartUI {
     private Input input;
 
     /**
-     * @param tracker class Tracker
+     * @param tracker class TrackerList
      */
-    private Tracker tracker;
+    private TrackerDao tracker;
+
+    /**
+     * Error, initialization TrackerDao, see logs.
+     */
+    private static final String ERROR_INITIALIZATION = "Error, initialization TrackerDao, see logs.";
 
     /**
      * Constructor class StartUI initialization i/o and tracker.
-     * @param input initialization i/o
+     *
+     * @param input   initialization i/o
      * @param tracker class tracker
      */
 
-    public StartUI(Input input, Tracker tracker) {
+    public StartUI(Input input, TrackerDao tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -48,11 +58,17 @@ public class StartUI {
 
     /**
      * Method main for start application.
+     *
      * @param args params
      */
     public static void main(String[] args) {
         ConsoleInput input = new ValidateInput();
-        Tracker tracker = new Tracker();
-        new StartUI(input, tracker).init();
+//        TrackerDao tracker = new TrackerDaoListImpl();
+        TrackerDao tracker = new TrackerDaoPlainJdbcImpl();
+        if (tracker.initStatus()) {
+            new StartUI(input, tracker).init();
+        } else {
+            System.out.println(ERROR_INITIALIZATION);
+        }
     }
 }

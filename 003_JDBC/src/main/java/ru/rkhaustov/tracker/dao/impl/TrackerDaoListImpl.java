@@ -1,11 +1,12 @@
-package ru.rkhaustov.tracker;
+package ru.rkhaustov.tracker.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.rkhaustov.tracker.Item;
+import ru.rkhaustov.tracker.dao.TrackerDao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 /**
@@ -13,38 +14,35 @@ import java.util.Random;
  *
  * @version 1.0
  */
-public class Tracker {
+public class TrackerDaoListImpl implements TrackerDao {
     /**
      * Logger.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Tracker.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrackerDaoListImpl.class);
     /**
      * @param item - class item
      */
     private List<Item> items = new ArrayList<Item>();
-    /**
-     * @param RN random value
-     */
-    private static final Random RN = new Random();
+
 
     /**
      * Method add - add item.
      *
      * @param item add item
-     * @return item
+     * @return id
      */
-    public Item add(Item item) {
-        item.setId(this.generatID());
+    public Long add(Item item) {
+        item.setId(generatID());
         this.items.add(item);
-        return item;
+        return Long.valueOf(items.size());
     }
 
-    /**
-     * @return random value
-     */
-    String generatID() {
-        return String.valueOf(System.currentTimeMillis() + RN.nextInt());
-    }
+//    /**
+//     * @return random value
+//     */
+//    String generatID() {
+//        return String.valueOf(System.currentTimeMillis() + RN.nextInt());
+//    }
 
     /**
      * @return item
@@ -100,7 +98,7 @@ public class Tracker {
      * @return item
      */
     public Item findById(String id) {
-        Item result = null;
+        Item result = new Item();
         for (Item item : this.items) {
             if (item != null && item.getId().equals(id)) {
                 result = item;
@@ -108,6 +106,14 @@ public class Tracker {
             }
         }
         return result;
+    }
+
+    /**
+     * @return true else initialization success, else false.
+     */
+    @Override
+    public boolean initStatus() {
+        return true;
     }
 
 

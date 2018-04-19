@@ -1,6 +1,8 @@
 package ru.rkhaustov.tracker;
 
 import org.junit.Test;
+import ru.rkhaustov.tracker.dao.TrackerDao;
+import ru.rkhaustov.tracker.dao.impl.TrackerDaoListImpl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -20,7 +22,7 @@ public class StubInpitTest {
      */
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Tracker tracker = new Tracker();     // create Tracker
+        TrackerDao tracker = new TrackerDaoListImpl();     // create TrackerList
         Input input = new StubInput(new String[]{"0", "test name", "desc", "y"});   //Create StubInput with a sequence of actions
         new StartUI(input, tracker).init();     //   Create StartUI and call the method init()
         assertThat(tracker.getAll().get(0).getName(), is("test name"));
@@ -30,7 +32,7 @@ public class StubInpitTest {
      */
     @Test
     public void whenUserShowItemThenTrackerGetAll() {
-        Tracker tracker = new Tracker();     // create Tracker
+        TrackerDao tracker = new TrackerDaoListImpl();     // create TrackerList
         String lineSeparator = System.getProperty("line.separator");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -60,7 +62,7 @@ public class StubInpitTest {
      */
     @Test
     public void whenUserEditItemThenTrackerHasUpdateItemWithSameName() {
-        Tracker tracker = new Tracker();     // create Tracker
+        TrackerDao tracker = new TrackerDaoListImpl();     // create TrackerList
 
         Item item = new Item("test1", "testDescription1", 123L);
         String id;
@@ -79,7 +81,7 @@ public class StubInpitTest {
      */
     @Test
     public void whenUserDeleteItemThenTrackerHasNewItem() {
-        Tracker tracker = new Tracker();     // create Tracker
+        TrackerDao tracker = new TrackerDaoListImpl();     // create TrackerList
 
         Item item = new Item("test1", "testDescription1", 123L);
         String id;
@@ -99,7 +101,7 @@ public class StubInpitTest {
      */
     @Test
     public void whenUserFindByIdItemThenTrackerfindById() {
-        Tracker tracker = new Tracker();     // create Tracker
+        TrackerDao tracker = new TrackerDaoListImpl();     // create TrackerList
         String lineSeparator = System.getProperty("line.separator");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -114,7 +116,7 @@ public class StubInpitTest {
         new StartUI(input, tracker).init();
 
         String expected = String.format("Id: %16s; Name: %10s; Description: %20s; Date: %s%s",
-                itemFirst.getId(), itemFirst.getName(), itemFirst.getDesc(), new Date(itemFirst.getCreated()).toString(), lineSeparator
+                itemFirst.getId(), itemFirst.getName(), itemFirst.getDescription(), new Date(itemFirst.getCreated()).toString(), lineSeparator
         );
 
         String result = out.toString().substring((out.toString().length() - expected.length()));
@@ -125,7 +127,7 @@ public class StubInpitTest {
      */
     @Test
     public void whenUserFindByNameItemThenTrackerfindByName() {
-        Tracker tracker = new Tracker();     // create Tracker
+        TrackerDao tracker = new TrackerDaoListImpl();     // create TrackerList
         String lineSeparator = System.getProperty("line.separator");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -156,7 +158,7 @@ public class StubInpitTest {
      */
     @Test (expected = MenuOutException.class)
     public void testException() throws MenuOutException {
-        Tracker tracker = new Tracker();
+        TrackerDao tracker = new TrackerDaoListImpl();
         Input input = new StubInput(new String[]{"7", "y"});
         new StartUI(input, tracker).init();
 

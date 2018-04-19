@@ -1,5 +1,7 @@
 package ru.rkhaustov.tracker;
 
+import ru.rkhaustov.tracker.dao.TrackerDao;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +22,7 @@ class EditItem extends BaseAction {
      * @param input - select item.
      * @param tracker reference on tracker.
      */
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, TrackerDao tracker) {
         String id = input.ask("Please, enter id: ");
         String name = input.ask("Please, enter name: ");
         String desc = input.ask("Please, enter description: ");
@@ -42,7 +44,7 @@ public class MenuTracker {
     /**
      * @param tracker - tracker.
      */
-    private Tracker tracker;
+    private TrackerDao tracker;
     /**
      * @param actions array user action.
      */
@@ -54,7 +56,7 @@ public class MenuTracker {
      * @param tracker reference on tracker.
      */
 
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, TrackerDao tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -118,11 +120,11 @@ public class MenuTracker {
          * @param input - select item.
          * @param tracker reference on tracker.
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, TrackerDao tracker) {
             String name = input.ask("Please, enter name: ");
             String desc = input.ask("Please, enter description: ");
             long created = new Date().getTime();
-            tracker.add(new Item(name, desc, created));
+            System.out.println("id = " + tracker.add(new Item(name, desc, created)));
         }
     }
 
@@ -141,9 +143,9 @@ public class MenuTracker {
          * @param input - select item.
          * @param tracker reference on tracker.
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, TrackerDao tracker) {
             for (Item item : tracker.getAll()) {
-                System.out.println(item.toString());
+                System.out.println(item);
             }
         }
     }
@@ -162,7 +164,7 @@ public class MenuTracker {
          * @param input - select item.
          * @param tracker reference on tracker.
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, TrackerDao tracker) {
             String id = input.ask("Please, enter id: ");
             tracker.delete(new Item(id, null, null, 0));
         }
@@ -182,9 +184,9 @@ public class MenuTracker {
          * @param input - select item.
          * @param tracker reference on tracker.
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, TrackerDao tracker) {
             String id = input.ask("Please, enter id: ");
-            System.out.println(tracker.findById(id).toString());
+            System.out.println(tracker.findById(id));
         }
     }
     /**
@@ -202,10 +204,10 @@ public class MenuTracker {
          * @param input - select item.
          * @param tracker reference on tracker.
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, TrackerDao tracker) {
             String name = input.ask("Please, enter name: ");
             for (Item item: tracker.findByName(name)) {
-                System.out.println(item.toString());
+                System.out.println(item);
             }
         }
     }
