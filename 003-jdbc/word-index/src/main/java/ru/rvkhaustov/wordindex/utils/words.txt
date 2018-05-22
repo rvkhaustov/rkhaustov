@@ -1,0 +1,5 @@
+The parser will make every attempt to create a clean parse from the HTML you provide, regardless of whether the HTML is well-formed or not. It handles:
+
+unclosed tags (e.g. Lorem Ipsum parses to Lorem Ipsum)
+ implicit tags (e.g. a naked <td>Table data</td> is wrapped into a <table><tr><td>...)
+reliably creating the document structure (html containing a head and body, and only appropriate elements within the head)
