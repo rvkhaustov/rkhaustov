@@ -15,6 +15,7 @@
         <module>analysis-of-data</module>
         <module>tracker-jdbc</module>
         <module>word-index</module>
+        <module>simple-word-index</module>
     </modules>
     <dependencies>
         <dependency>
