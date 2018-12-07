@@ -4,23 +4,21 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.rvkhaustov.analysisdata.dao.ParserDao;
-import ru.rvkhaustov.analysisdata.pojo.Vacancy;
+import ru.rvkhaustov.analysisdata.dto.Vacancy;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.Month;
 
+import static ru.rvkhaustov.analysisdata.util.StaticParameters.DATE_TIME_FORMATTER_TOPIC;
 import static ru.rvkhaustov.analysisdata.util.StaticParameters.jdbcPassword;
 import static ru.rvkhaustov.analysisdata.util.StaticParameters.jdbcUrl;
 import static ru.rvkhaustov.analysisdata.util.StaticParameters.jdbcUser;
-import static ru.rvkhaustov.analysisdata.util.StaticParameters.sqlCreateTableConfig;
-import static ru.rvkhaustov.analysisdata.util.StaticParameters.sqlCreateTableVacancy;
-import static ru.rvkhaustov.analysisdata.util.StaticParameters.sqlInsertInToConfig;
-import static ru.rvkhaustov.analysisdata.util.StaticParameters.sqlInsertInToVacancy;
-import static ru.rvkhaustov.analysisdata.util.StaticParameters.sqlLastDayConfig;
+
 
 /**
  * Created by rvkha_000 .
@@ -35,35 +33,70 @@ public class ParserDaoImpl implements ParserDao {
      * SQL_EXCEPTION.
      */
     private static final String SQL_EXCEPTION = "Error, SQLException message: %s; SQLException SQL state: $s; SQLException SQL error code: $s;";
+    /**
+     * SQL_CREATE_TABLE_CONFIG.
+     */
+    private static final String SQL_CREATE_TABLE_CONFIG = "create table IF NOT EXISTS Config (dateParser character varying(50),fromDateTime character varying(50))";
+    /**
+     * SQL_CREATE_TABLE_VACANCY.
+     */
+    private static final String SQL_CREATE_TABLE_VACANCY = "create table IF NOT EXISTS Vacancy (title character varying(1000)"
+            + ", body character varying(2000)"
+            + ", ref character varying(400) UNIQUE ON CONFLICT IGNORE"
+            + ",createDate character varying(30));";
+
+    /**
+     * SQL_INSERT_IN_TO_VACANCY.
+     */
+    private static final String SQL_INSERT_IN_TO_VACANCY = "INSERT INTO Vacancy (title, body, ref, createDate) VALUES (?, ?, ?, ?)";
+
+    /**
+     * SQL_INSERT_IN_TO_CONFIG.
+     */
+    private static final String SQL_INSERT_IN_TO_CONFIG = "INSERT INTO Config VALUES(CURRENT_TIMESTAMP, ?)";
+
+    /**
+     * SQL_LAST_DATE_CONFIG.
+     */
+    private static final String SQL_LAST_DATE_CONFIG = "select max(fromDateTime) as fromDateTime from Config";
 
     /**
      * fromDate.
      */
-    private static final String FROM_DATE = "fromDate";
+    private static final String FROM_DATE = "fromDateTime";
 
     /**
      * startParser.
      */
-    private Calendar startParser;
+    private LocalDateTime startParser;
+
+
+    /**
+     * Create table.
+     */
+    public ParserDaoImpl() {
+        executeSql(SQL_CREATE_TABLE_VACANCY, null, null);
+        executeSql(SQL_CREATE_TABLE_CONFIG, null, null);
+    }
 
     /**
      * @param vacancy vacancy
      */
     @Override
     public void insert(@NotNull Vacancy vacancy) {
-        executeSql(sqlInsertInToVacancy,
+        executeSql(SQL_INSERT_IN_TO_VACANCY,
                 (filter) -> {
                     filter.setString(1, vacancy.getTitle());
                     filter.setString(2, vacancy.getBody());
                     filter.setString(3, vacancy.getRef());
-                    filter.setLong(4, vacancy.getCreateDate().getTimeInMillis());
+                    filter.setString(4, vacancy.getCreateDate().format(DATE_TIME_FORMATTER_TOPIC));
                 }, null);
     }
 
     @Override
     public void insertConfig() {
-        executeSql(sqlInsertInToConfig, (filter) -> {
-            filter.setLong(1, startParser.getTimeInMillis());
+        executeSql(SQL_INSERT_IN_TO_CONFIG, (filter) -> {
+            filter.setString(1, startParser.format(DATE_TIME_FORMATTER_TOPIC));
         }, null);
     }
 
@@ -71,23 +104,23 @@ public class ParserDaoImpl implements ParserDao {
      * @return item
      */
     @Override
-    public Long lastDate() {
-        Long[] lastDay = new Long[1];
+    public LocalDateTime lastDateTime() {
 
-        startParser = Calendar.getInstance();
-        startParser.add(Calendar.DAY_OF_MONTH, -1);
-        executeSql(sqlCreateTableVacancy, null, null);
-        executeSql(sqlCreateTableConfig, null, null);
-        executeSql(sqlLastDayConfig, null, (resultSet) -> {
-            lastDay[0] = resultSet.getLong(FROM_DATE);
+        String[] lastLoadDateTimeString = new String[1];
+        startParser = LocalDateTime.now();
+
+        executeSql(SQL_LAST_DATE_CONFIG, null, (resultSet) -> {
+            lastLoadDateTimeString[0] = resultSet.getString(FROM_DATE);
         });
-        Calendar nowYear = Calendar.getInstance();
-        nowYear.set(nowYear.get(Calendar.YEAR), 0, 1, 0, 0, 0);
 
-        if (lastDay[0] == null || lastDay[0] < nowYear.getTimeInMillis()) {
-            return nowYear.getTimeInMillis();
+        LocalDateTime beginNowYear = LocalDateTime.of(startParser.getYear(), Month.JANUARY, 1, 0, 0, 0);
+
+        if (lastLoadDateTimeString[0] == null) {
+            return beginNowYear;
         }
-        return lastDay[0];
+
+        LocalDateTime lastLoadDateTime = LocalDateTime.parse(lastLoadDateTimeString[0], DATE_TIME_FORMATTER_TOPIC);
+        return lastLoadDateTime.compareTo(beginNowYear) > 0 ? lastLoadDateTime : beginNowYear;
     }
 
 
@@ -115,17 +148,8 @@ public class ParserDaoImpl implements ParserDao {
                 statement.execute();
             }
         } catch (SQLException e) {
-            catchSQLException(e);
+            LOGGER.error(String.format(SQL_EXCEPTION, e.getMessage(), e.getSQLState(), e.getErrorCode()));
         }
-    }
-
-    /**
-     * @param e SQLException
-     */
-    private void catchSQLException(SQLException e) {
-        String messageError = String.format(SQL_EXCEPTION, e.getMessage(), e.getSQLState(), e.getErrorCode());
-        LOGGER.error(messageError);
-        throw new RuntimeException(messageError);
     }
 
     /**

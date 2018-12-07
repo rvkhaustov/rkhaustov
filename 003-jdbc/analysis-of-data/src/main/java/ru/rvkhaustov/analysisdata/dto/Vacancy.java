@@ -1,8 +1,9 @@
-package ru.rvkhaustov.analysisdata.pojo;
+package ru.rvkhaustov.analysisdata.dto;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.Objects;
+
+import static ru.rvkhaustov.analysisdata.util.StaticParameters.DATE_TIME_FORMATTER_TOPIC;
 
 /**
  * Created by rvkha_000 on 12.05.2018.
@@ -21,7 +22,7 @@ public class Vacancy {
     /**
      * Date of vacancy creation.
      */
-    private final Calendar createDate;
+    private final LocalDateTime createDate;
 
     /**
      * Ref of vacancy.
@@ -37,7 +38,7 @@ public class Vacancy {
      * @param ref        - Ref of vacancy.
      * @param createDate - Date of vacancy creation.
      */
-    public Vacancy(final String title, final String body, final String ref, final Calendar createDate) {
+    public Vacancy(final String title, final String body, final String ref, final LocalDateTime createDate) {
         this.title = title;
         this.body = body;
         this.ref = ref;
@@ -74,7 +75,7 @@ public class Vacancy {
      *
      * @return create date.
      */
-    public Calendar getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return this.createDate;
     }
 
@@ -100,7 +101,6 @@ public class Vacancy {
     @Override
     public String toString() {
         return String.format("Vacancy {title = %s, body = %s, create date = %s, ref = %s",
-                title, body, new SimpleDateFormat("dd MMM yy HH:mm").format(this.createDate.getTime()),
-                ref);
+                title, body, createDate.format(DATE_TIME_FORMATTER_TOPIC), ref);
     }
 }

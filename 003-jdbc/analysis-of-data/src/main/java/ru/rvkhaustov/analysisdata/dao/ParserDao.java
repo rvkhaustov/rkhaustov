@@ -1,6 +1,8 @@
 package ru.rvkhaustov.analysisdata.dao;
 
-import ru.rvkhaustov.analysisdata.pojo.Vacancy;
+import ru.rvkhaustov.analysisdata.dto.Vacancy;
+
+import java.time.LocalDateTime;
 
 /**
  * Created by rvkha_000 on 10.07.2018.
@@ -9,7 +11,7 @@ public interface ParserDao {
     /**
      * @return millis.
      */
-    Long lastDate();
+    LocalDateTime lastDateTime();
 
     /**
      * @param vacancy vacancy

@@ -1,6 +1,8 @@
 package ru.rvkhaustov.analysisdata.util;
 
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
+import java.util.Locale;
 
 /**
  * Created by rvkha_000 on 16.05.2018.
@@ -18,7 +20,7 @@ public abstract class StaticParameters {
     /**
      * START_PARSERS.
      */
-    public static final String START_PARSERS = "Start the parser from the date {}";
+    public static final String START_PARSERS = "Start the parser from {}";
     /**
      * STRING_SERCH.
      */
@@ -46,26 +48,6 @@ public abstract class StaticParameters {
      */
     public static String jdbcPassword = "jdbc.password";
     /**
-     * sql.createTableVacancy.
-     */
-    public static String sqlCreateTableVacancy = "sql.createTableVacancy";
-    /**
-     * SQL_INSERT_INTO_ITEM.
-     */
-    public static String sqlInsertInToVacancy = "sql.insertInToVacancy";
-    /**
-     * sql.createTableConfig.
-     */
-    public static String sqlCreateTableConfig = "sql.createTableConfig";
-    /**
-     * sql.insertInToConfig.
-     */
-    public static String sqlInsertInToConfig = "sql.insertInToConfig";
-    /**
-     * sql.lastDateConfig.
-     */
-    public static String sqlLastDayConfig = "sql.lastDateConfig";
-    /**
      * quartz-scheduler.cronExpression.
      */
     public static String qsCronExpression = "quartz-scheduler.cronExpression";
@@ -73,4 +55,9 @@ public abstract class StaticParameters {
      * CONFIG_PROPERTIES_PATH_ERROR.
      */
     public static final String APP_PROPERTIES_ERROR = "Error: parameter %s must in properties file.";
+
+    /**
+     * DATE_TIME_FORMATTER_TOPIC.
+     */
+    public static final DateTimeFormatter DATE_TIME_FORMATTER_TOPIC =  DateTimeFormatter.ofPattern("dd MMM yy HH:mm").withLocale(Locale.getDefault()); //.forLanguageTag("ru","RU"));
 }

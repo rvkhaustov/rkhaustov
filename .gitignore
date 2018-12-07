@@ -20,3 +20,4 @@ jcstress.*
 results/
 Spring4
 Config/
+app.properties

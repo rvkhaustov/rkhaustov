@@ -7,18 +7,21 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.LoggerFactory;
 import ru.rvkhaustov.analysisdata.dao.ParserDao;
+import ru.rvkhaustov.analysisdata.dto.Vacancy;
 import ru.rvkhaustov.analysisdata.parser.Parsers;
-import ru.rvkhaustov.analysisdata.pojo.Vacancy;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 import static ru.rvkhaustov.analysisdata.util.StaticParameters.CLASS_ALT_COL;
 import static ru.rvkhaustov.analysisdata.util.StaticParameters.CLASS_POSTS_LIST_TOPIC;
+import static ru.rvkhaustov.analysisdata.util.StaticParameters.DATE_TIME_FORMATTER_TOPIC;
 import static ru.rvkhaustov.analysisdata.util.StaticParameters.PATTERN;
 import static ru.rvkhaustov.analysisdata.util.StaticParameters.START_PARSERS;
 import static ru.rvkhaustov.analysisdata.util.StaticParameters.STRING_SERCH;
@@ -33,25 +36,32 @@ public class ParsersImpl implements Parsers {
      */
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ParsersImpl.class);
 
+
+    /**
+     * TODAY.
+     */
+    private static final String TODAY = "сегодня";
+    /**
+     * YESTERDAY.
+     */
+    private static final String YESTERDAY = "вчера";
+    /**
+     * HH_MM.
+     */
+    private static final String HH_MM = "HH:mm";
+    /**
+     * DATE_TIME_FORMATTER_TOPICS.
+     */
+    private static final DateTimeFormatter DATE_TIME_FORMATTER_TOPICS = DateTimeFormatter.ofPattern("[d MMM yy HH:mm][dd MMM yy HH:mm]").withLocale(Locale.getDefault()); //.forLanguageTag("ru","RU"));
+
+
     /**
      * @param parsersDao impl dao.
      */
     @Override
-    public void parseSite(@Nullable ParserDao parsersDao)  {
-
-        Long fromDate = null;
-        boolean dao = true;
-        if (parsersDao != null) {
-            fromDate = parsersDao.lastDate();
-        } else {
-            fromDate = Calendar.getInstance().getTimeInMillis() - 2592000000L; // last 30 day
-            dao = false;
-        }
-        Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(fromDate);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yy HH:mm");
-        LOGGER.info(START_PARSERS, simpleDateFormat.format(date.getTime()));
-
+    public void parseSite(@Nullable ParserDao parsersDao) {
+        LocalDateTime fromDateTime = parsersDao.lastDateTime();
+        LOGGER.info(START_PARSERS, fromDateTime.format(DATE_TIME_FORMATTER_TOPIC));
         boolean stopSearch = false;
         int page = 1;
 
@@ -67,8 +77,8 @@ public class ParsersImpl implements Parsers {
                 Integer indexDateUpdateTopics = 1;
                 for (Element element : elementTopics) {
                     Element elem = element.child(0);
-                    Long dateUpdateTopic = getDate(elementDateUpdateTopics.get(indexDateUpdateTopics).text()).getTimeInMillis();
-                    if (indexDateUpdateTopics > 10 && dateUpdateTopic <= fromDate) {
+                    LocalDateTime dateUpdateTopic = getDate(elementDateUpdateTopics.get(indexDateUpdateTopics).text());
+                    if (indexDateUpdateTopics > 10 && dateUpdateTopic.isBefore(fromDateTime)) {
                         stopSearch = true;
                         break;
                     }
@@ -77,8 +87,8 @@ public class ParsersImpl implements Parsers {
                     String ref = elem.attr("href");
                     Matcher matcher = PATTERN.matcher(text);
                     if (matcher.find()) {
-                        vacancy = parseToVacancy(text, ref, fromDate);
-                        if (dao && vacancy != null) {
+                        vacancy = parseToVacancy(text, ref, fromDateTime);
+                        if (vacancy != null) {
                             parsersDao.insert(vacancy);
                         }
                     }
@@ -88,26 +98,25 @@ public class ParsersImpl implements Parsers {
             }
         }
         parsersDao.insertConfig();
-        LOGGER.info("Search Finished.");
-        LOGGER.info(String.format("Pages viewed: %s", page - 1));
+        LOGGER.info(String.format("Search Finished. Pages viewed: %s", page - 1));
     }
 
     /**
-     * @param text text
-     * @param ref ref
-     * @param lastDate last date
+     * @param text          text
+     * @param ref           ref
+     * @param localDateTime last date
      * @return vacancy.
      */
-    private Vacancy parseToVacancy(final String text, final String ref, final Long lastDate) {
+    private Vacancy parseToVacancy(final String text, final String ref, final LocalDateTime localDateTime) {
         Vacancy vacancy = null;
         try {
-            Document doc = Jsoup.connect(ref).userAgent(USER_AGENT).get();
+            Document doc = Jsoup.connect(ref).userAgent(USER_AGENT).validateTLSCertificates(false).get();
             Element element = doc.getElementsByClass("msgTable").first();
             Element el = element.child(0);
             String body = el.getElementsByClass("msgBody").last().text();
-            Calendar date = this.getDate(el.getElementsByClass("msgFooter").last().text());
-            if (date.getTimeInMillis() > lastDate) {
-                vacancy = new Vacancy(text, body, ref, date);
+            LocalDateTime vacancyDateTime = this.getDate(el.getElementsByClass("msgFooter").last().text());
+            if (vacancyDateTime.isAfter(localDateTime)) {
+                vacancy = new Vacancy(text, body, ref, vacancyDateTime);
                 LOGGER.info(vacancy.toString());
             }
         } catch (IOException | ParseException e) {
@@ -118,43 +127,23 @@ public class ParsersImpl implements Parsers {
 
     /**
      * @param text string with date.
-     * @return Calendar
+     * @return LocalDateTime
      * @throws ParseException ParseException
      */
-    private Calendar getDate(final String text) throws ParseException {
-        final long day = 86400000L;
-        SimpleDateFormat spd = new SimpleDateFormat("dd MMM yy HH:mm");
-        long milliseconds;
-        String result = text.replaceAll("\u00a0", "").replaceAll(",", "").split("\\[")[0];
-        if (result.contains("сегодня")) {
-            milliseconds = getTimeMillis(result.split(" ")[1]);
-        } else if (result.contains("вчера")) {
-            milliseconds = getTimeMillis(result.split(" ")[1]) - day;
-        } else {
-            milliseconds = spd.parse(result).getTime();
+    private LocalDateTime getDate(final String text) throws ParseException {
+        String textDateTimes = text
+                .replaceAll("\u00a0", "")
+                .replaceAll(",", "")
+                .replace("май", "мая")
+                .split("\\[")[0].trim();
+        if (textDateTimes.contains(TODAY)) {
+            return LocalDateTime.of(LocalDate.now(),
+                    LocalTime.parse(textDateTimes.split(" ")[1], DateTimeFormatter.ofPattern(HH_MM)));
+        } else if (textDateTimes.contains(YESTERDAY)) {
+            return LocalDateTime.of(LocalDate.now().minusDays(1),
+                    LocalTime.parse(textDateTimes.split(" ")[1], DateTimeFormatter.ofPattern(HH_MM)));
         }
-        Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(milliseconds);
-        return date;
-    }
-
-
-    /**
-     * @param s string with date.
-     * @return millis.
-     */
-    private long getTimeMillis(final String s) {
-        int hour;
-        int minute;
-        String[] tmp = s.split(":");
-        hour = Integer.parseInt(tmp[0]);
-        minute = Integer.parseInt(tmp[1]);
-        Calendar calendarToday = Calendar.getInstance();
-        return new GregorianCalendar(calendarToday.get(Calendar.YEAR),
-                calendarToday.get(Calendar.MONTH),
-                calendarToday.get(Calendar.DAY_OF_MONTH),
-                hour,
-                minute).getTimeInMillis();
+        return LocalDateTime.parse(textDateTimes, DATE_TIME_FORMATTER_TOPICS);
     }
 }
 
